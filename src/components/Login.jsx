@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './styles/Login.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.jpg';
 
@@ -49,11 +49,11 @@ const Login = () => {
             />
           </div>
           <button type="submit">Login</button>
-          <a href="#">Forgot Password?</a>
+          <Link to="/forgot-password">Forgot Password?</Link>
         </form>
       </div>
       <p className={styles.centerText}>
-        Don't have an account? <a href="/register">Sign Up</a>
+        Don't have an account? <Link to="/register">Sign Up</Link>
       </p>
     </div>
   );

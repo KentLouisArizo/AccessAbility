@@ -25,11 +25,11 @@ const Registration = () => {
   const handleSubmit = () => {
     setCurrentStep(9);
   };
-
+/*
   const handleLoginRedirect = () => {
     navigate('/login');
   };
-
+*/
   return (
     <div className={styles.container}>
       <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
