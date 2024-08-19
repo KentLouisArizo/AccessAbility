@@ -25,11 +25,11 @@ const Registration = () => {
   const handleSubmit = () => {
     setCurrentStep(9);
   };
-/*
+
   const handleLoginRedirect = () => {
     navigate('/login');
   };
-*/
+
   return (
     <div className={styles.container}>
       <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
@@ -74,7 +74,7 @@ const Registration = () => {
               <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" />
             </div>
             <div className={styles.buttonContainer}>
-              <a href="/login" className={styles.leftButton}>Already have an account?</a>
+              <button type="button" className={styles.leftButton} onClick={handleLoginRedirect}>Already have an account?</button>
               <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
             </div>
           </div>
