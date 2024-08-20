@@ -3,19 +3,17 @@ import { Link } from 'react-router-dom';
 import styles from './styles/UserNavbar.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.jpg';
 
-const UserNavbar = ({ userName }) => (
+const UserNavbar = () => (
   <nav className={styles.navbar}>
-    <img src={PDAOlogo} alt="Logo" className={styles.logo} />
-    <div className={styles.welcome}>Welcome, {userName}</div>
+    <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
     <div className={styles.navLinks}>
-      <Link to="/user-dashboard">Dashboard</Link>
-      <Link to="/profile">Profile</Link>
-      <Link to="/settings">Settings</Link>
-      <Link to="/logout">Logout</Link>
+      <Link to="/user-dashboard">Home</Link>
+      <Link to="/information-services">Information Services</Link>
+      <Link to="/appointments">Appointment</Link>
+      <Link to="/">Logout</Link>
     </div>
-    <div className={styles.icons}>
-      <img src="/path/to/notification-icon.png" alt="Notifications" />
-      <img src="/path/to/user-profile-icon.png" alt="Profile" />
+    <div className={styles.welcome}>
+      Welcome, Zen
     </div>
   </nav>
 );

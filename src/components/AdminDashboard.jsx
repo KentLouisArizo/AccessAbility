@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './styles/AdminDashboard.module.css';
 import search from '../imgs/filter.png';
 import print from '../imgs/print.png';
@@ -23,7 +24,9 @@ const AdminDashboard = () => {
         </div>
         <div className={styles.gridItem}>
           <img src={announcement} alt="Announcement" />
-          <button className={styles.gridButton}>Announcement</button>
+          <Link to="/announcement">
+            <button className={styles.gridButton}>Announcement</button>
+          </Link>
         </div>
         
         <div className={styles.gridItem}>

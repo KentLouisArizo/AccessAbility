@@ -1,18 +1,41 @@
-.dashboard-container {
-    padding: 20px;
-  }
-  
-  h1 {
-    color: #0077b6;
-  }
-  
-  nav a {
-    margin-right: 15px;
-    color: #0077b6;
-    text-decoration: none;
-  }
-  
-  nav a:hover {
-    text-decoration: underline;
-  }
-  
+.dashboardContainer {
+  padding: 20px;
+}
+
+.header {
+  background-color: #004d99;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.userName {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.disability, .pwdId {
+  font-size: 18px;
+}
+
+.mainContent {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+}
+
+.virtualId, .virtualBooklet, .blank {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px;
+  width: 100%; 
+  text-align: center;
+}
+
+.virtualId h2, .virtualBooklet h2, .blank h2 {
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #0077b6;
+}
