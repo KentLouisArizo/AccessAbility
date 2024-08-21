@@ -9,6 +9,7 @@ import Registration from './components/Registration';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
 import Footer from './components/Footer';
+import Announcement from './components/Announcement';
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/announcement" element={<Announcement />} />
         </Routes>
         <Footer />
       </div>
@@ -30,7 +32,7 @@ const App = () => {
 
 const NavbarSwitcher = () => {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin-dashboard');
+  const isAdmin = location.pathname.startsWith('/admin-dashboard') || location.pathname.startsWith('/announcement');
   const isUser = location.pathname.startsWith('/user-dashboard');
 
   return (
