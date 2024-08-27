@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PDAOlogo from '../imgs/PDAOlogo.jpg';
+import PDAOlogo from '../imgs/PDAOlogo.png';
 import '../components/styles/Homepage.css';
 
 const Homepage = () => {

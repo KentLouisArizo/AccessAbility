@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './styles/HomepageNavbar.module.css';
-import PDAOlogo from '../imgs/PDAOlogo.jpg';
+import PDAOlogo from '../imgs/PDAOlogo.png';
 
 const HomepageNavbar = () => (
   <nav className={styles.navbar}>

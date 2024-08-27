@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './styles/Announcement.module.css';
-import PDAOlogo from '../imgs/PDAOlogo.jpg';
+import PDAOlogo from '../imgs/PDAOlogo.png';
 import notif from '../imgs/notification.png';
 import profile from '../imgs/profilelogo.png';
 import { Link } from 'react-router-dom';

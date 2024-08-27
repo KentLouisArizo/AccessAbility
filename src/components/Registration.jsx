@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/Registration.module.css';
-import PDAOlogo from '../imgs/PDAOlogo.jpg';
+import PDAOlogo from '../imgs/PDAOlogo.png';
 import upicon from '../imgs/upload.png';
 
 const Registration = () => {

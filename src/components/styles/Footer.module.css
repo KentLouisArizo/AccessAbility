@@ -1,0 +1,36 @@
+.footerContainer {
+  background-color: #0077b6;
+  color: white;
+  padding: 1.5rem 0;
+  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-top: auto; /* This ensures the footer stays at the bottom if content is short */
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.copyright {
+  font-size: 0.875rem;
+}
+
+.footerNav {
+  display: flex;
+  gap: 20px; /* Adjust the gap between links */
+}
+
+.footerNav a {
+  color: white;
+  text-decoration: none;
+}
+
+.footerNav a:hover {
+  text-decoration: underline;
+}

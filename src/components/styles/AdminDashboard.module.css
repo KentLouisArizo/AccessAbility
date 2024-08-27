@@ -3,6 +3,35 @@
     background-color: #f0f0f0;
     min-height: 100vh;
   }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #004d99;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .logo {
+    height: 50px;
+  }
+  
+  .welcomeMessage {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .icons {
+    display: flex;
+    gap: 15px;
+  }
+
+  .icon {
+    height: 30px;
+  }
   
   .dashboardTitle {
     font-size: 24px;

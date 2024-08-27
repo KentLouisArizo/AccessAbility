@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './styles/AdminNavbar.module.css';
-import PDAOlogo from '../imgs/PDAOlogo.jpg';
+import PDAOlogo from '../imgs/PDAOlogo.png';
 import notificationIcon from '../imgs/notification.png'; 
 import profileIcon from '../imgs/profilelogo.png'; 
 

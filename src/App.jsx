@@ -10,6 +10,10 @@ import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
 import Footer from './components/Footer';
 import Announcement from './components/Announcement';
+import Filter from './components/Filter';
+import PrintRecord from './components/PrintRecord';
+import Verify from './components/Verify';
+import './App.css';
 
 const App = () => {
   return (
@@ -23,6 +27,9 @@ const App = () => {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/announcement" element={<Announcement />} />
+          <Route path="/filter" element={<Filter />} />
+          <Route path="/print" element={<PrintRecord />} />
+          <Route path="/verify" element={<Verify />} />
         </Routes>
         <Footer />
       </div>
@@ -32,7 +39,7 @@ const App = () => {
 
 const NavbarSwitcher = () => {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin-dashboard') || location.pathname.startsWith('/announcement');
+  const isAdmin = location.pathname.startsWith('/admin-dashboard') || location.pathname.startsWith('/announcement') || location.pathname.startsWith('/filter') || location.pathname.startsWith('/print') || location.pathname.startsWith('/verify');
   const isUser = location.pathname.startsWith('/user-dashboard');
 
   return (
