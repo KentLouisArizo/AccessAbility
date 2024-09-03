@@ -141,8 +141,16 @@ const Registration = () => {
             <div className={styles.formGroup}>
               <label htmlFor="disabilityCause">Cause of Disability:</label>
               <select id="disabilityCause" name="disabilityCause">
-                <option value="congenital">Congenital</option>
-                <option value="acquired">Acquired</option>
+                <optgroup label="Congenital/Inborn" value="congenital">
+                  <option value="adhd">ADHD</option>
+                  <option value="cerebral">Cerebral Palsy</option>
+                  <option value="down">Down Syndrome</option>
+                </optgroup>
+                <optgroup label="Acquired" value="acquired">
+                  <option value="chronic">Chronic Illness</option>
+                  <option value="cerebral">Cerebral Palsy</option>
+                  <option value="injury">Injury</option>
+                </optgroup>
               </select>
             </div>
             <div className={styles.formGroup}>
@@ -182,10 +190,14 @@ const Registration = () => {
             <div className={styles.formGroup}>
               <label htmlFor="educationAttainment">Education Attainment:</label>
               <select id="educationAttainment" name="educationAttainment">
+                <option value="none">None</option>
+                <option value="kinder">Kindergarten</option>
                 <option value="elementary">Elementary</option>
-                <option value="highschool">High School</option>
+                <option value="juniorhigh">Junior High School</option>
+                <option value="seniorhigh">Senior High School</option>
                 <option value="college">College</option>
-                <option value="graduate">Graduate</option>
+                <option value="vocational">Vocational</option>
+                <option value="postgrad">Post Graduate</option>
               </select>
             </div>
             <div className={styles.formGroup}>
@@ -199,14 +211,27 @@ const Registration = () => {
             <div className={styles.formGroup}>
               <label htmlFor="employmentCategory">Employment Category:</label>
               <select id="employmentCategory" name="employmentCategory">
+                <option value="none">None</option>
                 <option value="government">Government</option>
                 <option value="private">Private</option>
-                <option value="ngo">NGO</option>
-                <option value="other">Other</option>
               </select>
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="occupation">Occupation:</label>
+            <label htmlFor="occupation">Occupation:</label>
+            <select id="occupation" name="occupation">
+              <option value="none">None</option>
+              <option value="manager">Manager</option>
+              <option value="professional">Professional</option>
+              <option value="technician">Technician and Associate Professionals</option>
+              <option value="clerical">Clerical Support Workers</option>
+              <option value="Service">Service and Sales Workers</option>
+              <option value="agricultural">Skilled Agricultural, Forestry and Fishery Workers</option>
+              <option value="Craft">Craft and Related Trade Workers</option>
+              <option value="plant">Plant and Machine Operators and Assemblers</option>
+              <option value="elementary">Elementary Occupations</option>
+              <option value="armed">Armed Forces Occupations</option>
+              <option value="others">Others, Specify:</option>
+            </select>
               <input type="text" id="occupation" name="occupation" placeholder="Enter your occupation" />
             </div>
             <div className={styles.buttonContainer}>
@@ -311,6 +336,7 @@ const Registration = () => {
             <p>Registration has been successfully submitted!</p>
             <p>Status: Registration Complete</p>
             <p>Please wait for approval.</p>
+            <p>If there is no confirmation within 3 days call us 09955328417</p>
             <a href='/'>Home</a>
           </div>
         )}
