@@ -14,58 +14,43 @@ import profile from '../imgs/profilelogo.png';
 const AdminDashboard = () => {
   return (
     <div className={styles.dashboardContainer}>
-
-      <header className={styles.header}>
-        <img src={logo} alt="AccessAbility Logo" className={styles.logo} />
-        <h2 className={styles.welcomeMessage}>Welcome! Admin</h2>
-        <div className={styles.icons}>
+      <aside className={styles.sidebar}>
+        <img src={logo} alt="AccessAbility Logo" className={styles.sidebarLogo} />
+        <div className={styles.sidebarIcons}>
           <img src={notif} alt="Notifications" className={styles.icon} />
           <img src={profile} alt="Profile" className={styles.icon} />
         </div>
-      </header>
-      
-      <div className={styles.gridContainer}>
-        <div className={styles.gridItem}>
-          <img src={search} alt="Search Filter" />
-          <Link to="/filter">
-            <button className={styles.gridButton}>Search Filter</button>
+        <div className={styles.navItems}>
+          <Link to="/filter" className={styles.navItem}>
+            <img src={search} alt="Search Filter" className={styles.navIcon} />
+            <span className={styles.navText}>Search Filter</span>
           </Link>
-        </div>
-
-        <div className={styles.gridItem}>
-          <img src={print} alt="Print Record" />
-          <Link to="/print">
-            <button className={styles.gridButton}>Print Record</button>
+          <Link to="/print" className={styles.navItem}>
+            <img src={print} alt="Print Record" className={styles.navIcon} />
+            <span className={styles.navText}>Print Record</span>
           </Link>
-        </div>
-
-        <div className={styles.gridItem}>
-          <img src={announcement} alt="Announcement" />
-          <Link to="/announcement">
-            <button className={styles.gridButton}>Announcement</button>
+          <Link to="/announcement" className={styles.navItem}>
+            <img src={announcement} alt="Announcement" className={styles.navIcon} />
+            <span className={styles.navText}>Announcement</span>
           </Link>
-        </div>
-        
-        <div className={styles.gridItem}>
-          <img src={report} alt="Generate Report" />
-          <button className={styles.gridButton}>Generate Report</button>
-        </div>
-
-        <div className={styles.gridItem}>
-          <img src={verify} alt="Verify User" />
-          <Link src="/verify">
-            <button className={styles.gridButton}>Verify User</button>
+          <button className={styles.navItem}>
+            <img src={report} alt="Generate Report" className={styles.navIcon} />
+            <span className={styles.navText}>Generate Report</span>
+          </button>
+          <Link to="/verify" className={styles.navItem}>
+            <img src={verify} alt="Verify User" className={styles.navIcon} />
+            <span className={styles.navText}>Verify User</span>
           </Link>
+          <button className={styles.navItem}>
+            <img src={reset} alt="Reset User Password" className={styles.navIcon} />
+            <span className={styles.navText}>Reset User Password</span>
+          </button>
         </div>
-        
-        <div className={styles.gridItem}>
-          <img src={reset} alt="Reset User Password" />
-          <button className={styles.gridButton}>Reset User Password</button>
+      </aside>
+      <main className={styles.mainContent}>
+        <div className={styles.dashboardHeader}>
+          <h2 className={styles.welcomeMessage}>Welcome! Admin</h2>
         </div>
-      </div>
-
-      <div className={styles.bottomSection}>
-        {/*<button className={styles.textButton}>View All Services</button>*/}
         <div className={styles.countsContainer}>
           <div className={styles.countBox}>
             <h3>Total PWD</h3>
@@ -78,7 +63,7 @@ const AdminDashboard = () => {
             <button className={styles.moreInfoButton}>More info</button>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

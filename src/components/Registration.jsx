@@ -23,7 +23,7 @@ const Registration = () => {
   };
 
   const handleSubmit = () => {
-    setCurrentStep(9);
+    setCurrentStep(8);
   };
 
   const handleLoginRedirect = () => {
@@ -122,7 +122,7 @@ const Registration = () => {
         )}
         {currentStep === 3 && (
           <div>
-            <h2>Step 3: Disability Information</h2>
+            <h2>Step 3: Disability Information & Upload Document</h2>
             <div className={styles.formGroup}>
               <label htmlFor="disabilityType">Type of Disability:</label>
               <select id="disabilityType" name="disabilityType">
@@ -147,6 +147,22 @@ const Registration = () => {
                 <option value="ab">AB</option>
                 <option value="o">O</option>
               </select>
+            </div>
+            <div className={styles.uploadSection}>
+              <div className={styles.uploadContainer}>
+                <div className={styles.uploadItem}>
+                  <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
+                  <button className={styles.uploadButton}>Upload 1x1</button>
+                </div>
+                <div className={styles.uploadItem}>
+                  <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
+                  <button className={styles.uploadButton}>Upload Whole Body</button>
+                </div>
+                <div className={styles.uploadItem}>
+                  <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
+                  <button className={styles.uploadButton}>Upload Medical Record</button>
+                </div>
+              </div>
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -179,27 +195,13 @@ const Registration = () => {
               <select id="employmentCategory" name="employmentCategory">
                 <option value="government">Government</option>
                 <option value="private">Private</option>
-                <option value="nonProfit">Non-Profit</option>
-                <option value="none">None</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="typeOfEmployment">Type of Employment:</label>
-              <select id="typeOfEmployment" name="typeOfEmployment">
-                <option value="fullTime">Full-Time</option>
-                <option value="partTime">Part-Time</option>
-                <option value="contractual">Contractual</option>
-                <option value="none">None</option>
+                <option value="ngo">NGO</option>
+                <option value="other">Other</option>
               </select>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="occupation">Occupation:</label>
-              <select id="occupation" name="occupation">
-                <option value="none">None</option>
-                <option value="clerical">Clerical</option>
-                <option value="technical">Technical</option>
-                <option value="manual">Manual</option>
-              </select>
+              <input type="text" id="occupation" name="occupation" placeholder="Enter your occupation" />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -211,40 +213,28 @@ const Registration = () => {
           <div>
             <h2>Step 5: Parents and Guardian Information</h2>
             <div className={styles.formGroup}>
-              <label htmlFor="fathersLastName">Father's Last Name:</label>
-              <input type="text" id="fathersLastName" name="fathersLastName" placeholder="Enter father's last name" />
+              <label htmlFor="fatherName">Father's Name:</label>
+              <input type="text" id="fatherName" name="fatherName" placeholder="Enter father's name" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="fathersFirstName">Father's First Name:</label>
-              <input type="text" id="fathersFirstName" name="fathersFirstName" placeholder="Enter father's first name" />
+              <label htmlFor="fatherOccupation">Father's Occupation:</label>
+              <input type="text" id="fatherOccupation" name="fatherOccupation" placeholder="Enter father's occupation" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="fathersMiddleName">Father's Middle Name:</label>
-              <input type="text" id="fathersMiddleName" name="fathersMiddleName" placeholder="Enter father's middle name" />
+              <label htmlFor="motherName">Mother's Name:</label>
+              <input type="text" id="motherName" name="motherName" placeholder="Enter mother's name" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="mothersLastName">Mother's Last Name:</label>
-              <input type="text" id="mothersLastName" name="mothersLastName" placeholder="Enter mother's last name" />
+              <label htmlFor="motherOccupation">Mother's Occupation:</label>
+              <input type="text" id="motherOccupation" name="motherOccupation" placeholder="Enter mother's occupation" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="mothersFirstName">Mother's First Name:</label>
-              <input type="text" id="mothersFirstName" name="mothersFirstName" placeholder="Enter mother's first name" />
+              <label htmlFor="guardianName">Guardian's Name:</label>
+              <input type="text" id="guardianName" name="guardianName" placeholder="Enter guardian's name" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="mothersMiddleName">Mother's Middle Name:</label>
-              <input type="text" id="mothersMiddleName" name="mothersMiddleName" placeholder="Enter mother's middle name" />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="guardiansLastName">Guardian's Last Name:</label>
-              <input type="text" id="guardiansLastName" name="guardiansLastName" placeholder="Enter guardian's last name" />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="guardiansFirstName">Guardian's First Name:</label>
-              <input type="text" id="guardiansFirstName" name="guardiansFirstName" placeholder="Enter guardian's first name" />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="guardiansMiddleName">Guardian's Middle Name:</label>
-              <input type="text" id="guardiansMiddleName" name="guardiansMiddleName" placeholder="Enter guardian's middle name" />
+              <label htmlFor="guardianOccupation">Guardian's Occupation:</label>
+              <input type="text" id="guardianOccupation" name="guardianOccupation" placeholder="Enter guardian's occupation" />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -256,16 +246,16 @@ const Registration = () => {
           <div>
             <h2>Step 6: Emergency Contact</h2>
             <div className={styles.formGroup}>
-              <label htmlFor="contactName">Contact Name:</label>
-              <input type="text" id="contactName" name="contactName" placeholder="Enter contact's name" />
+              <label htmlFor="emergencyContactName">Emergency Contact Name:</label>
+              <input type="text" id="emergencyContactName" name="emergencyContactName" placeholder="Enter emergency contact name" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="contactNumber">Contact Number:</label>
-              <input type="text" id="contactNumber" name="contactNumber" placeholder="Enter contact's mobile number" />
+              <label htmlFor="emergencyContactNumber">Emergency Contact Number:</label>
+              <input type="text" id="emergencyContactNumber" name="emergencyContactNumber" placeholder="Enter emergency contact number" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="landlineNumber">Landline Number:</label>
-              <input type="text" id="landlineNumber" name="landlineNumber" placeholder="Enter contact's landline number" />
+              <label htmlFor="emergencyContactRelationship">Relationship:</label>
+              <input type="text" id="emergencyContactRelationship" name="emergencyContactRelationship" placeholder="Enter relationship with emergency contact" />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -274,46 +264,27 @@ const Registration = () => {
           </div>
         )}
         {currentStep === 7 && (
-          <div className={styles.uploadSection}>
-            <h2>Step 7: Document Upload</h2>
-            <div className={styles.uploadContainer}>
-              <div className={styles.uploadItem}>
-                <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
-                <button className={styles.uploadButton}>Upload 1x1</button>
-              </div>
-              <div className={styles.uploadItem}>
-                <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
-                <button className={styles.uploadButton}>Upload Whole Body</button>
-              </div>
-            </div>
-            <div className={styles.buttonContainer}>
-              <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-              <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
-            </div>
-          </div>
-        )}
-        {currentStep === 8 && (
           <div>
-            <h2>Step 8: Additional Information</h2>
+            <h2>Step 7: Additional Information</h2>
             <div className={styles.formGroup}>
               <label htmlFor="psnNumber">PSN Number:</label>
-              <input type="text" id="psnNumber" name="psnNumber" placeholder="Enter PSN number" />
+              <input type="text" id="psnNumber" name="psnNumber" placeholder="Enter your PSN number" />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="pagIbigNumber">PAG-IBIG Number:</label>
-              <input type="text" id="pagIbigNumber" name="pagIbigNumber" placeholder="Enter PAG-IBIG number" />
+              <input type="text" id="pagIbigNumber" name="pagIbigNumber" placeholder="Enter your PAG-IBIG number" />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="sssNumber">SSS Number:</label>
-              <input type="text" id="sssNumber" name="sssNumber" placeholder="Enter SSS number" />
+              <input type="text" id="sssNumber" name="sssNumber" placeholder="Enter your SSS number" />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="gsisNumber">GSIS Number:</label>
-              <input type="text" id="gsisNumber" name="gsisNumber" placeholder="Enter GSIS number" />
+              <input type="text" id="gsisNumber" name="gsisNumber" placeholder="Enter your GSIS number" />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="philHealthNumber">PhilHealth Number:</label>
-              <input type="text" id="philHealthNumber" name="philHealthNumber" placeholder="Enter PhilHealth number" />
+              <label htmlFor="philhealthNumber">PhilHealth Number:</label>
+              <input type="text" id="philhealthNumber" name="philhealthNumber" placeholder="Enter your PhilHealth number" />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="accomplishedBy">Accomplished By:</label>
@@ -324,12 +295,12 @@ const Registration = () => {
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-              <button type="button" className={styles.rightButton} onClick={handleSubmit}>Submit</button>
+              <button type="button" className={styles.rightButton} onClick={handleNextStep}>Submit</button>
             </div>
           </div>
         )}
-        {currentStep === 9 && (
-          <div className={styles.successMessage}>
+        {currentStep === 8 && (
+          <div>
             <h1>Registration Successful!</h1>
             <p>Registration has been successfully submitted!</p>
             <p>Status: Registration Complete</p>
