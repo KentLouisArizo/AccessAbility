@@ -126,10 +126,16 @@ const Registration = () => {
             <div className={styles.formGroup}>
               <label htmlFor="disabilityType">Type of Disability:</label>
               <select id="disabilityType" name="disabilityType">
-                <option value="physical">Physical</option>
-                <option value="visual">Visual</option>
-                <option value="hearing">Hearing</option>
-                <option value="intellectual">Intellectual</option>
+                <option value="deaf">Deaf or Hard of Hearing</option>
+                <option value="intellectual">Intellectual Disability</option>
+                <option value="learning">Learning Disability</option>
+                <option value="mental">Mental Disability</option>
+                <option value="physical">Physical Disability(orthopedic)</option>
+                <option value="psychosocial">Psychosocial Disability</option>
+                <option value="speech">Speech and Language Impairment</option>
+                <option value="visual">Visual Disability</option>
+                <option value="cancer">Cancer(RA11215)</option>
+                <option value="disease">Rare Disease(RA10747)</option>
               </select>
             </div>
             <div className={styles.formGroup}>
