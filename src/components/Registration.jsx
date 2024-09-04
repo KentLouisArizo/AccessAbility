@@ -231,7 +231,29 @@ const Registration = () => {
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="occupation">Occupation:</label>
-              <input type="text" id="occupation" name="occupation" placeholder="Enter your occupation" />
+              <select id="occupation" name="occupation" onChange={handleOccupationChange} value={occupation}>
+                <option value="none">None</option>
+                <option value="manager">Manager</option>
+                <option value="professional">Professional</option>
+                <option value="technician">Technician and Associate Professionals</option>
+                <option value="clerical">Clerical Support Workers</option>
+                <option value="service">Service and Sales Workers</option>
+                <option value="agricultural">Skilled Agricultural, Forestry and Fishery Workers</option>
+                <option value="craft">Craft and Related Trade Workers</option>
+                <option value="plant">Plant and Machine Operators and Assemblers</option>
+                <option value="elementary">Elementary Occupations</option>
+                <option value="armed">Armed Forces Occupations</option>
+                <option value="others">Others, Specify:</option>
+              </select>
+              {showOtherOccupationInput && (
+                <input
+                  type="text"
+                  id="otherOccupation"
+                  name="otherOccupation"
+                  placeholder="Enter your occupation"
+                  className={styles.otherOccupationInput}
+                />
+              )}
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
