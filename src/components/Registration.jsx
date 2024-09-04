@@ -6,6 +6,8 @@ import upicon from '../imgs/upload.png';
 
 const Registration = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [occupation, setOccupation] = useState('');
+  const [showOtherOccupationInput, setShowOtherOccupationInput] = useState(false); 
   const navigate = useNavigate();
 
   const handleNextStep = () => {
@@ -28,6 +30,17 @@ const Registration = () => {
 
   const handleLoginRedirect = () => {
     navigate('/login');
+  };
+
+  //test for occupationchange
+  const handleOccupationChange = (event) => {
+    const selectedOccupation = event.target.value;
+    setOccupation(selectedOccupation);
+    if (selectedOccupation === 'others') {
+      setShowOtherOccupationInput(true);
+    } else {
+      setShowOtherOccupationInput(false);
+    }
   };
 
   return (
@@ -126,17 +139,31 @@ const Registration = () => {
             <div className={styles.formGroup}>
               <label htmlFor="disabilityType">Type of Disability:</label>
               <select id="disabilityType" name="disabilityType">
-                <option value="physical">Physical</option>
-                <option value="visual">Visual</option>
-                <option value="hearing">Hearing</option>
-                <option value="intellectual">Intellectual</option>
+                <option value="deaf">Deaf or Hard of Hearing</option>
+                <option value="intellectual">Intellectual Disability</option>
+                <option value="learning">Learning Disability</option>
+                <option value="mental">Mental Disability</option>
+                <option value="physical">Physical Disability(orthopedic)</option>
+                <option value="psychosocial">Psychosocial Disability</option>
+                <option value="speech">Speech and Language Impairment</option>
+                <option value="visual">Visual Disability</option>
+                <option value="cancer">Cancer(RA11215)</option>
+                <option value="disease">Rare Disease(RA10747)</option>
               </select>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="disabilityCause">Cause of Disability:</label>
               <select id="disabilityCause" name="disabilityCause">
-                <option value="congenital">Congenital</option>
-                <option value="acquired">Acquired</option>
+                <optgroup label="Congenital/Inborn" value="congenital">
+                  <option value="adhd">ADHD</option>
+                  <option value="cerebral">Cerebral Palsy</option>
+                  <option value="down">Down Syndrome</option>
+                </optgroup>
+                <optgroup label="Acquired" value="acquired">
+                  <option value="chronic">Chronic Illness</option>
+                  <option value="cerebral">Cerebral Palsy</option>
+                  <option value="injury">Injury</option>
+                </optgroup>
               </select>
             </div>
             <div className={styles.formGroup}>
@@ -176,10 +203,14 @@ const Registration = () => {
             <div className={styles.formGroup}>
               <label htmlFor="educationAttainment">Education Attainment:</label>
               <select id="educationAttainment" name="educationAttainment">
+                <option value="none">None</option>
+                <option value="kinder">Kindergarten</option>
                 <option value="elementary">Elementary</option>
-                <option value="highschool">High School</option>
+                <option value="juniorhigh">Junior High School</option>
+                <option value="seniorhigh">Senior High School</option>
                 <option value="college">College</option>
-                <option value="graduate">Graduate</option>
+                <option value="vocational">Vocational</option>
+                <option value="postgrad">Post Graduate</option>
               </select>
             </div>
             <div className={styles.formGroup}>
@@ -193,15 +224,36 @@ const Registration = () => {
             <div className={styles.formGroup}>
               <label htmlFor="employmentCategory">Employment Category:</label>
               <select id="employmentCategory" name="employmentCategory">
+                <option value="none">None</option>
                 <option value="government">Government</option>
                 <option value="private">Private</option>
-                <option value="ngo">NGO</option>
-                <option value="other">Other</option>
               </select>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="occupation">Occupation:</label>
-              <input type="text" id="occupation" name="occupation" placeholder="Enter your occupation" />
+              <select id="occupation" name="occupation" onChange={handleOccupationChange} value={occupation}>
+                <option value="none">None</option>
+                <option value="manager">Manager</option>
+                <option value="professional">Professional</option>
+                <option value="technician">Technician and Associate Professionals</option>
+                <option value="clerical">Clerical Support Workers</option>
+                <option value="service">Service and Sales Workers</option>
+                <option value="agricultural">Skilled Agricultural, Forestry and Fishery Workers</option>
+                <option value="craft">Craft and Related Trade Workers</option>
+                <option value="plant">Plant and Machine Operators and Assemblers</option>
+                <option value="elementary">Elementary Occupations</option>
+                <option value="armed">Armed Forces Occupations</option>
+                <option value="others">Others, Specify:</option>
+              </select>
+              {showOtherOccupationInput && (
+                <input
+                  type="text"
+                  id="otherOccupation"
+                  name="otherOccupation"
+                  placeholder="Enter your occupation"
+                  className={styles.otherOccupationInput}
+                />
+              )}
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -305,6 +357,7 @@ const Registration = () => {
             <p>Registration has been successfully submitted!</p>
             <p>Status: Registration Complete</p>
             <p>Please wait for approval.</p>
+            <p>If there is no confirmation within 3 days call us 09955328417</p>
             <a href='/'>Home</a>
           </div>
         )}

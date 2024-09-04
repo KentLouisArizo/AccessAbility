@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import styles from './styles/AdminDashboard.module.css';
 import search from '../imgs/filter.png';
 import print from '../imgs/print.png';
@@ -11,7 +10,15 @@ import logo from '../imgs/PDAOlogo.png';
 import notif from '../imgs/notification.png';
 import profile from '../imgs/profilelogo.png';
 
+//test import for tab content
+import Filter from './Filter';
+import PrintRecord from './PrintRecord';
+import Announcement from './Announcement';
+import Verify from './Verify';
+
 const AdminDashboard = () => {
+  const [activeSection, setActiveSection] = useState('dashboard');
+
   return (
     <div className={styles.dashboardContainer}>
       <aside className={styles.sidebar}>
@@ -21,48 +28,77 @@ const AdminDashboard = () => {
           <img src={profile} alt="Profile" className={styles.icon} />
         </div>
         <div className={styles.navItems}>
-          <Link to="/filter" className={styles.navItem}>
+          <div 
+            className={`${styles.navItem} ${activeSection === 'dashboard' ? styles.active : ''}`}
+            onClick={() => setActiveSection('dashboard')}
+          >
+            <span className={styles.navText}>Dashboard</span>
+          </div>
+          <div 
+            className={`${styles.navItem} ${activeSection === 'filter' ? styles.active : ''}`}
+            onClick={() => setActiveSection('filter')}
+          >
             <img src={search} alt="Search Filter" className={styles.navIcon} />
             <span className={styles.navText}>Search Filter</span>
-          </Link>
-          <Link to="/print" className={styles.navItem}>
+          </div>
+          <div 
+            className={`${styles.navItem} ${activeSection === 'print' ? styles.active : ''}`}
+            onClick={() => setActiveSection('print')}
+          >
             <img src={print} alt="Print Record" className={styles.navIcon} />
             <span className={styles.navText}>Print Record</span>
-          </Link>
-          <Link to="/announcement" className={styles.navItem}>
+          </div>
+          <div 
+            className={`${styles.navItem} ${activeSection === 'announcement' ? styles.active : ''}`}
+            onClick={() => setActiveSection('announcement')}
+          >
             <img src={announcement} alt="Announcement" className={styles.navIcon} />
             <span className={styles.navText}>Announcement</span>
-          </Link>
-          <button className={styles.navItem}>
+          </div>
+          <div 
+            className={`${styles.navItem} ${activeSection === 'report' ? styles.active : ''}`}
+            onClick={() => setActiveSection('report')}
+          >
             <img src={report} alt="Generate Report" className={styles.navIcon} />
             <span className={styles.navText}>Generate Report</span>
-          </button>
-          <Link to="/verify" className={styles.navItem}>
+          </div>
+          <div 
+            className={`${styles.navItem} ${activeSection === 'verify' ? styles.active : ''}`}
+            onClick={() => setActiveSection('verify')}
+          >
             <img src={verify} alt="Verify User" className={styles.navIcon} />
             <span className={styles.navText}>Verify User</span>
-          </Link>
-          <button className={styles.navItem}>
+          </div>
+          <div 
+            className={`${styles.navItem} ${activeSection === 'reset' ? styles.active : ''}`}
+            onClick={() => setActiveSection('reset')}
+          >
             <img src={reset} alt="Reset User Password" className={styles.navIcon} />
             <span className={styles.navText}>Reset User Password</span>
-          </button>
+          </div>
         </div>
       </aside>
       <main className={styles.mainContent}>
-        <div className={styles.dashboardHeader}>
-          <h2 className={styles.welcomeMessage}>Welcome! Admin</h2>
-        </div>
-        <div className={styles.countsContainer}>
-          <div className={styles.countBox}>
-            <h3>Total PWD</h3>
-            <p>1234</p>
-            <button className={styles.moreInfoButton}>More info</button>
+        {activeSection === 'dashboard' && (
+          <div className={styles.countsContainer}>
+            <div className={styles.countBox}>
+              <h3>Total PWD</h3>
+              <p>1234</p>
+              <button className={styles.moreInfoButton}>More info</button>
+            </div>
+            <div className={styles.countBox}>
+              <h3>Total User</h3>
+              <p>567</p>
+              <button className={styles.moreInfoButton}>More info</button>
+            </div>
           </div>
-          <div className={styles.countBox}>
-            <h3>Total User</h3>
-            <p>567</p>
-            <button className={styles.moreInfoButton}>More info</button>
-          </div>
-        </div>
+        )}
+        {activeSection === 'filter' && <Filter />}
+        {activeSection === 'print' && <PrintRecord />}
+        {activeSection === 'announcement' && <Announcement />}
+        {/*{activeSection === 'report' && <GenerateReport />}*/}
+        {activeSection === 'verify' && <Verify />}
+        {/*{activeSection === 'reset' && <ResetPassword />}*/}
       </main>
     </div>
   );
