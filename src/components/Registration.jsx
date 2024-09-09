@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase/firebaseConfig';
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import upicon from '../imgs/upload.png';
@@ -8,6 +10,45 @@ const Registration = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [occupation, setOccupation] = useState('');
   const [showOtherOccupationInput, setShowOtherOccupationInput] = useState(false); 
+  const [formData, setFormData] = useState({
+    lastName: '',
+    firstName: '',
+    middleName: '',
+    suffix: '',
+    age: '',
+    email: '',
+    mobileNo: '',
+    password: '',
+    confirmPassword: '',
+    dob: '',
+    sex: '',
+    civilStatus: '',
+    barangay: '',
+    municipality: '',
+    province: '',
+    disabilityType: '',
+    disabilityCause: '',
+    bloodType: '',
+    educationalAttainment: '',
+    employmentStatus: '',
+    employmentCategory: '',
+    occupation: '',
+    fatherName: '',
+    fatherOccupation: '',
+    motherName: '',
+    motherOccupation: '',
+    guardianName: '',
+    guardianOccupation: '',
+    emergencyContactName: '',
+    emergencyContactNumber: '',
+    emergencyContactRelationship: '',
+    psnNumber: '',
+    pagIbigNumber: '',
+    sssNumber: '',
+    gsisNumber: '',
+    philhealthNumber: '',
+    accomplishedBy: '',
+  });
   const navigate = useNavigate();
 
   const handleNextStep = () => {
@@ -24,23 +65,35 @@ const Registration = () => {
     }
   };
 
-  const handleSubmit = () => {
-    setCurrentStep(8);
+  const handleSubmit = async (event) => {
+    if (event) {
+      event.preventDefault();
+    }
+  
+    try {
+      await addDoc(collection(db, 'registrations'), formData);
+      alert('Registration successful!');
+      navigate('/'); // Adjust if you have a success page
+    } catch (error) {
+      console.error('Error saving document: ', error);
+    }
   };
 
   const handleLoginRedirect = () => {
     navigate('/login');
   };
 
-  //test for occupationchange
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleOccupationChange = (event) => {
     const selectedOccupation = event.target.value;
     setOccupation(selectedOccupation);
-    if (selectedOccupation === 'others') {
-      setShowOtherOccupationInput(true);
-    } else {
-      setShowOtherOccupationInput(false);
-    }
+    setShowOtherOccupationInput(selectedOccupation === 'others');
   };
 
   return (
@@ -52,39 +105,39 @@ const Registration = () => {
             <h2>Step 1: Personal Information</h2>
             <div className={styles.formGroup}>
               <label htmlFor="lastName">Last Name:</label>
-              <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" />
+              <input type="text" id="lastname" name="lastname" placeholder="Enter your last name" value={formData.lastName}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="firstName">First Name:</label>
-              <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" />
+              <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" value={formData.firstName}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="middleName">Middle Name:</label>
-              <input type="text" id="middleName" name="middleName" placeholder="Enter your middle name" />
+              <input type="text" id="middleName" name="middleName" placeholder="Enter your middle name" value={formData.middleName}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="suffix">Suffix:</label>
-              <input type="text" id="suffix" name="suffix" placeholder="Enter suffix (e.g., Jr., Sr.)" />
+              <input type="text" id="suffix" name="suffix" placeholder="Enter suffix (e.g., Jr., Sr.)" value={formData.suffix}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="age">Age:</label>
-              <input type="number" id="age" name="age" placeholder="Enter your age" />
+              <input type="number" id="age" name="age" placeholder="Enter your age" value={formData.age}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email" placeholder="Enter your email" />
+              <input type="email" id="email" name="email" placeholder="Enter your email" value={formData.email}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="mobileNo">Mobile No:</label>
-              <input type="text" id="mobileNo" name="mobileNo" placeholder="Enter your mobile number" />
+              <input type="text" id="mobileNo" name="mobileNo" placeholder="Enter your mobile number" value={formData.mobileNo}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="password">Password:</label>
-              <input type="password" id="password" name="password" placeholder="Enter your password" />
+              <input type="password" id="password" name="password" placeholder="Enter your password" value={formData.password}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="confirmPassword">Confirm Password:</label>
-              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" />
+              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" value={formData.confirmPassword}  onChange={handleChange} />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handleLoginRedirect}>Already have an account?</button>
@@ -97,18 +150,18 @@ const Registration = () => {
             <h2>Step 2: Personal Details</h2>
             <div className={styles.formGroup}>
               <label htmlFor="dob">Date of Birth:</label>
-              <input type="date" id="dob" name="dob" />
+              <input type="date" id="dob" name="dob" value={formData.dob}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="sex">Sex:</label>
-              <select id="sex" name="sex">
+              <select id="sex" name="sex" value={formData.sex}  onChange={handleChange} >
                 <option value="male">Male</option>
                 <option value="female">Female</option>
               </select>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="civilStatus">Civil Status:</label>
-              <select id="civilStatus" name="civilStatus">
+              <select id="civilStatus" name="civilStatus" value={formData.civilStatus}  onChange={handleChange} >
                 <option value="single">Single</option>
                 <option value="married">Married</option>
                 <option value="widowed">Widowed</option>
@@ -117,15 +170,15 @@ const Registration = () => {
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="barangay">Barangay:</label>
-              <input type="text" id="barangay" name="barangay" placeholder="Enter your barangay" />
+              <input type="text" id="barangay" name="barangay" placeholder="Enter your barangay" value={formData.barangay}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="municipality">Municipality:</label>
-              <input type="text" id="municipality" name="municipality" placeholder="Enter your municipality" />
+              <input type="text" id="municipality" name="municipality" placeholder="Enter your municipality" value={formData.municipality}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="province">Province:</label>
-              <input type="text" id="province" name="province" placeholder="Enter your province" />
+              <input type="text" id="province" name="province" placeholder="Enter your province" value={formData.province}  onChange={handleChange} />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -138,7 +191,7 @@ const Registration = () => {
             <h2>Step 3: Disability Information & Upload Document</h2>
             <div className={styles.formGroup}>
               <label htmlFor="disabilityType">Type of Disability:</label>
-              <select id="disabilityType" name="disabilityType">
+              <select id="disabilityType" name="disabilityType" value={formData.disabilityType}  onChange={handleChange} >
                 <option value="deaf">Deaf or Hard of Hearing</option>
                 <option value="intellectual">Intellectual Disability</option>
                 <option value="learning">Learning Disability</option>
@@ -153,7 +206,7 @@ const Registration = () => {
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="disabilityCause">Cause of Disability:</label>
-              <select id="disabilityCause" name="disabilityCause">
+              <select id="disabilityCause" name="disabilityCause" value={formData.disabilityCause}  onChange={handleChange} >
                 <optgroup label="Congenital/Inborn" value="congenital">
                   <option value="adhd">ADHD</option>
                   <option value="cerebral">Cerebral Palsy</option>
@@ -168,7 +221,7 @@ const Registration = () => {
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="bloodType">Blood Type:</label>
-              <select id="bloodType" name="bloodType">
+              <select id="bloodType" name="bloodType" value={formData.bloodType}  onChange={handleChange} >
                 <option value="a">A</option>
                 <option value="b">B</option>
                 <option value="ab">AB</option>
@@ -202,7 +255,7 @@ const Registration = () => {
             <h2>Step 4: Employment Information</h2>
             <div className={styles.formGroup}>
               <label htmlFor="educationAttainment">Education Attainment:</label>
-              <select id="educationAttainment" name="educationAttainment">
+              <select id="educationAttainment" name="educationAttainment" value={formData.educationalAttainment}  onChange={handleChange} >
                 <option value="none">None</option>
                 <option value="kinder">Kindergarten</option>
                 <option value="elementary">Elementary</option>
@@ -215,7 +268,7 @@ const Registration = () => {
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="employmentStatus">Employment Status:</label>
-              <select id="employmentStatus" name="employmentStatus">
+              <select id="employmentStatus" name="employmentStatus" value={formData.employmentStatus}  onChange={handleChange} >
                 <option value="employed">Employed</option>
                 <option value="unemployed">Unemployed</option>
                 <option value="selfEmployed">Self-Employed</option>
@@ -223,7 +276,7 @@ const Registration = () => {
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="employmentCategory">Employment Category:</label>
-              <select id="employmentCategory" name="employmentCategory">
+              <select id="employmentCategory" name="employmentCategory" value={formData.employmentCategory}  onChange={handleChange} >
                 <option value="none">None</option>
                 <option value="government">Government</option>
                 <option value="private">Private</option>
@@ -231,7 +284,7 @@ const Registration = () => {
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="occupation">Occupation:</label>
-              <select id="occupation" name="occupation" onChange={handleOccupationChange} value={occupation}>
+              <select id="occupation" name="occupation"  value={occupation}  onChange={handleOccupationChange} >
                 <option value="none">None</option>
                 <option value="manager">Manager</option>
                 <option value="professional">Professional</option>
@@ -251,6 +304,7 @@ const Registration = () => {
                   id="otherOccupation"
                   name="otherOccupation"
                   placeholder="Enter your occupation"
+                  value={formData.occupation}
                   className={styles.otherOccupationInput}
                 />
               )}
@@ -266,27 +320,27 @@ const Registration = () => {
             <h2>Step 5: Parents and Guardian Information</h2>
             <div className={styles.formGroup}>
               <label htmlFor="fatherName">Father's Name:</label>
-              <input type="text" id="fatherName" name="fatherName" placeholder="Enter father's name" />
+              <input type="text" id="fatherName" name="fatherName" placeholder="Enter father's name" value={formData.fatherName}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="fatherOccupation">Father's Occupation:</label>
-              <input type="text" id="fatherOccupation" name="fatherOccupation" placeholder="Enter father's occupation" />
+              <input type="text" id="fatherOccupation" name="fatherOccupation" placeholder="Enter father's occupation" value={formData.fatherOccupation}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="motherName">Mother's Name:</label>
-              <input type="text" id="motherName" name="motherName" placeholder="Enter mother's name" />
+              <input type="text" id="motherName" name="motherName" placeholder="Enter mother's name" value={formData.motherName}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="motherOccupation">Mother's Occupation:</label>
-              <input type="text" id="motherOccupation" name="motherOccupation" placeholder="Enter mother's occupation" />
+              <input type="text" id="motherOccupation" name="motherOccupation" placeholder="Enter mother's occupation" value={formData.motherOccupation}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="guardianName">Guardian's Name:</label>
-              <input type="text" id="guardianName" name="guardianName" placeholder="Enter guardian's name" />
+              <input type="text" id="guardianName" name="guardianName" placeholder="Enter guardian's name" value={formData.guardianName}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="guardianOccupation">Guardian's Occupation:</label>
-              <input type="text" id="guardianOccupation" name="guardianOccupation" placeholder="Enter guardian's occupation" />
+              <input type="text" id="guardianOccupation" name="guardianOccupation" placeholder="Enter guardian's occupation" value={formData.guardianOccupation}  onChange={handleChange} />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -299,15 +353,15 @@ const Registration = () => {
             <h2>Step 6: Emergency Contact</h2>
             <div className={styles.formGroup}>
               <label htmlFor="emergencyContactName">Emergency Contact Name:</label>
-              <input type="text" id="emergencyContactName" name="emergencyContactName" placeholder="Enter emergency contact name" />
+              <input type="text" id="emergencyContactName" name="emergencyContactName" placeholder="Enter emergency contact name" value={formData.emergencyContactName}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="emergencyContactNumber">Emergency Contact Number:</label>
-              <input type="text" id="emergencyContactNumber" name="emergencyContactNumber" placeholder="Enter emergency contact number" />
+              <input type="text" id="emergencyContactNumber" name="emergencyContactNumber" placeholder="Enter emergency contact number" value={formData.emergencyContactNumber}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="emergencyContactRelationship">Relationship:</label>
-              <input type="text" id="emergencyContactRelationship" name="emergencyContactRelationship" placeholder="Enter relationship with emergency contact" />
+              <input type="text" id="emergencyContactRelationship" name="emergencyContactRelationship" placeholder="Enter relationship with emergency contact" value={formData.emergencyContactRelationship}  onChange={handleChange} />
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
@@ -320,38 +374,38 @@ const Registration = () => {
             <h2>Step 7: Additional Information</h2>
             <div className={styles.formGroup}>
               <label htmlFor="psnNumber">PSN Number:</label>
-              <input type="text" id="psnNumber" name="psnNumber" placeholder="Enter your PSN number" />
+              <input type="text" id="psnNumber" name="psnNumber" placeholder="Enter your PSN number" value={formData.psnNumber}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="pagIbigNumber">PAG-IBIG Number:</label>
-              <input type="text" id="pagIbigNumber" name="pagIbigNumber" placeholder="Enter your PAG-IBIG number" />
+              <input type="text" id="pagIbigNumber" name="pagIbigNumber" placeholder="Enter your PAG-IBIG number" value={formData.pagIbigNumber}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="sssNumber">SSS Number:</label>
-              <input type="text" id="sssNumber" name="sssNumber" placeholder="Enter your SSS number" />
+              <input type="text" id="sssNumber" name="sssNumber" placeholder="Enter your SSS number" value={formData.sssNumber}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="gsisNumber">GSIS Number:</label>
-              <input type="text" id="gsisNumber" name="gsisNumber" placeholder="Enter your GSIS number" />
+              <input type="text" id="gsisNumber" name="gsisNumber" placeholder="Enter your GSIS number" value={formData.gsisNumber}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="philhealthNumber">PhilHealth Number:</label>
-              <input type="text" id="philhealthNumber" name="philhealthNumber" placeholder="Enter your PhilHealth number" />
+              <input type="text" id="philhealthNumber" name="philhealthNumber" placeholder="Enter your PhilHealth number" value={formData.philhealthNumber}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="accomplishedBy">Accomplished By:</label>
-              <select id="accomplishedBy" name="accomplishedBy">
+              <select id="accomplishedBy" name="accomplishedBy" value={formData.accomplishedBy}  onChange={handleChange} >
                 <option value="self">Self</option>
                 <option value="guardian">Guardian</option>
               </select>
             </div>
             <div className={styles.buttonContainer}>
               <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-              <button type="button" className={styles.rightButton} onClick={handleNextStep}>Submit</button>
+              <button type="button" className={styles.rightButton} onClick={handleSubmit}>Submit</button>
             </div>
           </div>
         )}
-        {currentStep === 8 && (
+        {/*{currentStep === 8 && (
           <div>
             <h1>Registration Successful!</h1>
             <p>Registration has been successfully submitted!</p>
@@ -360,7 +414,7 @@ const Registration = () => {
             <p>If there is no confirmation within 3 days call us 09955328417</p>
             <a href='/'>Home</a>
           </div>
-        )}
+        )}*/}
       </div>
     </div>
   );

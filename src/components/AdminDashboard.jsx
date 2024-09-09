@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './styles/AdminDashboard.module.css';
+import { onSnapshot, collection } from 'firebase/firestore';
+import { db } from '../firebase/firebaseConfig';
 import search from '../imgs/filter.png';
 import print from '../imgs/print.png';
 import announcement from '../imgs/announce.png';
@@ -18,13 +20,27 @@ import Verify from './Verify';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
+  const [newRegistrations, setNewRegistrations] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'registrations'), (snapshot) => {
+      setNewRegistrations(snapshot.docs.length);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>
       <aside className={styles.sidebar}>
         <img src={logo} alt="AccessAbility Logo" className={styles.sidebarLogo} />
         <div className={styles.sidebarIcons}>
-          <img src={notif} alt="Notifications" className={styles.icon} />
+          <div className={styles.notificationContainer}>
+              <img src={notif} alt="Notifications" className={styles.icon} />
+              {newRegistrations > 0 && (
+                <span className={styles.notificationBadge}>{newRegistrations}</span>
+              )}
+            </div>
           <img src={profile} alt="Profile" className={styles.icon} />
         </div>
         <div className={styles.navItems}>
