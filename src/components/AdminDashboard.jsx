@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import styles from './styles/AdminDashboard.module.css';
 import { onSnapshot, collection } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
+import styles from './styles/AdminDashboard.module.css';
 import search from '../imgs/filter.png';
 import print from '../imgs/print.png';
 import announcement from '../imgs/announce.png';
@@ -12,7 +12,7 @@ import logo from '../imgs/PDAOlogo.png';
 import notif from '../imgs/notification.png';
 import profile from '../imgs/profilelogo.png';
 
-//test import for tab content
+// Test imports for tab content
 import Filter from './Filter';
 import PrintRecord from './PrintRecord';
 import Announcement from './Announcement';
@@ -20,27 +20,50 @@ import Verify from './Verify';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
-  const [newRegistrations, setNewRegistrations] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotificationBox, setShowNotificationBox] = useState(false);
+  const [selectedNotification, setSelectedNotification] = useState(null);
 
+  // Firestore listener for new document in registrations
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'registrations'), (snapshot) => {
-      setNewRegistrations(snapshot.docs.length);
+    const unsub = onSnapshot(collection(db, 'registrations'), (snapshot) => {
+      const newNotifications = [];
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          newNotifications.push({
+            id: change.doc.id,
+            ...change.doc.data(),
+          });
+        }
+      });
+      setNotifications((prev) => [...newNotifications, ...prev]);
     });
 
-    return () => unsubscribe();
+    return () => unsub();
   }, []);
+
+  const handleNotificationClick = () => {
+    if (notifications.length > 0) {
+      setSelectedNotification(notifications[0]); // recent notification
+      setShowNotificationBox(true);
+    }
+  };
+
+  const handleCloseNotificationBox = () => {
+    setShowNotificationBox(false);
+  };
 
   return (
     <div className={styles.dashboardContainer}>
       <aside className={styles.sidebar}>
         <img src={logo} alt="AccessAbility Logo" className={styles.sidebarLogo} />
         <div className={styles.sidebarIcons}>
-          <div className={styles.notificationContainer}>
-              <img src={notif} alt="Notifications" className={styles.icon} />
-              {newRegistrations > 0 && (
-                <span className={styles.notificationBadge}>{newRegistrations}</span>
-              )}
-            </div>
+          <div className={styles.notificationIconWrapper} onClick={handleNotificationClick}>
+            <img src={notif} alt="Notifications" className={styles.icon} />
+            {notifications.length > 0 && (
+              <span className={styles.notificationBadge}>{notifications.length}</span>
+            )}
+          </div>
           <img src={profile} alt="Profile" className={styles.icon} />
         </div>
         <div className={styles.navItems}>
@@ -96,26 +119,40 @@ const AdminDashboard = () => {
       </aside>
       <main className={styles.mainContent}>
         {activeSection === 'dashboard' && (
-          <div className={styles.countsContainer}>
-            <div className={styles.countBox}>
-              <h3>Total PWD</h3>
-              <p>1234</p>
-              <button className={styles.moreInfoButton}>More info</button>
-            </div>
-            <div className={styles.countBox}>
-              <h3>Total User</h3>
-              <p>567</p>
-              <button className={styles.moreInfoButton}>More info</button>
+          <div>
+            <div className={styles.countsContainer}>
+              <div className={styles.countBox}>
+                <h3>Total PWD</h3>
+                <p>1234</p>
+                <button className={styles.moreInfoButton}>More info</button>
+              </div>
+              <div className={styles.countBox}>
+                <h3>Total User</h3>
+                <p>567</p>
+                <button className={styles.moreInfoButton}>More info</button>
+              </div>
             </div>
           </div>
         )}
         {activeSection === 'filter' && <Filter />}
         {activeSection === 'print' && <PrintRecord />}
         {activeSection === 'announcement' && <Announcement />}
-        {/*{activeSection === 'report' && <GenerateReport />}*/}
         {activeSection === 'verify' && <Verify />}
-        {/*{activeSection === 'reset' && <ResetPassword />}*/}
       </main>
+      {showNotificationBox && (
+        <div className={styles.notificationBox}>
+          <div className={styles.notificationHeader}>
+            <h4>New Registration</h4>
+            <button onClick={handleCloseNotificationBox}>Close</button>
+          </div>
+          <div className={styles.notificationContent}>
+            <p>A new user has registered!</p>
+            <p><strong>Name:</strong> {selectedNotification?.firstName} {selectedNotification?.lastName}</p>
+            <p><strong>Email:</strong> {selectedNotification?.email}</p>
+            {/* for now just this */}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
