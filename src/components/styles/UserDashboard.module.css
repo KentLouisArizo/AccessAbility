@@ -1,5 +1,7 @@
 .dashboardContainer {
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto; 
 }
 
 .header {
@@ -22,7 +24,7 @@
 .mainContent {
   margin-top: 20px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -30,12 +32,39 @@
   background-color: #f5f5f5;
   padding: 15px;
   border-radius: 5px;
-  width: 100%; 
+  width: 100%;
   text-align: center;
+  cursor: pointer; 
 }
 
 .virtualId h2, .virtualBooklet h2, .blank h2 {
   margin-bottom: 10px;
   font-size: 20px;
   color: #0077b6;
+}
+
+.link {
+  text-decoration: none; 
+  display: block; 
+}
+
+
+.link:focus .virtualId, .link:focus .virtualBooklet {
+  outline: 2px solid #0077b6;
+  outline-offset: 2px;
+}
+
+
+@media (max-width: 768px) {
+  .mainContent {
+    gap: 10px; 
+  }
+
+  .virtualId, .virtualBooklet, .blank {
+    padding: 10px;
+  }
+
+  .virtualId h2, .virtualBooklet h2, .blank h2 {
+    font-size: 18px;
+  }
 }

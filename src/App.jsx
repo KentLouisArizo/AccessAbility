@@ -5,7 +5,8 @@ import AdminNavbar from './components/AdminNavbar';
 import UserNavbar from './components/UserNavbar';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
-import Registration from './components/Registration';
+import RegistrationPWD from './components/RegistrationPWD';
+import RegistrationRelative from './components/RegistrationRelative';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
 import Footer from './components/Footer';
@@ -22,7 +23,8 @@ const App = () => {
         <NavbarSwitcher />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/register" element={<Registration />} />
+          <Route path="/register-pwd" element={<RegistrationPWD />} />
+          <Route path="/register-relative" element={<RegistrationRelative />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />

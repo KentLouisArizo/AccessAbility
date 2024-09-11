@@ -1,45 +1,87 @@
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #0077b6; /* Match the footer color */
-    color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .logo {
-    width: 80px; /* Minimized logo */
-    height: auto;
-  }
-  
-  .welcome {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0077b6; 
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+}
+
+.welcome {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLinks a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.navLinks a:hover,
+.navLinks a:focus {
+  color: #cce5ff;
+  border-bottom: 2px solid #cce5ff; 
+}
+
+.burgerIcon {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0; 
+}
+
+.burgerLine {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+  transition: 0.4s;
+}
+
+@media (max-width: 768px) {
   .navLinks {
-    display: flex;
-    gap: 1.5rem;
-  }
-  
-  .navLinks a {
-    color: white;
-    text-decoration: none;
-    transition: text-decoration 0.2s;
-  }
-  
-  .navLinks a:hover {
-    text-decoration: underline;
-  }
-  
-  .icons {
-    display: flex;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7); 
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
+    padding: 1rem 0;
+    display: none; 
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-100%);
   }
-  
-  .icons img {
-    width: 24px;
-    height: 24px;
+
+  .showMenu {
+    display: flex;
+    transform: translateY(0);
   }
-  
+
+  .burgerIcon {
+    display: flex; 
+    padding: 0.5rem;
+  }
+
+  .welcome {
+    display: none;
+  }
+}

@@ -13,7 +13,7 @@ const Login = () => {
 
     if (email === 'admin123@gmail.com' && password === 'admin123') {
       navigate('/admin-dashboard');
-    } else if (email === 'user@example.com' && password === 'user123') {
+    } else if (email === 'user123@example.com' && password === 'user123') {
       navigate('/user-dashboard');
     } else {
       alert('Invalid email or password');
