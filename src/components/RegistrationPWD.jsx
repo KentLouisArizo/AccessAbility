@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../firebase/firebaseConfig';
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import upicon from '../imgs/upload.png';
@@ -32,6 +33,13 @@ const Registration = () => {
     disabilityCause: '',
     bloodType: '',
   });
+
+  const [files, setFiles] = useState({
+    profileImage: null,
+    wholeBodyImage: null,
+    medicalRecord: null,
+  });
+
   const navigate = useNavigate();
 
   //unique ID
@@ -41,6 +49,14 @@ const Registration = () => {
       uniqueId: `PWD-${uuidv4()}`, 
     }));
   }, []);
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFiles(prevFiles => ({
+      ...prevFiles,
+      [name]: files[0],
+    }));
+  };
 
   const handleNextStep = () => {
     if (currentStep < 3) {
@@ -56,13 +72,30 @@ const Registration = () => {
     }
   };
 
+  const uploadFile = async (file, fileName) => {
+    const fileRef = ref(storage, `uploads/${fileName}`);
+    await uploadBytes(fileRef, file);
+    return getDownloadURL(fileRef); // Returns the URL of the uploaded file
+  };
+
   const handleSubmit = async (event) => {
     if (event) {
       event.preventDefault();
     }
   
     try {
-      await addDoc(collection(db, 'registrations'), formData);
+      const profileImageUrl = await uploadFile(files.profileImage, `profile-${uuidv4()}`);
+      const wholeBodyImageUrl = await uploadFile(files.wholeBodyImage, `wholeBody-${uuidv4()}`);
+      const medicalRecordUrl = await uploadFile(files.medicalRecord, `medicalRecord-${uuidv4()}`);
+
+      const completeData = {
+        ...formData,
+        profileImageUrl,
+        wholeBodyImageUrl,
+        medicalRecordUrl,
+      };
+
+      await addDoc(collection(db, 'registrations'), completeData);
       alert('Registration successful!');
       navigate('/');
     } catch (error) {
@@ -217,15 +250,15 @@ const Registration = () => {
               <div className={styles.uploadContainer}>
                 <div className={styles.uploadItem}>
                   <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
-                  <button className={styles.uploadButton}>Upload 1x1</button>
+                  <input type="file" name="profileImage" onChange={handleFileChange} />
                 </div>
                 <div className={styles.uploadItem}>
                   <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
-                  <button className={styles.uploadButton}>Upload Whole Body</button>
+                  <input type="file" name="wholeBodyImage" onChange={handleFileChange} />
                 </div>
                 <div className={styles.uploadItem}>
                   <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
-                  <button className={styles.uploadButton}>Upload Medical Record</button>
+                  <input type="file" name="medicalRecord" onChange={handleFileChange} />
                 </div>
               </div>
             </div>
