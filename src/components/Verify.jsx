@@ -26,7 +26,7 @@ const Verify = () => {
   }, []);
 
   const handleSearch = () => {
-    const filteredUsers = users.filter(user => 
+    const filteredUsers = users.filter(user =>
       user.uniqueId.includes(searchTerm) || user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUsers(filteredUsers);
@@ -37,14 +37,15 @@ const Verify = () => {
   };
 
   const handleVerify = async () => {
-    // Add logic to verify the user
     alert(`User ${selectedUser.uniqueId} verified`);
   };
 
   const handleReject = async () => {
-    // Add logic to reject the user
     alert(`User ${selectedUser.uniqueId} rejected`);
   };
+
+  const verifiedUsers = users.filter(user => user.status === 'Verified');
+  const unverifiedUsers = users.filter(user => !user.status || user.status === 'Unverified');
 
   return (
     <div className={styles.verifyContainer}>
@@ -60,27 +61,80 @@ const Verify = () => {
       </header>
 
       <main className={styles.mainContent}>
-        <h2 className={styles.title}>Verify User</h2>
+        <h2 className={styles.title}>Verify Users</h2>
         <div className={styles.searchSection}>
-          <input 
-            type="text" 
-            placeholder="Enter User ID or Name" 
-            className={styles.searchInput} 
+          <input
+            type="text"
+            placeholder="Enter User ID or Name"
+            className={styles.searchInput}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button className={styles.searchButton} onClick={handleSearch}>Search</button>
         </div>
-        <div className={styles.userList}>
-          {users.map(user => (
-            <div key={user.uniqueId} className={styles.userItem} onClick={() => handleUserClick(user)}>
-              <p><strong>ID:</strong> {user.uniqueId}</p>
-              <p><strong>Name:</strong> {user.firstName} {user.lastName}</p>
-              <p><strong>Barangay:</strong> {user.barangay}</p>
-              <p><strong>Status:</strong> {user.status || 'Unverified'}</p>
-            </div>
-          ))}
-        </div>
+
+        {/* Unverified Users Table */}
+        <h3 className={styles.tableTitle}>Unverified Users</h3>
+        <table className={styles.userTable}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Barangay</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {unverifiedUsers.map(user => (
+              <tr
+                key={user.uniqueId}
+                onClick={() => handleUserClick(user)}
+                className={user.isNewUser ? styles.newUser : ''}
+              >
+                <td>{user.uniqueId}</td>
+                <td>{user.firstName} {user.lastName}</td>
+                <td>{user.barangay}</td>
+                <td>{user.status || 'Unverified'}</td>
+                <td>
+                  <button className={styles.viewButton}>View</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Verified Users Table */}
+        <h3 className={styles.tableTitle}>Verified Users</h3>
+        <table className={styles.userTable}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Barangay</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {verifiedUsers.map(user => (
+              <tr
+                key={user.uniqueId}
+                onClick={() => handleUserClick(user)}
+                className={user.isNewUser ? styles.newUser : ''}
+              >
+                <td>{user.uniqueId}</td>
+                <td>{user.firstName} {user.lastName}</td>
+                <td>{user.barangay}</td>
+                <td>{user.status}</td>
+                <td>
+                  <button className={styles.viewButton}>View</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
         {selectedUser && (
           <div className={styles.selectedUserDetails}>
             <h3>User Details</h3>

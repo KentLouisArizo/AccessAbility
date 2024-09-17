@@ -75,7 +75,7 @@ const Registration = () => {
   const uploadFile = async (file, fileName) => {
     const fileRef = ref(storage, `uploads/${fileName}`);
     await uploadBytes(fileRef, file);
-    return getDownloadURL(fileRef); // Returns the URL of the uploaded file
+    return getDownloadURL(fileRef); 
   };
 
   const handleSubmit = async (event) => {

@@ -14,6 +14,7 @@ import Announcement from './components/Announcement';
 import Filter from './components/Filter';
 import PrintRecord from './components/PrintRecord';
 import Verify from './components/Verify';
+import IDCard from './components/IDCard';
 import './App.css';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/filter" element={<Filter />} />
           <Route path="/print" element={<PrintRecord />} />
           <Route path="/verify" element={<Verify />} />
+          <Route path="/virtual-id" element={<IDCard />} />
         </Routes>
         <Footer />
       </div>
