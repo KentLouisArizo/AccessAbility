@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../firebase/firebaseConfig';
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import upicon from '../imgs/upload.png';
 
 const Registration = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedDocument, setSelectedDocument] = useState('');
+  const [showOtherInput, setShowOtherInput] = useState(false);
   const [formData, setFormData] = useState({
-    uniqueId: '',
+    uniqueID: '',
     lastName: '',
     firstName: '',
     middleName: '',
@@ -29,12 +32,17 @@ const Registration = () => {
     disabilityType: '',
     disabilityCause: '',
     bloodType: '',
-    //relativeDocument1: null,
-    //relativeDocument2: null,
   });
+
+  const [files, setFiles] = useState({
+    profileImage: null,
+    wholeBodyImage: null,
+    medicalRecord: null,
+    documentUpload: null, // For document upload in step 4
+  });
+
   const navigate = useNavigate();
 
-  //unique ID
   useEffect(() => {
     setFormData(prevData => ({
       ...prevData,
@@ -42,10 +50,24 @@ const Registration = () => {
     }));
   }, []);
 
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    setFiles(prevFiles => ({
+      ...prevFiles,
+      [name]: files[0],
+    }));
+  };
+
+  const handleDocumentChange = (e) => {
+    const selectedOption = e.target.value;
+    setSelectedDocument(selectedOption);
+    setShowOtherInput(selectedOption === 'others');
+  };
+
   const handleNextStep = () => {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
-    } else if (currentStep === 4) {
+    } else {
       handleSubmit();
     }
   };
@@ -56,13 +78,32 @@ const Registration = () => {
     }
   };
 
+  const uploadFile = async (file, fileName) => {
+    const fileRef = ref(storage, `uploads/${fileName}`);
+    await uploadBytes(fileRef, file);
+    return getDownloadURL(fileRef);
+  };
+
   const handleSubmit = async (event) => {
     if (event) {
       event.preventDefault();
     }
   
     try {
-      await addDoc(collection(db, 'registrations'), formData);
+      const profileImageUrl = await uploadFile(files.profileImage, `profile-${uuidv4()}`);
+      const wholeBodyImageUrl = await uploadFile(files.wholeBodyImage, `wholeBody-${uuidv4()}`);
+      const medicalRecordUrl = await uploadFile(files.medicalRecord, `medicalRecord-${uuidv4()}`);
+      const documentUploadUrl = await uploadFile(files.documentUpload, `document-${uuidv4()}`);
+
+      const completeData = {
+        ...formData,
+        profileImageUrl,
+        wholeBodyImageUrl,
+        medicalRecordUrl,
+        documentUploadUrl,
+      };
+
+      await addDoc(collection(db, 'registrations'), completeData);
       alert('Registration successful!');
       navigate('/');
     } catch (error) {
@@ -78,13 +119,6 @@ const Registration = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.files[0],
     });
   };
 
@@ -224,15 +258,15 @@ const Registration = () => {
               <div className={styles.uploadContainer}>
                 <div className={styles.uploadItem}>
                   <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
-                  <button className={styles.uploadButton}>Upload 1x1</button>
+                  <input type="file" name="profileImage" onChange={handleFileChange} />
                 </div>
                 <div className={styles.uploadItem}>
                   <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
-                  <button className={styles.uploadButton}>Upload Whole Body</button>
+                  <input type="file" name="wholeBodyImage" onChange={handleFileChange} />
                 </div>
                 <div className={styles.uploadItem}>
                   <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
-                  <button className={styles.uploadButton}>Upload Medical Record</button>
+                  <input type="file" name="medicalRecord" onChange={handleFileChange} />
                 </div>
               </div>
             </div>
@@ -244,24 +278,44 @@ const Registration = () => {
         )}
         {currentStep === 4 && (
             <div>
-                <h2>Step 4: Verify Relationship to PWD</h2>
-                <div className={styles.formGroup}>
-                    <label htmlFor="relativeDocument1">Upload Birth Certificate:</label>
-                    <input type="file" id="relativeDocument1" name="relativeDocument1" onChange={handleFileChange} />
+              <h2>Step 4: Verify Relationship to PWD</h2>
+              <div className={styles.formGroup}>
+                <label htmlFor="relationshipDoc">Select Document to Upload:</label>
+                  <select id="relationshipDoc" name="relationshipDoc" value={selectedDocument} onChange={handleDocumentChange}>
+                    <option value="">--Select--</option>
+                    <option value="birthCertificate">Birth Certificate</option>
+                    <option value="marriageCertificate">Marriage Certificate</option>
+                    <option value="adoptionPapers">Adoption Papers</option>
+                    <option value="nationalID">National ID</option>
+                    <option value="familyTree">Family Register/Family Tree Document</option>
+                    <option value="healthInsurance">Health Insurance Document</option>
+                    <option value="others">Others, specify</option>
+                  </select>
                 </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="relativeDocument2">Upload National ID:</label>
-                    <input type="file" id="relativeDocument2" name="relativeDocument2" onChange={handleFileChange} />
-                </div>
-                <div className={styles.formGroup}>
-                    <label htmlFor="otherDocument">Upload Other Document (if any):</label>
-                    <input type="file" id="otherDocument" name="otherDocument" onChange={handleFileChange} />
-                </div>
-                <div className={styles.buttonContainer}>
-                    <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-                    <button type="button" className={styles.rightButton} onClick={handleSubmit}>Submit</button>
-                </div>
+
+                {selectedDocument && selectedDocument !== 'others' && (
+                  <div className={styles.formGroup}>
+                    <label htmlFor="documentUpload">Upload {selectedDocument.replace(/([A-Z])/g, ' $1')}:</label>                      <input type="file" id="documentUpload" name="documentUpload" onChange={handleFileChange} />
+                  </div>
+                )}
+
+                {showOtherInput && (
+                  <>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="otherDocumentUpload">Upload Document:</label>
+                      <input type="file" id="otherDocumentUpload" name="documentUpload" onChange={handleFileChange} />
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label htmlFor="otherDocumentDetails">Specify Document:</label>
+                      <input type="text" id="otherDocumentDetails" name="otherDocumentDetails" placeholder="Specify the document" onChange={handleChange} />
+                    </div>
+                  </>
+                  )}
+            <div className={styles.buttonContainer}>
+              <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
+              <button type="button" className={styles.rightButton} onClick={handleSubmit}>Submit</button>
             </div>
+          </div>
         )}
       </div>
     </div>
