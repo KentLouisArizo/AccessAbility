@@ -6,17 +6,15 @@ import search from '../imgs/filter.png';
 import print from '../imgs/print.png';
 import announcement from '../imgs/announce.png';
 import report from '../imgs/report.png';
-import verify from '../imgs/verify-user.png';
-import reset from '../imgs/reset-pass.png';
 import logo from '../imgs/PDAOlogo.png';
 import notif from '../imgs/notification.png';
 import profile from '../imgs/profilelogo.png';
 
 // Test imports for tab content
-import Filter from './Filter';
 import PrintRecord from './PrintRecord';
 import Announcement from './Announcement';
-import Verify from './Verify';
+import GenerateReport from './GenerateReport';
+import User from './User';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -74,13 +72,6 @@ const AdminDashboard = () => {
             <span className={styles.navText}>Dashboard</span>
           </div>
           <div 
-            className={`${styles.navItem} ${activeSection === 'filter' ? styles.active : ''}`}
-            onClick={() => setActiveSection('filter')}
-          >
-            <img src={search} alt="Search Filter" className={styles.navIcon} />
-            <span className={styles.navText}>Search Filter</span>
-          </div>
-          <div 
             className={`${styles.navItem} ${activeSection === 'print' ? styles.active : ''}`}
             onClick={() => setActiveSection('print')}
           >
@@ -102,18 +93,11 @@ const AdminDashboard = () => {
             <span className={styles.navText}>Generate Report</span>
           </div>
           <div 
-            className={`${styles.navItem} ${activeSection === 'verify' ? styles.active : ''}`}
-            onClick={() => setActiveSection('verify')}
+            className={`${styles.navItem} ${activeSection === 'user' ? styles.active : ''}`}
+            onClick={() => setActiveSection('user')}
           >
-            <img src={verify} alt="Verify User" className={styles.navIcon} />
-            <span className={styles.navText}>Verify User</span>
-          </div>
-          <div 
-            className={`${styles.navItem} ${activeSection === 'reset' ? styles.active : ''}`}
-            onClick={() => setActiveSection('reset')}
-          >
-            <img src={reset} alt="Reset User Password" className={styles.navIcon} />
-            <span className={styles.navText}>Reset User Password</span>
+            <img src={search} alt="User" className={styles.navIcon} />
+            <span className={styles.navText}>User</span>
           </div>
         </div>
       </aside>
@@ -134,10 +118,10 @@ const AdminDashboard = () => {
             </div>
           </div>
         )}
-        {activeSection === 'filter' && <Filter />}
+        {activeSection === 'user' && <User />}
         {activeSection === 'print' && <PrintRecord />}
         {activeSection === 'announcement' && <Announcement />}
-        {activeSection === 'verify' && <Verify />}
+        {activeSection === 'report' && <GenerateReport />}
       </main>
       {showNotificationBox && (
         <div className={styles.notificationBox}>

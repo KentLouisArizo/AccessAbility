@@ -10,10 +10,6 @@ import RegistrationRelative from './components/RegistrationRelative';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
 import Footer from './components/Footer';
-import Announcement from './components/Announcement';
-import Filter from './components/Filter';
-import PrintRecord from './components/PrintRecord';
-import Verify from './components/Verify';
 import IDCard from './components/IDCard';
 import './App.css';
 
@@ -29,10 +25,6 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
-          <Route path="/announcement" element={<Announcement />} />
-          <Route path="/filter" element={<Filter />} />
-          <Route path="/print" element={<PrintRecord />} />
-          <Route path="/verify" element={<Verify />} />
           <Route path="/virtual-id" element={<IDCard />} />
         </Routes>
         <Footer />

@@ -1,82 +1,134 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebase/firebaseConfig';
 import styles from './styles/Filter.module.css';
-import searchIcon from '../imgs/search-icon.png';
-import filterIcon from '../imgs/filter-iconSB.png';
-import logo from '../imgs/PDAOlogo.png';
-import notif from '../imgs/notification.png';
-import profile from '../imgs/profilelogo.png';
 
 const Filter = () => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [barangays, setBarangays] = useState([]);
+  const [disabilityTypes, setDisabilityTypes] = useState([]);
+  const [bloodTypes, setBloodTypes] = useState([]);
 
-  const toggleFilter = () => {
-    setIsFilterOpen(!isFilterOpen);
+  const [selectedBarangay, setSelectedBarangay] = useState('');
+  const [selectedDisabilityType, setSelectedDisabilityType] = useState('');
+  const [selectedBloodType, setSelectedBloodType] = useState('');
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'registrations')); // Ensure the collection name is correct
+        const usersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setUsers(usersList);
+        setFilteredUsers(usersList); // Initialize filteredUsers with the complete user list
+        // Extract unique barangays, disability types, and blood types
+        const uniqueBarangays = [...new Set(usersList.map(user => user.barangay))];
+        const uniqueDisabilityTypes = [...new Set(usersList.map(user => user.disabilityType))];
+        const uniqueBloodTypes = [...new Set(usersList.map(user => user.bloodType))];
+
+        setBarangays(uniqueBarangays);
+        setDisabilityTypes(uniqueDisabilityTypes);
+        setBloodTypes(uniqueBloodTypes);
+      } catch (error) {
+        console.error('Error fetching users: ', error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  const handleSearch = () => {
+    const filtered = users.filter(user => {
+      const userIdMatch = user.uniqueId && user.uniqueId.includes(searchTerm); // Check if uniqueId exists
+      const nameMatch = user.firstName && user.firstName.toLowerCase().includes(searchTerm.toLowerCase()); // Check if firstName exists
+      const barangayMatch = selectedBarangay ? user.barangay === selectedBarangay : true;
+      const disabilityMatch = selectedDisabilityType ? user.disabilityType === selectedDisabilityType : true;
+      const bloodMatch = selectedBloodType ? user.bloodType === selectedBloodType : true;
+
+      return (userIdMatch || nameMatch) && barangayMatch && disabilityMatch && bloodMatch;
+    });
+    setFilteredUsers(filtered); // Update the filtered users
   };
 
   return (
     <div className={styles.filterContainer}>
-      <div className={styles.header}>
-        <img src={logo} alt="AccessAbility Logo" className={styles.logo} />
-        <div className={styles.welcomeMessage}>Welcome! Admin</div>
-        <div className={styles.icons}>
-          <img src={notif} alt="Notifications" className={styles.icon} />
-          <img src={profile} alt="Profile" className={styles.icon} />
-        </div>
-      </div>
-
+      <h2 className={styles.title}>Filter Users</h2>
+      
       <div className={styles.searchBar}>
-        <img src={searchIcon} alt="Search" className={styles.searchIcon} />
         <input
           type="text"
-          className={styles.searchField}
-          placeholder="Search..."
+          placeholder="Search by ID or Name"
+          className={styles.searchInput}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <div className={styles.filterWrapper}>
-          <img
-            src={filterIcon}
-            alt="Filter"
-            className={styles.filterIcon}
-            onClick={toggleFilter}
-          />
-          {isFilterOpen && (
-            <div className={styles.filterDropdown}>
-              <label>
-                <input type="checkbox" name="id" /> ID
-              </label>
-              <label>
-                <input type="checkbox" name="name" /> Name
-              </label>
-              <label>
-                <input type="checkbox" name="brgy" /> Brgy (Barangay)
-              </label>
-              <label>
-                <input type="checkbox" name="type" /> Type
-              </label>
-            </div>
-          )}
-        </div>
+        <button className={styles.searchButton} onClick={handleSearch}>Search</button>
       </div>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Brgy (Barangay)</th>
-            <th>Type</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td>Sample Barangay</td>
-            <td>Sample Type</td>
-            <td><button className={styles.viewButton}>View</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div className={styles.filterOptions}>
+        <select
+          className={styles.filterSelect}
+          value={selectedBarangay}
+          onChange={(e) => setSelectedBarangay(e.target.value)}
+        >
+          <option value="">Select Barangay</option>
+          {barangays.map((barangay, index) => (
+            <option key={index} value={barangay}>{barangay}</option>
+          ))}
+        </select>
+
+        <select
+          className={styles.filterSelect}
+          value={selectedDisabilityType}
+          onChange={(e) => setSelectedDisabilityType(e.target.value)}
+        >
+          <option value="">Select Disability Type</option>
+          {disabilityTypes.map((type, index) => (
+            <option key={index} value={type}>{type}</option>
+          ))}
+        </select>
+
+        <select
+          className={styles.filterSelect}
+          value={selectedBloodType}
+          onChange={(e) => setSelectedBloodType(e.target.value)}
+        >
+          <option value="">Select Blood Type</option>
+          {bloodTypes.map((type, index) => (
+            <option key={index} value={type}>{type}</option>
+          ))}
+        </select>
+      </div>
+
+      {filteredUsers.length > 0 ? (
+        <table className={styles.userTable}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Barangay</th>
+              <th>Disability Type</th>
+              <th>Blood Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredUsers.map(user => (
+              <tr key={user.uniqueId}>
+                <td>{user.uniqueId}</td>
+                <td>{user.firstName} {user.lastName}</td>
+                <td>{user.barangay}</td>
+                <td>{user.disabilityType || 'N/A'}</td>
+                <td>{user.bloodType || 'N/A'}</td>
+                <td>{user.status || 'Unverified'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No users found.</p>
+      )}
     </div>
   );
 };
