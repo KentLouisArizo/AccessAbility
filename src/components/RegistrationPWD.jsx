@@ -24,14 +24,15 @@ const Registration = () => {
     password: '',
     confirmPassword: '',
     dob: '',
-    sex: '',
-    civilStatus: '',
+    sex: 'male',
+    civilStatus: 'single',
     barangay: '',
     municipality: '',
     province: '',
-    disabilityType: '',
-    disabilityCause: '',
-    bloodType: '',
+    disabilityType: 'Deaf or Hard of Hearing',
+    disabilityCause: 'ADHD',
+    bloodType: 'A',
+    isVerified: false,
   });
 
   const [files, setFiles] = useState({

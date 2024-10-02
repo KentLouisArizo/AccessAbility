@@ -78,3 +78,12 @@
     color: white;
   }
   
+  @media print {
+    .header, .icons {
+      display: none; /* Hide header and icons during print */
+    }
+    .recordTable {
+      margin-top: 20px;
+    }
+  }
+  

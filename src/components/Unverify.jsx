@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
-import styles from './styles/Verify.module.css';
+import styles from './styles/Unverify.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import bellIcon from '../imgs/notification.png';
 import userProfileIcon from '../imgs/profilelogo.png';
+import { useNavigate } from 'react-router-dom';
 
-const Verify = () => {
+const Unverify = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showVerified, setShowVerified] = useState(false); // Toggle state
+  const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'registrations')); // Adjust collection name if needed
+        const querySnapshot = await getDocs(collection(db, 'registrations'));
         const usersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setUsers(usersList);
       } catch (error) {
@@ -28,7 +29,7 @@ const Verify = () => {
 
   const handleSearch = () => {
     const filteredUsers = users.filter(user =>
-      user.uniqueId.includes(searchTerm) || user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+      user.uniqueID.includes(searchTerm) || user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUsers(filteredUsers);
   };
@@ -38,20 +39,16 @@ const Verify = () => {
   };
 
   const handleVerify = async () => {
-    alert(`User ${selectedUser.uniqueId} verified`);
-    // Update user status in Firestore here
+    if (selectedUser) {
+      const userRef = doc(db, 'registrations', selectedUser.id);
+      await updateDoc(userRef, { isVerified: true });
+      alert(`User ${selectedUser.uniqueID} verified`);
+      setUsers(users.filter(user => user.id !== selectedUser.id)); // Remove verified user from the list
+    }
   };
-
-  const handleReject = async () => {
-    alert(`User ${selectedUser.uniqueId} rejected`);
-    // Update user status in Firestore here
-  };
-
-  const verifiedUsers = users.filter(user => user.status === 'Verified');
-  const unverifiedUsers = users.filter(user => !user.status || user.status === 'Unverified');
 
   return (
-    <div className={styles.verifyContainer}>
+    <div className={styles.unverifyContainer}>
       <header className={styles.header}>
         <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
         <div className={styles.welcomeMessage}>
@@ -64,7 +61,7 @@ const Verify = () => {
       </header>
 
       <main className={styles.mainContent}>
-        <h2 className={styles.title}>Verify Users</h2>
+        <h2 className={styles.title}>Unverified Users</h2>
         <div className={styles.searchSection}>
           <input
             type="text"
@@ -76,18 +73,6 @@ const Verify = () => {
           <button className={styles.searchButton} onClick={handleSearch}>Search</button>
         </div>
 
-        {/* Toggle Button */}
-        <div className={styles.toggleButton}>
-          <button onClick={() => setShowVerified(false)} className={!showVerified ? styles.active : ''}>
-            Unverified Users
-          </button>
-          <button onClick={() => setShowVerified(true)} className={showVerified ? styles.active : ''}>
-            Verified Users
-          </button>
-        </div>
-
-        {/* User Table based on toggle */}
-        <h3 className={styles.tableTitle}>{showVerified ? 'Verified Users' : 'Unverified Users'}</h3>
         <table className={styles.userTable}>
           <thead>
             <tr>
@@ -99,16 +84,12 @@ const Verify = () => {
             </tr>
           </thead>
           <tbody>
-            {(showVerified ? verifiedUsers : unverifiedUsers).map(user => (
-              <tr
-                key={user.uniqueId}
-                onClick={() => handleUserClick(user)}
-                className={user.isNewUser ? styles.newUser : ''}
-              >
-                <td>{user.uniqueId}</td>
+            {users.filter(user => !user.isVerified).map(user => (
+              <tr key={user.id} onClick={() => handleUserClick(user)}>
+                <td>{user.uniqueID}</td>
                 <td>{user.firstName} {user.lastName}</td>
                 <td>{user.barangay}</td>
-                <td>{user.status || 'Unverified'}</td>
+                <td>{user.isVerified ? 'Verified' : 'Unverified'}</td>
                 <td>
                   <button className={styles.viewButton}>View</button>
                 </td>
@@ -120,19 +101,19 @@ const Verify = () => {
         {selectedUser && (
           <div className={styles.selectedUserDetails}>
             <h3>User Details</h3>
-            <p><strong>ID:</strong> {selectedUser.uniqueId}</p>
+            <p><strong>ID:</strong> {selectedUser.uniqueID}</p>
             <p><strong>Name:</strong> {selectedUser.firstName} {selectedUser.lastName}</p>
             <p><strong>Barangay:</strong> {selectedUser.barangay}</p>
-            <p><strong>Status:</strong> {selectedUser.status || 'Unverified'}</p>
             <div className={styles.actionButtons}>
               <button className={styles.verifyButton} onClick={handleVerify}>Verify</button>
-              <button className={styles.rejectButton} onClick={handleReject}>Reject</button>
             </div>
           </div>
         )}
+
+        <button className={styles.switchButton} onClick={() => navigate('/verify')}>Go to Verified Users</button>
       </main>
     </div>
   );
 };
 
-export default Verify;
+export default Unverify;

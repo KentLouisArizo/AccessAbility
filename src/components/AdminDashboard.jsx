@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { onSnapshot, collection } from 'firebase/firestore';
+import { onSnapshot, collection, query, where } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import styles from './styles/AdminDashboard.module.css';
 import search from '../imgs/filter.png';
@@ -21,6 +21,8 @@ const AdminDashboard = () => {
   const [notifications, setNotifications] = useState([]);
   const [showNotificationBox, setShowNotificationBox] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
+  const [verifiedUsersCount, setVerifiedUsersCount] = useState(0);
+  const [unverifiedUsersCount, setUnverifiedUsersCount] = useState(0);
 
   // Firestore listener for new document in registrations
   useEffect(() => {
@@ -38,6 +40,35 @@ const AdminDashboard = () => {
     });
 
     return () => unsub();
+  }, []);
+
+  // Fetch and count verified and unverified users
+  useEffect(() => {
+    const fetchUserCounts = async () => {
+      const verifiedQuery = query(
+        collection(db, 'registrations'),
+        where('isVerified', '==', true)
+      );
+      const unverifiedQuery = query(
+        collection(db, 'registrations'),
+        where('isVerified', '==', false)
+      );
+
+      const unsubscribeVerified = onSnapshot(verifiedQuery, (snapshot) => {
+        setVerifiedUsersCount(snapshot.size);
+      });
+
+      const unsubscribeUnverified = onSnapshot(unverifiedQuery, (snapshot) => {
+        setUnverifiedUsersCount(snapshot.size);
+      });
+
+      return () => {
+        unsubscribeVerified();
+        unsubscribeUnverified();
+      };
+    };
+
+    fetchUserCounts();
   }, []);
 
   const handleNotificationClick = () => {
@@ -72,6 +103,13 @@ const AdminDashboard = () => {
             <span className={styles.navText}>Dashboard</span>
           </div>
           <div 
+            className={`${styles.navItem} ${activeSection === 'user' ? styles.active : ''}`}
+            onClick={() => setActiveSection('user')}
+          >
+            <img src={search} alt="User" className={styles.navIcon} />
+            <span className={styles.navText}>User</span>
+          </div>
+          <div 
             className={`${styles.navItem} ${activeSection === 'print' ? styles.active : ''}`}
             onClick={() => setActiveSection('print')}
           >
@@ -92,13 +130,6 @@ const AdminDashboard = () => {
             <img src={report} alt="Generate Report" className={styles.navIcon} />
             <span className={styles.navText}>Generate Report</span>
           </div>
-          <div 
-            className={`${styles.navItem} ${activeSection === 'user' ? styles.active : ''}`}
-            onClick={() => setActiveSection('user')}
-          >
-            <img src={search} alt="User" className={styles.navIcon} />
-            <span className={styles.navText}>User</span>
-          </div>
         </div>
       </aside>
       <main className={styles.mainContent}>
@@ -106,13 +137,13 @@ const AdminDashboard = () => {
           <div>
             <div className={styles.countsContainer}>
               <div className={styles.countBox}>
-                <h3>Total PWD</h3>
-                <p>1234</p>
+                <h3>Total Verified Users</h3>
+                <p>{verifiedUsersCount}</p>
                 <button className={styles.moreInfoButton}>More info</button>
               </div>
               <div className={styles.countBox}>
-                <h3>Total User</h3>
-                <p>567</p>
+                <h3>Total Unverified Users</h3>
+                <p>{unverifiedUsersCount}</p>
                 <button className={styles.moreInfoButton}>More info</button>
               </div>
             </div>
@@ -139,6 +170,6 @@ const AdminDashboard = () => {
       )}
     </div>
   );
-}
+};
 
 export default AdminDashboard;
