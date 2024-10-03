@@ -10,8 +10,6 @@ import upicon from '../imgs/upload.png';
 
 const Registration = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  //const [occupation, setOccupation] = useState('');
-  //const [showOtherOccupationInput, setShowOtherOccupationInput] = useState(false); 
   const [formData, setFormData] = useState({
     uniqueID: '',
     lastName: '',

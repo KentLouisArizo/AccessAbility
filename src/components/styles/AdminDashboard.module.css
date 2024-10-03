@@ -122,36 +122,60 @@
 
 .notificationBadge {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -5px;
+  right: -5px;
   background-color: red;
   color: white;
+  padding: 3px 6px;
   border-radius: 50%;
-  padding: 0.25em 0.5em;
-  font-size: 0.75em;
-}
-
-.notificationBox {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: white;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  font-size: 12px;
 }
 
 .notificationHeader {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #005f8a;
+  border-bottom: 1px solid #ccc;
 }
 
 .notificationContent {
-  font-size: 0.9em;
+  padding: 10px;
 }
 
+
+.notificationDropdown {
+  position: absolute;
+  top: 415px; 
+  left: 35px;   
+  width: 300px;
+  max-height: 300px; 
+  overflow-y: auto;  
+  background-color: #0077b6;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.notificationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notificationItem {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.notificationItem:last-child {
+  border-bottom: none;
+}
+
+.closeButton {
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}

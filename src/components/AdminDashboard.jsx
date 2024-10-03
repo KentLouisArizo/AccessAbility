@@ -20,7 +20,6 @@ const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
   const [notifications, setNotifications] = useState([]);
   const [showNotificationBox, setShowNotificationBox] = useState(false);
-  const [selectedNotification, setSelectedNotification] = useState(null);
   const [verifiedUsersCount, setVerifiedUsersCount] = useState(0);
   const [unverifiedUsersCount, setUnverifiedUsersCount] = useState(0);
 
@@ -72,10 +71,7 @@ const AdminDashboard = () => {
   }, []);
 
   const handleNotificationClick = () => {
-    if (notifications.length > 0) {
-      setSelectedNotification(notifications[0]); // recent notification
-      setShowNotificationBox(true);
-    }
+    setShowNotificationBox(!showNotificationBox);
   };
 
   const handleCloseNotificationBox = () => {
@@ -131,6 +127,27 @@ const AdminDashboard = () => {
             <span className={styles.navText}>Generate Report</span>
           </div>
         </div>
+
+        {showNotificationBox && (
+          <div className={styles.notificationDropdown}>
+            <div className={styles.notificationHeader}>
+              <h4>Notifications</h4>
+              <button onClick={handleCloseNotificationBox} className={styles.closeButton}>Close</button>
+            </div>
+            <div className={styles.notificationContent}>
+              {notifications.length > 0 ? (
+                notifications.map((notification) => (
+                  <div key={notification.id} className={styles.notificationItem}>
+                    <p><strong>Name:</strong> {notification.firstName} {notification.lastName}</p>
+                    <p><strong>Email:</strong> {notification.email}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No new notifications</p>
+              )}
+            </div>
+          </div>
+        )}
       </aside>
       <main className={styles.mainContent}>
         {activeSection === 'dashboard' && (
@@ -154,20 +171,6 @@ const AdminDashboard = () => {
         {activeSection === 'announcement' && <Announcement />}
         {activeSection === 'report' && <GenerateReport />}
       </main>
-      {showNotificationBox && (
-        <div className={styles.notificationBox}>
-          <div className={styles.notificationHeader}>
-            <h4>New Registration</h4>
-            <button onClick={handleCloseNotificationBox}>Close</button>
-          </div>
-          <div className={styles.notificationContent}>
-            <p>A new user has registered!</p>
-            <p><strong>Name:</strong> {selectedNotification?.firstName} {selectedNotification?.lastName}</p>
-            <p><strong>Email:</strong> {selectedNotification?.email}</p>
-            {/* for now just this */}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
