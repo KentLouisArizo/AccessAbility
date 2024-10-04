@@ -1,38 +1,81 @@
 .reportContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  .reportContent {
-    background-color: #FFFFFF;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-  }
-  
-  h2 {
-    color: #0B243E;
-    font-family: 'Sofia Sans', sans-serif;
-  }
-  
-  .placeholderText {
-    color: #004944;
-    font-family: 'Inter', sans-serif;
-    margin-bottom: 1.5rem;
-  }
-  
-  .generateButton {
-    padding: 0.8rem 2rem;
-    background-color: #0077b6;
-    color: #66FCF1;
-    font-family: 'Sofia Sans', sans-serif;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.reportContent {
+  background-color: #FFFFFF;
+  padding: 2rem;
+  border-radius: 12px; 
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25); 
+  width: 100%;
+  max-width: 600px; 
+  text-align: center;
+  border: 2px solid #66FCF1; 
+}
+
+h2 {
+  color: #66FCF1; 
+  font-family: 'Sofia Sans', sans-serif;
+  font-size: 2rem; 
+  margin-bottom: 1rem;
+}
+
+.placeholderText {
+  color: #004944; 
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.chartTypeSelector, .dataCategorySelector {
+  margin-bottom: 1.5rem;
+}
+
+.chartTypeSelector label, .dataCategorySelector label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  color: #0B243E; 
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.chartSelector {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #66FCF1;
+  border-radius: 6px;
+  color: #000000;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chartSelector:hover {
+  background-color: #eeeeee;
+}
+
+.chartContainer {
+  margin-top: 1.5rem;
+  height: 300px; 
+}
+
+.generateButton {
+  padding: 0.8rem 2rem;
+  background-color: #0077b6;
+  color: #FFFFFF; 
+  font-family: 'Sofia Sans', sans-serif;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 2rem;
+}
+
+.generateButton:hover {
+  background-color: #005f8d; 
+}
