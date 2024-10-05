@@ -4,21 +4,36 @@ import PDAOlogo from '../imgs/PDAOlogo.png';
 import notif from '../imgs/notification.png';
 import profile from '../imgs/profilelogo.png';
 import { Link } from 'react-router-dom';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase/firebaseConfig';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css'; // Import the date picker styles
 
 const Announcement = ({ userName }) => {
   const [notificationName, setNotificationName] = useState('');
   const [message, setMessage] = useState('');
-  const [date, setDate] = useState('');
-  const [recipient, setRecipient] = useState('');
+  const [dateRange, setDateRange] = useState([null, null]); // State for the start and end date
+  const [startDate, endDate] = dateRange;
+  const [startTime, setStartTime] = useState(null); // State for start time
+  const [endTime, setEndTime] = useState(null); // State for end time
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      notificationName,
-      message,
-      date,
-      recipient,
-    });
+
+    try {
+      // Save the announcement to Firestore
+      await addDoc(collection(db, 'announcements'), {
+        title: notificationName,
+        message,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+      });
+      console.log('Announcement added successfully!');
+    } catch (error) {
+      console.error('Error adding announcement: ', error);
+    }
   };
 
   return (
@@ -34,7 +49,7 @@ const Announcement = ({ userName }) => {
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
-          <label htmlFor="notificationName">Notification Name:</label>
+          <label htmlFor="notificationName">Title:</label>
           <input
             type="text"
             id="notificationName"
@@ -54,30 +69,50 @@ const Announcement = ({ userName }) => {
           />
         </div>
 
+        {/* Date Range Picker */}
         <div className={styles.formGroup}>
-          <label htmlFor="date">Date:</label>
-          <input
-            type="date"
-            id="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
+          <label htmlFor="dateRange">Date Range:</label>
+          <DatePicker
+            selectsRange
+            startDate={startDate}
+            endDate={endDate}
+            onChange={(update) => setDateRange(update)}
+            isClearable={true}
+            placeholderText="Select a date range"
+            className={styles.datePicker}
           />
         </div>
 
+        {/* Start Time Picker */}
         <div className={styles.formGroup}>
-          <label htmlFor="recipient">Recipient:</label>
-          <select
-            id="recipient"
-            value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
-            required
-          >
-            <option value="">Select recipient</option>
-            <option value="all">All Users</option>
-            <option value="admins">Admins</option>
-            <option value="users">Users</option>
-          </select>
+          <label htmlFor="startTime">Start Time:</label>
+          <DatePicker
+            selected={startTime}
+            onChange={(time) => setStartTime(time)}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="Start Time"
+            dateFormat="h:mm aa"
+            placeholderText="Select start time"
+            className={styles.datePicker}
+          />
+        </div>
+
+        {/* End Time Picker */}
+        <div className={styles.formGroup}>
+          <label htmlFor="endTime">End Time:</label>
+          <DatePicker
+            selected={endTime}
+            onChange={(time) => setEndTime(time)}
+            showTimeSelect
+            showTimeSelectOnly
+            timeIntervals={15}
+            timeCaption="End Time"
+            dateFormat="h:mm aa"
+            placeholderText="Select end time"
+            className={styles.datePicker}
+          />
         </div>
 
         <div className={styles.buttonGroup}>
@@ -89,6 +124,6 @@ const Announcement = ({ userName }) => {
       </form>
     </div>
   );
-}
+};
 
 export default Announcement;
