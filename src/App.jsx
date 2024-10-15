@@ -11,6 +11,7 @@ import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
 import Footer from './components/Footer';
 import IDCard from './components/IDCard';
+import UserAnnouncement from './components/UserAnnouncement';
 import './App.css';
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/virtual-id" element={<IDCard />} />
+          <Route path="/user-announcement" element={<UserAnnouncement />} />
         </Routes>
         <Footer />
       </div>
@@ -36,7 +38,7 @@ const App = () => {
 const NavbarSwitcher = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin-dashboard') || location.pathname.startsWith('/announcement') || location.pathname.startsWith('/filter') || location.pathname.startsWith('/print') || location.pathname.startsWith('/verify');
-  const isUser = location.pathname.startsWith('/user-dashboard');
+  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id');
 
   return (
     <>

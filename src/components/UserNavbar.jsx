@@ -20,8 +20,7 @@ const UserNavbar = () => {
       </button>
       <div className={`${styles.navLinks} ${isMenuOpen ? styles.showMenu : ''}`}>
         <Link to="/user-dashboard" onClick={toggleMenu}>Home</Link>
-        <Link to="/Announcement-services" onClick={toggleMenu}>Announcement Services</Link>
-        <Link to="/appointments" onClick={toggleMenu}>Appointment</Link>
+        <Link to="/user-announcement" onClick={toggleMenu}>Announcements</Link>
         <Link to="/" onClick={toggleMenu}>Logout</Link>
       </div>
     </nav>

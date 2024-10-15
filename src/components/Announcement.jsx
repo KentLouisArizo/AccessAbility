@@ -30,9 +30,20 @@ const Announcement = ({ userName }) => {
         startTime,
         endTime,
       });
-      console.log('Announcement added successfully!');
+
+      // Alert the user after successfully adding the announcement
+      alert('Announcement added successfully!');
+
+      // Optionally, reset the form fields after submission
+      setNotificationName('');
+      setMessage('');
+      setDateRange([null, null]);
+      setStartTime(null);
+      setEndTime(null);
+
     } catch (error) {
       console.error('Error adding announcement: ', error);
+      alert('Failed to add the announcement. Please try again.');
     }
   };
 
