@@ -12,6 +12,7 @@ import UserDashboard from './components/UserDashboard';
 import Footer from './components/Footer';
 import IDCard from './components/IDCard';
 import UserAnnouncement from './components/UserAnnouncement';
+import Booklet from './components/Booklet';
 import './App.css';
 
 const App = () => {
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/virtual-id" element={<IDCard />} />
           <Route path="/user-announcement" element={<UserAnnouncement />} />
+          <Route path="/virtual-booklet" element={<Booklet />} />
         </Routes>
         <Footer />
       </div>
@@ -38,7 +40,7 @@ const App = () => {
 const NavbarSwitcher = () => {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith('/admin-dashboard') || location.pathname.startsWith('/announcement') || location.pathname.startsWith('/filter') || location.pathname.startsWith('/print') || location.pathname.startsWith('/verify');
-  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id');
+  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id') || location.pathname.startsWith('/virtual-booklet');
 
   return (
     <>

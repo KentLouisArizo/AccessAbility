@@ -1,54 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import styles from './styles/Verify.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import bellIcon from '../imgs/notification.png';
 import userProfileIcon from '../imgs/profilelogo.png';
 
-const Verify = () => {
+const Verify = ({ showVerified, setShowVerified }) => {
   const [users, setUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showVerified, setShowVerified] = useState(false); // Toggle state
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'registrations')); // Adjust collection name if needed
-        const usersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setUsers(usersList);
+        const querySnapshot = await getDocs(collection(db, 'registrations'));
+        const usersList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Filter users based on verified status
+        const filteredUsers = showVerified
+          ? usersList.filter((user) => user.isVerified === true) // Verified users
+          : usersList.filter((user) => user.isVerified === false); // Unverified users
+
+        setUsers(filteredUsers);
       } catch (error) {
         console.error('Error fetching users: ', error);
       }
     };
 
     fetchUsers();
-  }, []);
-
-  const handleSearch = () => {
-    const filteredUsers = users.filter(user =>
-      user.uniqueId.includes(searchTerm) || user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setUsers(filteredUsers);
-  };
-
-  const handleUserClick = (user) => {
-    setSelectedUser(user);
-  };
+  }, [showVerified]);
 
   const handleVerify = async () => {
-    alert(`User ${selectedUser.uniqueId} verified`);
-    // Update user status in Firestore here
-  };
+    if (selectedUser) {
+      const userRef = doc(db, 'registrations', selectedUser.id);
+      try {
+        await updateDoc(userRef, { isVerified: true });
+        alert(`User ${selectedUser.uniqueId} verified successfully`);
 
-  const handleReject = async () => {
-    alert(`User ${selectedUser.uniqueId} rejected`);
-    // Update user status in Firestore here
+        // Remove verified user from the list and clear selected user
+        setUsers(users.filter((user) => user.id !== selectedUser.id));
+        setSelectedUser(null);
+      } catch (error) {
+        console.error('Error verifying user: ', error);
+        alert('There was an issue verifying the user.');
+      }
+    }
   };
-
-  const verifiedUsers = users.filter(user => user.status === 'Verified');
-  const unverifiedUsers = users.filter(user => !user.status || user.status === 'Unverified');
 
   return (
     <div className={styles.verifyContainer}>
@@ -64,30 +64,7 @@ const Verify = () => {
       </header>
 
       <main className={styles.mainContent}>
-        <h2 className={styles.title}>Verify Users</h2>
-        <div className={styles.searchSection}>
-          <input
-            type="text"
-            placeholder="Enter User ID or Name"
-            className={styles.searchInput}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button className={styles.searchButton} onClick={handleSearch}>Search</button>
-        </div>
-
-        {/* Toggle Button */}
-        <div className={styles.toggleButton}>
-          <button onClick={() => setShowVerified(false)} className={!showVerified ? styles.active : ''}>
-            Unverified Users
-          </button>
-          <button onClick={() => setShowVerified(true)} className={showVerified ? styles.active : ''}>
-            Verified Users
-          </button>
-        </div>
-
-        {/* User Table based on toggle */}
-        <h3 className={styles.tableTitle}>{showVerified ? 'Verified Users' : 'Unverified Users'}</h3>
+        <h2 className={styles.title}>{showVerified ? 'Verified Users' : 'Unverified Users'}</h2>
         <table className={styles.userTable}>
           <thead>
             <tr>
@@ -95,38 +72,34 @@ const Verify = () => {
               <th>Name</th>
               <th>Barangay</th>
               <th>Status</th>
-              <th>Actions</th>
+              {showVerified ? null : <th>Actions</th>} {/* Show actions only for unverified */}
             </tr>
           </thead>
           <tbody>
-            {(showVerified ? verifiedUsers : unverifiedUsers).map(user => (
-              <tr
-                key={user.uniqueId}
-                onClick={() => handleUserClick(user)}
-                className={user.isNewUser ? styles.newUser : ''}
-              >
+            {users.map((user) => (
+              <tr key={user.id} onClick={() => setSelectedUser(user)}>
                 <td>{user.uniqueId}</td>
                 <td>{user.firstName} {user.lastName}</td>
                 <td>{user.barangay}</td>
-                <td>{user.status || 'Unverified'}</td>
-                <td>
-                  <button className={styles.viewButton}>View</button>
-                </td>
+                <td>{user.isVerified ? 'Verified' : 'Unverified'}</td>
+                {showVerified ? null : (
+                  <td>
+                    <button onClick={handleVerify}>Verify</button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
         </table>
 
-        {selectedUser && (
+        {selectedUser && !showVerified && (
           <div className={styles.selectedUserDetails}>
             <h3>User Details</h3>
             <p><strong>ID:</strong> {selectedUser.uniqueId}</p>
             <p><strong>Name:</strong> {selectedUser.firstName} {selectedUser.lastName}</p>
             <p><strong>Barangay:</strong> {selectedUser.barangay}</p>
-            <p><strong>Status:</strong> {selectedUser.status || 'Unverified'}</p>
             <div className={styles.actionButtons}>
               <button className={styles.verifyButton} onClick={handleVerify}>Verify</button>
-              <button className={styles.rejectButton} onClick={handleReject}>Reject</button>
             </div>
           </div>
         )}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { collection, addDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore'; // Use setDoc for UID
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../firebase/firebaseConfig';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db, storage } from '../firebase/firebaseConfig';
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import upicon from '../imgs/upload.png';
@@ -31,6 +32,7 @@ const Registration = () => {
     disabilityCause: 'ADHD',
     bloodType: 'A',
     isVerified: false,
+    isDisabled: true, // Add field to mark account as disabled
   });
 
   const [files, setFiles] = useState({
@@ -41,11 +43,10 @@ const Registration = () => {
 
   const navigate = useNavigate();
 
-  //unique ID
   useEffect(() => {
     setFormData(prevData => ({
       ...prevData,
-      uniqueId: `PWD-${uuidv4()}`, 
+      uniqueID: `PWD-${uuidv4()}`,
     }));
   }, []);
 
@@ -55,6 +56,13 @@ const Registration = () => {
       ...prevFiles,
       [name]: files[0],
     }));
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleNextStep = () => {
@@ -81,36 +89,36 @@ const Registration = () => {
     if (event) {
       event.preventDefault();
     }
-  
+
     try {
-      const profileImageUrl = await uploadFile(files.profileImage, `profile-${uuidv4()}`);
-      const wholeBodyImageUrl = await uploadFile(files.wholeBodyImage, `wholeBody-${uuidv4()}`);
-      const medicalRecordUrl = await uploadFile(files.medicalRecord, `medicalRecord-${uuidv4()}`);
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+
+      const profileImageUrl = files.profileImage ? await uploadFile(files.profileImage, `profile-${uuidv4()}`) : null;
+      const wholeBodyImageUrl = files.wholeBodyImage ? await uploadFile(files.wholeBodyImage, `wholeBody-${uuidv4()}`) : null;
+      const medicalRecordUrl = files.medicalRecord ? await uploadFile(files.medicalRecord, `medicalRecord-${uuidv4()}`) : null;
 
       const completeData = {
         ...formData,
         profileImageUrl,
         wholeBodyImageUrl,
         medicalRecordUrl,
+        uid: user.uid, 
+        isDisabled: true, 
+        isVerified: false, 
       };
 
-      await addDoc(collection(db, 'registrations'), completeData);
-      alert('Registration successful!');
-      navigate('/');
+      await setDoc(doc(db, 'registrations', user.uid), completeData);
+
+      alert('Registration successful! Your account is currently disabled. Please wait for admin approval.');
+      navigate('/'); 
     } catch (error) {
-      console.error('Error saving document: ', error);
+      console.error('Error during registration: ', error);
     }
   };
 
   const handleLoginRedirect = () => {
     navigate('/login');
-  };
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
   };
 
   return (

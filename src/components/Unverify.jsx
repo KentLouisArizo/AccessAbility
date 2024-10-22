@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase/firebaseConfig';
+import { db, auth } from '../firebase/firebaseConfig'; // Ensure auth is imported from your Firebase config
+import { createUserWithEmailAndPassword } from 'firebase/auth'; // Use createUserWithEmailAndPassword
 import styles from './styles/Unverify.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import bellIcon from '../imgs/notification.png';
@@ -11,13 +12,15 @@ const Unverify = () => {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUser, setSelectedUser] = useState(null);
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'registrations'));
-        const usersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const usersList = querySnapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .filter((user) => !user.isVerified); // Fetch only unverified users
         setUsers(usersList);
       } catch (error) {
         console.error('Error fetching users: ', error);
@@ -28,8 +31,9 @@ const Unverify = () => {
   }, []);
 
   const handleSearch = () => {
-    const filteredUsers = users.filter(user =>
-      user.uniqueID.includes(searchTerm) || user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredUsers = users.filter((user) =>
+      user.uniqueId.includes(searchTerm) ||
+      user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUsers(filteredUsers);
   };
@@ -41,9 +45,23 @@ const Unverify = () => {
   const handleVerify = async () => {
     if (selectedUser) {
       const userRef = doc(db, 'registrations', selectedUser.id);
-      await updateDoc(userRef, { isVerified: true });
-      alert(`User ${selectedUser.uniqueID} verified`);
-      setUsers(users.filter(user => user.id !== selectedUser.id)); // Remove verified user from the list
+      try {
+        await createUserWithEmailAndPassword(auth, selectedUser.email, selectedUser.password);
+
+        await updateDoc(userRef, { isVerified: true, isDisabled: false });
+
+        alert(`User ${selectedUser.uniqueId} verified successfully`);
+
+        await updateDoc(userRef, { password: '' }); 
+
+        // Remove verified user from the list and clear selected user
+        setUsers(users.filter((user) => user.id !== selectedUser.id));
+        setSelectedUser(null);
+        
+      } catch (error) {
+        console.error('Error verifying user: ', error);
+        alert('There was an issue verifying the user or signing them in.');
+      }
     }
   };
 
@@ -84,9 +102,9 @@ const Unverify = () => {
             </tr>
           </thead>
           <tbody>
-            {users.filter(user => !user.isVerified).map(user => (
+            {users.map((user) => (
               <tr key={user.id} onClick={() => handleUserClick(user)}>
-                <td>{user.uniqueID}</td>
+                <td>{user.uniqueId}</td>
                 <td>{user.firstName} {user.lastName}</td>
                 <td>{user.barangay}</td>
                 <td>{user.isVerified ? 'Verified' : 'Unverified'}</td>
@@ -101,7 +119,7 @@ const Unverify = () => {
         {selectedUser && (
           <div className={styles.selectedUserDetails}>
             <h3>User Details</h3>
-            <p><strong>ID:</strong> {selectedUser.uniqueID}</p>
+            <p><strong>ID:</strong> {selectedUser.uniqueId}</p>
             <p><strong>Name:</strong> {selectedUser.firstName} {selectedUser.lastName}</p>
             <p><strong>Barangay:</strong> {selectedUser.barangay}</p>
             <div className={styles.actionButtons}>
@@ -110,7 +128,9 @@ const Unverify = () => {
           </div>
         )}
 
-        <button className={styles.switchButton} onClick={() => navigate('/verify')}>Go to Verified Users</button>
+        <button className={styles.switchButton} onClick={() => navigate('/verify')}>
+          Go to Verified Users
+        </button>
       </main>
     </div>
   );

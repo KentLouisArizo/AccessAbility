@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../firebase/firebaseConfig';
+import { auth, db, storage } from '../firebase/firebaseConfig';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'; // Import Firebase auth functions
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import upicon from '../imgs/upload.png';
@@ -33,6 +34,7 @@ const Registration = () => {
     disabilityCause: 'ADHD',
     bloodType: 'A',
     isVerified: false,
+    isDisabled: true, // Add disabled flag
   });
 
   const [files, setFiles] = useState({
@@ -45,15 +47,15 @@ const Registration = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      uniqueId: `RELATIVE-${uuidv4()}`, 
+      uniqueID: `RELATIVE-${uuidv4()}`, 
     }));
   }, []);
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setFiles(prevFiles => ({
+    setFiles((prevFiles) => ({
       ...prevFiles,
       [name]: files[0],
     }));
@@ -62,14 +64,14 @@ const Registration = () => {
   const handleDocumentChange = (e) => {
     const selectedOption = e.target.value;
     setSelectedDocument(selectedOption);
-    setShowOtherInput(selectedOption === 'others');
+    setShowOtherInput(selectedOption === 'others'); 
   };
 
   const handleNextStep = () => {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     } else {
-      handleSubmit();
+      handleSubmit(); 
     }
   };
 
@@ -80,6 +82,7 @@ const Registration = () => {
   };
 
   const uploadFile = async (file, fileName) => {
+    if (!file) return null; // Ensure file exists
     const fileRef = ref(storage, `uploads/${fileName}`);
     await uploadBytes(fileRef, file);
     return getDownloadURL(fileRef);
@@ -87,10 +90,15 @@ const Registration = () => {
 
   const handleSubmit = async (event) => {
     if (event) {
-      event.preventDefault();
+      event.preventDefault(); 
     }
-  
+
     try {
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+
+      await updateProfile(user, { displayName: `${formData.firstName} ${formData.lastName}` });
+
       const profileImageUrl = await uploadFile(files.profileImage, `profile-${uuidv4()}`);
       const wholeBodyImageUrl = await uploadFile(files.wholeBodyImage, `wholeBody-${uuidv4()}`);
       const medicalRecordUrl = await uploadFile(files.medicalRecord, `medicalRecord-${uuidv4()}`);
@@ -105,15 +113,16 @@ const Registration = () => {
       };
 
       await addDoc(collection(db, 'registrations'), completeData);
-      alert('Registration successful!');
-      navigate('/');
+      alert('Registration successful! Your account is currently disabled. Please contact the admin to enable your account.');
+      navigate('/'); 
     } catch (error) {
-      console.error('Error saving document: ', error);
+      console.error('Error during registration: ', error);
+      alert('An error occurred during registration. Please try again.'); // User-friendly error message
     }
   };
 
   const handleLoginRedirect = () => {
-    navigate('/login');
+    navigate('/login'); 
   };
 
   const handleChange = (e) => {

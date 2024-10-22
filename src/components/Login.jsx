@@ -2,21 +2,51 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './styles/Login.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../firebase/firebaseConfig';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (email === 'admin123@gmail.com' && password === 'admin123') {
-      navigate('/admin-dashboard');
-    } else if (email === 'user123@example.com' && password === 'user123') {
-      navigate('/user-dashboard');
-    } else {
-      alert('Invalid email or password');
+    try {
+      console.log('Attempting login with:', { email, password });
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Fetch user data from Firestore
+      const userDoc = await getDoc(doc(db, 'registrations', user.uid));
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+
+        // Check if the account is disabled
+        if (userData.isDisabled) {
+          alert('Your account is currently disabled. Please wait for admin approval.');
+          return; // Prevent login if the account is disabled
+        }
+
+        // Check if the user is verified
+        if (userData.isVerified) {
+          if (email === 'admin123@gmail.com') {
+            navigate('/admin-dashboard');
+          } else {
+            navigate('/user-dashboard');
+          }
+        } else {
+          alert('Your account is awaiting verification by the admin.');
+        }
+      } else {
+        alert('User data not found in Firestore.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Invalid email or password. Please try again.');
     }
   };
 
@@ -35,6 +65,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
+              required // Added required attribute
             />
           </div>
           <div>
@@ -46,6 +77,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              required // Added required attribute
             />
           </div>
           <button type="submit">Login</button>
@@ -53,7 +85,7 @@ const Login = () => {
         </form>
       </div>
       <p className={styles.centerText}>
-        Don't have an account? <Link to="/register">Sign Up</Link>
+        Don't have an account? <Link to="/">Sign Up</Link>
       </p>
     </div>
   );
