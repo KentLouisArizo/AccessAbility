@@ -48,11 +48,11 @@ const Unverify = () => {
       try {
         await createUserWithEmailAndPassword(auth, selectedUser.email, selectedUser.password);
 
-        await updateDoc(userRef, { isVerified: true, isDisabled: false });
+        await updateDoc(userRef, { isVerified: true });
+        await updateDoc(userRef, { isDisabled: false });
+        alert('Current isDisabled value:', selectedUser.isDisabled);
 
         alert(`User ${selectedUser.uniqueId} verified successfully`);
-
-        await updateDoc(userRef, { password: '' }); 
 
         // Remove verified user from the list and clear selected user
         setUsers(users.filter((user) => user.id !== selectedUser.id));

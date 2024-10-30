@@ -21,19 +21,19 @@ const Login = () => {
 
       // Fetch user data from Firestore
       const userDoc = await getDoc(doc(db, 'registrations', user.uid));
-
+      
       if (userDoc.exists()) {
         const userData = userDoc.data();
 
         // Check if the account is disabled
-        if (userData.isDisabled) {
+        if (userData.isVerified === false) {
           alert('Your account is currently disabled. Please wait for admin approval.');
           return; // Prevent login if the account is disabled
         }
 
         // Check if the user is verified
         if (userData.isVerified) {
-          if (email === 'admin123@gmail.com') {
+          if (email === 'admin123@gmail.com' && password === 'admin123') {
             navigate('/admin-dashboard');
           } else {
             navigate('/user-dashboard');

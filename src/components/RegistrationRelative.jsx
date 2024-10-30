@@ -34,7 +34,6 @@ const Registration = () => {
     disabilityCause: 'ADHD',
     bloodType: 'A',
     isVerified: false,
-    isDisabled: true, // Add disabled flag
   });
 
   const [files, setFiles] = useState({
