@@ -19,20 +19,51 @@ const Booklet = () => {
     if (file) {
       const { data: { text } } = await Tesseract.recognize(file, 'eng');
       setOcrText(text);
-
-      // Extract relevant fields from the OCR text
-      const extractedEntry = {
-        balance: text.match(/Balance:\s*(\S+)/)?.[1] || '',
-        productName: text.match(/Product Name:\s*(\S+)/)?.[1] || '',
-        quantity: text.match(/Quantity:\s*(\S+)/)?.[1] || '',
-        percentage: text.match(/Percentage:\s*(\S+)/)?.[1] || '',
-      };
-
-      // Check if the extracted entry has all necessary fields before adding
-      if (extractedEntry.balance && extractedEntry.productName && extractedEntry.quantity && extractedEntry.percentage) {
-        setEntries([...entries, extractedEntry]);
+      console.log("OCR Extracted Text:", text); // Log OCR text for debugging
+  
+      const tableHeaders = ["Balance", "Product Name", "Quantity", "Percentage"];
+      const lines = text.split('\n');
+      
+      // Try to find a header row for the table
+      const headerIndex = lines.findIndex(line => tableHeaders.every(header => line.includes(header)));
+  
+      if (headerIndex !== -1) {
+        // Process table rows starting after header
+        for (let i = headerIndex + 1; i < lines.length; i++) {
+          const row = lines[i].trim();
+          
+          // Split row based on whitespace or symbols commonly separating columns
+          const rowData = row.split(/\s{2,}|\||,/).map(cell => cell.trim()).filter(Boolean);
+          
+          if (rowData.length === 4) {
+            const [balance, productName, quantity, percentage] = rowData;
+            const entry = { balance, productName, quantity, percentage };
+            
+            if (balance && productName && quantity && percentage) {
+              setEntries(prevEntries => [...prevEntries, entry]);
+            }
+          }
+        }
       } else {
-        alert("The OCR text did not contain all necessary information for a valid entry.");
+        // Fallback to regex for individual fields, accounting for possible handwriting irregularities
+        const balanceMatch = text.match(/Balance[:\s]*([A-Za-z0-9.,]+)/i);
+        const productNameMatch = text.match(/Product Name[:\s]*([A-Za-z0-9.,]+)/i);
+        const quantityMatch = text.match(/Quantity[:\s]*([A-Za-z0-9.,]+)/i);
+        const percentageMatch = text.match(/Percentage[:\s]*([A-Za-z0-9.,]+)/i);
+  
+        const extractedEntry = {
+          balance: balanceMatch ? balanceMatch[1].trim() : '',
+          productName: productNameMatch ? productNameMatch[1].trim() : '',
+          quantity: quantityMatch ? quantityMatch[1].trim() : '',
+          percentage: percentageMatch ? percentageMatch[1].trim() : '',
+        };
+  
+        // Check if extracted entry is complete and valid
+        if (extractedEntry.balance && extractedEntry.productName && extractedEntry.quantity && extractedEntry.percentage) {
+          setEntries(prevEntries => [...prevEntries, extractedEntry]);
+        } else {
+          alert("The OCR text did not contain all necessary information for a valid entry.");
+        }
       }
       
       setOCRModalOpen(false);
