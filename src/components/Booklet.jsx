@@ -41,52 +41,47 @@ const Booklet = () => {
           });
       
           const status = jobStatus.data.job.status;
-          console.log('Current Job Status:', status);
+          console.log(`Current Job Status: ${status}`);
       
           if (status === 'completed') {
-            const pages = jobStatus.data.document?.inference?.pages || [];
-            
-            if (pages.length > 0) {
-              const predictions = pages[0].predictions || [];
-              
-              // Log the full prediction data for inspection
-              console.log('Full Prediction Data:', predictions);
+            console.log("Job completed, full response data:", jobStatus.data);
       
-              if (predictions.length > 0) {
-                // Attempt to extract fields dynamically
-                const prediction = predictions[0];
-                
-                const balance = prediction?.Balance?.value || 'N/A';
-                const productName = prediction?.['Product Name']?.value || 'N/A';
-                const quantity = prediction?.Quantity?.value || 'N/A';
-                const percentage = prediction?.Percentage?.value || 'N/A';
-                
-                console.log('Extracted Prediction:', { balance, productName, quantity, percentage });
+            const predictions = jobStatus.data?.document?.inference?.prediction;
       
-                if (balance !== 'N/A' || productName !== 'N/A' || quantity !== 'N/A' || percentage !== 'N/A') {
-                  const entry = { balance, productName, quantity, percentage };
-                  setEntries(prevEntries => [...prevEntries, entry]);
-                } else {
-                  console.warn("Values are empty or couldn't be found.");
-                }
-              } else {
-                console.warn("No predictions found in the completed response.");
-              }
+            if (predictions) {
+              console.log("Predictions data structure:", predictions);
+
+              // Access values from the first item in each prediction array
+              const balance = predictions.balance[0]?.value || '';
+              const productName = predictions.product_name[0]?.value || '';
+              const quantity = predictions.quantity[0]?.value || '';
+              const percentage = predictions.percentage[0]?.value || '';
+
+              const entry = { balance, productName, quantity, percentage };
+              setEntries(prevEntries => [...prevEntries, entry]);
+
+              setOcrText(`Balance: ${balance}, Product Name: ${productName}, Quantity: ${quantity}, Percentage: ${percentage}`);
             } else {
-              console.warn("No pages found in the inference object.");
+              console.warn("Predictions object is empty or missing.");
             }
+      
             setOCRModalOpen(false);
+          } else if (status === 'queued') {
+            console.log("Job is queued. Rechecking in 3 seconds...");
+            setTimeout(checkJobStatus, 3000);
+          } else if (status === 'running') {
+            console.log("Job is running. Rechecking in 2 seconds...");
+            setTimeout(checkJobStatus, 2000);
           } else if (status === 'waiting') {
             console.log("Job is waiting. Rechecking in 5 seconds...");
             setTimeout(checkJobStatus, 5000);
           } else {
-            console.warn(`Job did not complete successfully: ${status}`);
+            console.warn(`Unexpected job status: ${status}`);
           }
         } catch (error) {
           console.error("Error checking job status:", error);
         }
       };
-      
 
       checkJobStatus();
     } catch (error) {
@@ -94,36 +89,54 @@ const Booklet = () => {
     }
   };
 
+  const handleManualEntryChange = (e) => {
+    const { name, value } = e.target;
+    setManualEntry(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleManualEntrySubmit = () => {
+    setEntries(prevEntries => [...prevEntries, manualEntry]);
+    setManualEntry({ balance: '', productName: '', quantity: '', percentage: '' });
+    setManualEntryModalOpen(false);
+  };
+
+  const handlePrint = () => {
+    // Trigger print for the content to print
+    window.print();
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <h2>Virtual Booklet</h2>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <button onClick={() => window.print()}>Print</button>
+        <button onClick={handlePrint}>Print</button>
         <button onClick={() => setOCRModalOpen(true)}>Image to Text</button>
         <button onClick={() => setManualEntryModalOpen(true)}>Manual Entry</button>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr>
-            <th>Balance</th>
-            <th>Product Name</th>
-            <th>Quantity</th>
-            <th>Percentage</th>
-          </tr>
-        </thead>
-        <tbody>
-          {entries.map((entry, index) => (
-            <tr key={index}>
-              <td>{entry.balance}</td>
-              <td>{entry.productName}</td>
-              <td>{entry.quantity}</td>
-              <td>{entry.percentage}</td>
+      <div id="printable-area" style={{ width: '100%' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th>Balance</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Percentage</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {entries.map((entry, index) => (
+              <tr key={index}>
+                <td>{entry.balance}</td>
+                <td>{entry.productName}</td>
+                <td>{entry.quantity}</td>
+                <td>{entry.percentage}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* OCR Modal */}
       {isOCRModalOpen && (
@@ -141,6 +154,48 @@ const Booklet = () => {
               </div>
             )}
             <button onClick={() => setOCRModalOpen(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {/* Manual Entry Modal */}
+      {isManualEntryModalOpen && (
+        <div style={{
+          position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'
+        }}>
+          <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '5px', width: '300px' }}>
+            <h3>Manual Entry</h3>
+            <input
+              type="text"
+              name="balance"
+              placeholder="Balance"
+              value={manualEntry.balance}
+              onChange={handleManualEntryChange}
+            />
+            <input
+              type="text"
+              name="productName"
+              placeholder="Product Name"
+              value={manualEntry.productName}
+              onChange={handleManualEntryChange}
+            />
+            <input
+              type="number"
+              name="quantity"
+              placeholder="Quantity"
+              value={manualEntry.quantity}
+              onChange={handleManualEntryChange}
+            />
+            <input
+              type="number"
+              name="percentage"
+              placeholder="Percentage"
+              value={manualEntry.percentage}
+              onChange={handleManualEntryChange}
+            />
+            <button onClick={handleManualEntrySubmit}>Add Entry</button>
+            <button onClick={() => setManualEntryModalOpen(false)}>Close</button>
           </div>
         </div>
       )}
