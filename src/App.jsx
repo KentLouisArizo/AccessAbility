@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import HomepageNavbar from './components/HomepageNavbar';
 import AdminNavbar from './components/AdminNavbar';
 import UserNavbar from './components/UserNavbar';
 import Homepage from './components/Homepage';
@@ -9,7 +8,6 @@ import RegistrationPWD from './components/RegistrationPWD';
 import RegistrationRelative from './components/RegistrationRelative';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
-import Footer from './components/Footer';
 import IDCard from './components/IDCard';
 import UserAnnouncement from './components/UserAnnouncement';
 import Booklet from './components/Booklet';
@@ -31,7 +29,6 @@ const App = () => {
           <Route path="/user-announcement" element={<UserAnnouncement />} />
           <Route path="/virtual-booklet" element={<Booklet />} />
         </Routes>
-        <Footer />
       </div>
     </Router>
   );
@@ -39,14 +36,11 @@ const App = () => {
 
 const NavbarSwitcher = () => {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin-dashboard') || location.pathname.startsWith('/announcement') || location.pathname.startsWith('/filter') || location.pathname.startsWith('/print') || location.pathname.startsWith('/verify');
   const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id') || location.pathname.startsWith('/virtual-booklet');
 
   return (
     <>
-      {location.pathname === '/' || location.pathname.startsWith('/login') || location.pathname.startsWith('/register') ? (
-        <HomepageNavbar />
-      ) : isAdmin ? (
+      {location.pathname.startsWith('/login') || location.pathname.startsWith('/register') ? (
         <AdminNavbar userName="Daddy Pdf" />
       ) : isUser ? (
         <UserNavbar userName="User Name" />
