@@ -1,38 +1,71 @@
+html, body {
+  height: 100%; /* Ensure the height takes up the full viewport */
+  margin: 0; /* Remove default margin */
+  font-family: Arial, sans-serif; /* Set a clean font */
+  overflow: auto; /* Allow scrolling */
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
+  justify-content: center; /* Vertically center the form */
+  align-items: center; /* Horizontally center the form */
+  padding: 0px;
   background-color: #f0f0f0;
   min-height: 100vh;
+  position: relative; /* To ensure the logo positioning is relative to this container */
+  overflow: auto; /* Allow scrolling within the container */
 }
 
 .logo {
-  width: 150px;
-  margin-bottom: 20px;
+  position: absolute; /* Position the logo absolutely */
+  top: 20px;
+  left: 20px;
+  width: 250px;
+  filter: blur(1px); /* Apply a slight blur effect */
+  z-index: 10; /* Ensure the logo stays on top */
 }
 
-.formContainer {
+.logoonce {
+  position: absolute; /* Position the image absolutely relative to the container */
+  width: 250px;
+  filter: blur(5px);
+  top: 20px;
+  right: 20px; /* Position on the top-right */
+  z-index: 1; /* Behind the logo and form */
+}
+
+.formWrapper {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 30px;
   max-width: 800px;
   width: 100%;
+  text-align: left;
+  z-index: 5; /* Ensure the form stays on top of the images */
 }
 
 h2 {
   margin-top: 0;
+  font-size: 24px;
+  color: #8c2636;
+  font-weight: 600;
 }
 
 .formGroup {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center; /* Aligns label and input in a row */
+  justify-content: space-between; /* Ensures proper spacing between label and input */
 }
 
 label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  display: inline-block;
+  width: 35%; /* Adjust width of label */
+  margin-bottom: 0;
+  font-weight: 600;
+  color: #8c2636;
 }
 
 input[type="text"],
@@ -41,39 +74,49 @@ input[type="date"],
 input[type="email"],
 input[type="password"],
 select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  width: 60%; /* Adjust width of input to leave space for label */
+  padding: 12px;
+  border: 2px solid #8c2636;
+  border-radius: 40px;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
-select {
-  padding: 8px;
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+select:focus {
+  outline: none;
+  border-color: #ff8c94;
+  box-shadow: 0 0 5px rgba(140, 38, 54, 0.5);
 }
 
 .buttonContainer {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .leftButton,
 .rightButton {
-  background-color: #004d99;
+  background-color: #8c2636;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 12px 30px;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  max-width: 150px; /* Set a max-width to prevent buttons from being too wide */
-  width: auto; /* Allow buttons to be as wide as their content */
-  text-align: center; /* Center text inside the button */
+  width: auto;
+  text-align: center;
 }
 
 .leftButton:hover,
 .rightButton:hover {
-  background-color: #003366;
+  background-color: #ff5f6d;
+}
+
+.leftButton {
+  margin-right: 20px;
 }
 
 .uploadSection {
@@ -85,35 +128,35 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px; /* Space between upload items */
+  gap: 15px;
 }
 
 .uploadItem {
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between image and button */
+  gap: 10px;
   margin-bottom: 10px;
 }
 
 .icon {
-  width: 40px; /* Adjust size as needed */
-  height: 40px; /* Adjust size as needed */
+  width: 40px;
+  height: 40px;
 }
 
 .uploadButton {
-  background-color: #004d99;
+  background-color: #8c2636;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 12px 30px;
+  border-radius: 5px;
   cursor: pointer;
-  max-width: 200px; /* Set a max-width to prevent buttons from being too wide */
-  width: auto; /* Allow buttons to be as wide as their content */
-  text-align: center; /* Center text inside the button */
+  max-width: 200px;
+  width: auto;
+  text-align: center;
 }
 
 .uploadButton:hover {
-  background-color: #003366;
+  background-color: #ff5f6d;
 }
 
 .successMessage {
@@ -122,43 +165,11 @@ select {
 }
 
 .successMessage h1 {
-  color: #004d99;
+  color: #8c2636;
 }
 
 .successMessage p {
   font-size: 16px;
-}
-
-.formGroup {
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.formGroup label {
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.uploadItem .icon {
-  height: 25px;
-  margin-right: 10px;
-}
-
-/* Optional: Style the select dropdown */
-.formGroup select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-/* Optional: Style the text input for 'Others, Specify' */
-.formGroup input[type="text"] {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
 }
 
 .spinnerIcon {
@@ -168,10 +179,9 @@ select {
 .spinnerIconLarge {
   font-size: 50px;
   animation: spin 1s linear infinite;
-  color: #0077b6; /* Adjust color as needed */
+  color: #0077b6;
 }
 
-/* Loading Overlay */
 .loadingOverlay {
   position: fixed;
   top: 0;
@@ -185,7 +195,6 @@ select {
   z-index: 1000;
 }
 
-/* Error Message Styles */
 .errorMessage {
   color: #dc3545;
   background-color: #f8d7da;
@@ -195,29 +204,114 @@ select {
   text-align: center;
 }
 
-/* Keyframes for spinner animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-/* Upload Button Styles */
-.uploadButton {
-  padding: 8px 12px;
-  background-color: #0077b6;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+.imageGallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.imageCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 200px;
+  width: 100%;
+  text-align: center;
+}
+
+.imageCard img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.imageCard .caption {
+  padding: 10px;
   font-size: 14px;
+  color: #333;
 }
 
-.uploadButton:hover {
-  background-color: #005f99;
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+    overflow: auto; /* Enable scrolling if content overflows */
+  }
+
+  .formWrapper {
+    padding: 20px;
+    max-width: 100%;
+    overflow: auto; /* Enable scrolling if content exceeds form */
+  }
+
+  .logo {
+    width: 150px;
+  }
+
+  .logoonce {
+    width: 150px;
+  }
+
+  .formGroup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .formGroup label {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  input[type="email"],
+  input[type="password"],
+  select {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .leftButton,
+  .rightButton {
+    width: 100%;
+    padding: 12px 0;
+  }
+
+  .imageCard {
+    max-width: 100%;
+  }
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
+@media (max-width: 480px) {
+  .logo {
+    width: 120px;
+    top: 10px;
+    left: 10px;
+  }
+
+  .logoonce {
+    width: 120px;
+    top: 10px;
+    right: 10px;
+  }
+
   .uploadContainer {
     flex-direction: column;
   }
@@ -231,7 +325,17 @@ select {
     margin-bottom: 5px;
   }
 
-  .searchInput {
-    width: 100%;
+  .imageCard {
+    max-width: 100%;
+  }
+
+  .leftButton,
+  .rightButton {
+    font-size: 14px;
+  }
+
+  .container {
+    height: auto; /* Let the container height adjust with the content */
+    overflow-y: auto; /* Enable vertical scrolling */
   }
 }

@@ -7,6 +7,7 @@ import { auth, db, storage } from '../firebase/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'; // Import Firebase auth functions
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
+import vector from '../imgs/Vector.png';
 import upicon from '../imgs/upload.png';
 
 const Registration = () => {
@@ -132,10 +133,15 @@ const Registration = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
-      <div className={styles.formContainer}>
-        {currentStep === 1 && (
+    <div className={`${styles.container}`}>
+      <div className={`${styles.centeredContainer}`}>
+        <div className={styles.logoContainer}>
+          <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
+          <img src={vector} alt="Vector" className={styles.logoonce} />
+        </div>
+        <div className={styles.formWrapper}>
+          <div className={styles.stepContent}>
+          {currentStep === 1 && (
           <div>
             <h2>Step 1: Personal Information</h2>
             <div className={styles.formGroup}>
@@ -326,6 +332,8 @@ const Registration = () => {
             </div>
           </div>
         )}
+          </div>
+        </div>
       </div>
     </div>
   );

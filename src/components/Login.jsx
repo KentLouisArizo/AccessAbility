@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './styles/Login.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
+import vector from '../imgs/Vector.png';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../firebase/firebaseConfig';
 import { doc, getDoc } from 'firebase/firestore';
@@ -53,7 +54,10 @@ const Login = () => {
   return (
     <div className={styles.loginContainer}>
       <div className={styles.box}>
-        <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
+        <div className={styles.logoContainer}>
+          <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
+          <img src={vector} alt="Vector" className={styles.logoonce} />
+        </div>
         <h1>Login</h1>
         <form onSubmit={handleSubmit}>
           <div>

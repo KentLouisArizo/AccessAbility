@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth, db, storage } from '../firebase/firebaseConfig';
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
+import vector from '../imgs/Vector.png';
 import upicon from '../imgs/upload.png';
 
 const Registration = () => {
@@ -121,159 +122,166 @@ const Registration = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
-      <div className={styles.formContainer}>
-        {currentStep === 1 && (
-          <div>
-            <h2>Step 1: Personal Information</h2>
-            <div className={styles.formGroup}>
-              <label htmlFor="lastName">Last Name:</label>
-              <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" value={formData.lastName}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="firstName">First Name:</label>
-              <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" value={formData.firstName}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="middleName">Middle Name:</label>
-              <input type="text" id="middleName" name="middleName" placeholder="Enter your middle name" value={formData.middleName}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="suffix">Suffix:</label>
-              <input type="text" id="suffix" name="suffix" placeholder="Enter suffix (e.g., Jr., Sr.)" value={formData.suffix}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="age">Age:</label>
-              <input type="number" id="age" name="age" placeholder="Enter your age" value={formData.age}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email" placeholder="Enter your email" value={formData.email}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="mobileNo">Mobile No:</label>
-              <input type="text" id="mobileNo" name="mobileNo" placeholder="Enter your mobile number" value={formData.mobileNo}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="password">Password:</label>
-              <input type="password" id="password" name="password" placeholder="Enter your password" value={formData.password}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="confirmPassword">Confirm Password:</label>
-              <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" value={formData.confirmPassword}  onChange={handleChange} />
-            </div>
-            <div className={styles.buttonContainer}>
-              <button type="button" className={styles.leftButton} onClick={handleLoginRedirect}>Already have an account?</button>
-              <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
-            </div>
-          </div>
-        )}
-        {currentStep === 2 && (
-          <div>
-            <h2>Step 2: Personal Details</h2>
-            <div className={styles.formGroup}>
-              <label htmlFor="dob">Date of Birth:</label>
-              <input type="date" id="dob" name="dob" value={formData.dob}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="sex">Sex:</label>
-              <select id="sex" name="sex" value={formData.sex}  onChange={handleChange} >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="civilStatus">Civil Status:</label>
-              <select id="civilStatus" name="civilStatus" value={formData.civilStatus}  onChange={handleChange} >
-                <option value="single">Single</option>
-                <option value="married">Married</option>
-                <option value="widowed">Widowed</option>
-                <option value="divorced">Divorced</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="barangay">Barangay:</label>
-              <input type="text" id="barangay" name="barangay" placeholder="Enter your barangay" value={formData.barangay}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="municipality">Municipality:</label>
-              <input type="text" id="municipality" name="municipality" placeholder="Enter your municipality" value={formData.municipality}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="province">Province:</label>
-              <input type="text" id="province" name="province" placeholder="Enter your province" value={formData.province}  onChange={handleChange} />
-            </div>
-            <div className={styles.buttonContainer}>
-              <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-              <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
-            </div>
-          </div>
-        )}
-        {currentStep === 3 && (
-          <div>
-            <h2>Step 3: Disability Information & Upload Document</h2>
-            <div className={styles.formGroup}>
-              <label htmlFor="disabilityType">Type of Disability:</label>
-              <select id="disabilityType" name="disabilityType" value={formData.disabilityType}  onChange={handleChange} >
-                <option value="deaf">Deaf or Hard of Hearing</option>
-                <option value="intellectual">Intellectual Disability</option>
-                <option value="learning">Learning Disability</option>
-                <option value="mental">Mental Disability</option>
-                <option value="physical">Physical Disability(orthopedic)</option>
-                <option value="psychosocial">Psychosocial Disability</option>
-                <option value="speech">Speech and Language Impairment</option>
-                <option value="visual">Visual Disability</option>
-                <option value="cancer">Cancer(RA11215)</option>
-                <option value="disease">Rare Disease(RA10747)</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="disabilityCause">Cause of Disability:</label>
-              <select id="disabilityCause" name="disabilityCause" value={formData.disabilityCause}  onChange={handleChange} >
-                <optgroup label="Congenital/Inborn" value="congenital">
-                  <option value="adhd">ADHD</option>
-                  <option value="cerebral">Cerebral Palsy</option>
-                  <option value="down">Down Syndrome</option>
-                </optgroup>
-                <optgroup label="Acquired" value="acquired">
-                  <option value="chronic">Chronic Illness</option>
-                  <option value="cerebral">Cerebral Palsy</option>
-                  <option value="injury">Injury</option>
-                </optgroup>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="bloodType">Blood Type:</label>
-              <select id="bloodType" name="bloodType" value={formData.bloodType}  onChange={handleChange} >
-                <option value="a">A</option>
-                <option value="b">B</option>
-                <option value="ab">AB</option>
-                <option value="o">O</option>
-              </select>
-            </div>
-            <div className={styles.uploadSection}>
-              <div className={styles.uploadContainer}>
-                <div className={styles.uploadItem}>
-                  <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
-                  <input type="file" name="profileImage" onChange={handleFileChange} />
+    <div className={`${styles.container}`}>
+      <div className={`${styles.centeredContainer}`}>
+        <div className={styles.logoContainer}>
+          <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
+          <img src={vector} alt="Vector" className={styles.logoonce} />
+        </div>
+        <div className={styles.formWrapper}>
+          <div className={styles.stepContent}>
+            {currentStep === 1 && (
+              <div>
+                <h2>Step 1: Personal Information</h2>
+                <div className={styles.formGroup}>
+                  <label htmlFor="lastName" className={styles.label} >Last Name:</label>
+                  <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" value={formData.lastName}  onChange={handleChange} />
                 </div>
-                <div className={styles.uploadItem}>
-                  <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
-                  <input type="file" name="wholeBodyImage" onChange={handleFileChange} />
+                <div className={styles.formGroup}>
+                  <label htmlFor="firstName">First Name:</label>
+                  <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" value={formData.firstName}  onChange={handleChange} />
                 </div>
-                <div className={styles.uploadItem}>
-                  <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
-                  <input type="file" name="medicalRecord" onChange={handleFileChange} />
+                <div className={styles.formGroup}>
+                  <label htmlFor="middleName">Middle Name:</label>
+                  <input type="text" id="middleName" name="middleName" placeholder="Enter your middle name" value={formData.middleName}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="suffix">Suffix:</label>
+                  <input type="text" id="suffix" name="suffix" placeholder="Enter suffix (e.g., Jr., Sr.)" value={formData.suffix}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="age">Age:</label>
+                  <input type="number" id="age" name="age" placeholder="Enter your age" value={formData.age}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="email">Email:</label>
+                  <input type="email" id="email" name="email" placeholder="Enter your email" value={formData.email}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="mobileNo">Mobile No:</label>
+                  <input type="text" id="mobileNo" name="mobileNo" placeholder="Enter your mobile number" value={formData.mobileNo}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="password">Password:</label>
+                  <input type="password" id="password" name="password" placeholder="Enter your password" value={formData.password}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="confirmPassword">Confirm Password:</label>
+                  <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" value={formData.confirmPassword}  onChange={handleChange} />
+                </div>
+                <div className={styles.buttonContainer}>
+                  <button type="button" className={styles.leftButton} onClick={handleLoginRedirect}>Already have an account?</button>
+                  <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
                 </div>
               </div>
-            </div>
-            <div className={styles.buttonContainer}>
-              <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-              <button type="button" className={styles.rightButton} onClick={handleSubmit}>Submit</button>
-            </div>
+            )}
+            {currentStep === 2 && (
+              <div>
+                <h2>Step 2: Personal Details</h2>
+                <div className={styles.formGroup}>
+                  <label htmlFor="dob">Date of Birth:</label>
+                  <input type="date" id="dob" name="dob" value={formData.dob}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="sex">Sex:</label>
+                  <select id="sex" name="sex" value={formData.sex}  onChange={handleChange} >
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="civilStatus">Civil Status:</label>
+                  <select id="civilStatus" name="civilStatus" value={formData.civilStatus}  onChange={handleChange} >
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widowed">Widowed</option>
+                    <option value="divorced">Divorced</option>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="barangay">Barangay:</label>
+                  <input type="text" id="barangay" name="barangay" placeholder="Enter your barangay" value={formData.barangay}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="municipality">Municipality:</label>
+                  <input type="text" id="municipality" name="municipality" placeholder="Enter your municipality" value={formData.municipality}  onChange={handleChange} />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="province">Province:</label>
+                  <input type="text" id="province" name="province" placeholder="Enter your province" value={formData.province}  onChange={handleChange} />
+                </div>
+                <div className={styles.buttonContainer}>
+                  <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
+                  <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
+                </div>
+              </div>
+            )}
+            {currentStep === 3 && (
+              <div>
+                <h2>Step 3: Disability Information & Upload Document</h2>
+                <div className={styles.formGroup}>
+                  <label htmlFor="disabilityType">Type of Disability:</label>
+                  <select id="disabilityType" name="disabilityType" value={formData.disabilityType}  onChange={handleChange} >
+                    <option value="deaf">Deaf or Hard of Hearing</option>
+                    <option value="intellectual">Intellectual Disability</option>
+                    <option value="learning">Learning Disability</option>
+                    <option value="mental">Mental Disability</option>
+                    <option value="physical">Physical Disability(orthopedic)</option>
+                    <option value="psychosocial">Psychosocial Disability</option>
+                    <option value="speech">Speech and Language Impairment</option>
+                    <option value="visual">Visual Disability</option>
+                    <option value="cancer">Cancer(RA11215)</option>
+                    <option value="disease">Rare Disease(RA10747)</option>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="disabilityCause">Cause of Disability:</label>
+                  <select id="disabilityCause" name="disabilityCause" value={formData.disabilityCause}  onChange={handleChange} >
+                    <optgroup label="Congenital/Inborn" value="congenital">
+                      <option value="adhd">ADHD</option>
+                      <option value="cerebral">Cerebral Palsy</option>
+                      <option value="down">Down Syndrome</option>
+                    </optgroup>
+                    <optgroup label="Acquired" value="acquired">
+                      <option value="chronic">Chronic Illness</option>
+                      <option value="cerebral">Cerebral Palsy</option>
+                      <option value="injury">Injury</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="bloodType">Blood Type:</label>
+                  <select id="bloodType" name="bloodType" value={formData.bloodType}  onChange={handleChange} >
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="ab">AB</option>
+                    <option value="o">O</option>
+                  </select>
+                </div>
+                <div className={styles.uploadSection}>
+                  <div className={styles.uploadContainer}>
+                    <div className={styles.uploadItem}>
+                      <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
+                      <input type="file" name="profileImage" onChange={handleFileChange} />
+                    </div>
+                    <div className={styles.uploadItem}>
+                      <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
+                      <input type="file" name="wholeBodyImage" onChange={handleFileChange} />
+                    </div>
+                    <div className={styles.uploadItem}>
+                      <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
+                      <input type="file" name="medicalRecord" onChange={handleFileChange} />
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.buttonContainer}>
+                  <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
+                  <button type="button" className={styles.rightButton} onClick={handleSubmit}>Submit</button>
+                </div>
+              </div>
+            )}
           </div>
-        )}
+      </div>
       </div>
     </div>
   );

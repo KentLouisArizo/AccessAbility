@@ -11,6 +11,7 @@ import UserDashboard from './components/UserDashboard';
 import IDCard from './components/IDCard';
 import UserAnnouncement from './components/UserAnnouncement';
 import Booklet from './components/Booklet';
+import PasswordReset from './components/resetPassword';
 import './App.css';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/register-pwd" element={<RegistrationPWD />} />
           <Route path="/register-relative" element={<RegistrationRelative />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<PasswordReset />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/virtual-id" element={<IDCard />} />
@@ -40,7 +42,7 @@ const NavbarSwitcher = () => {
 
   return (
     <>
-      {location.pathname.startsWith('/login') || location.pathname.startsWith('/register') ? (
+      {location.pathname.startsWith('/admin-dashboard') ? (
         <AdminNavbar userName="Daddy Pdf" />
       ) : isUser ? (
         <UserNavbar userName="User Name" />
