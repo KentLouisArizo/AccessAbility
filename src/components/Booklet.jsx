@@ -93,15 +93,82 @@ const Booklet = () => {
     setManualEntry(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleProductNameChange = (event) => {
+    const { value } = event.target;
+    setManualEntry((prevEntry) => ({
+      ...prevEntry,
+      productName: value,
+    }));
+  
+    // Check if the product name exists in the table
+    const table = currentTable === 'medicine' ? medicineEntries : groceryEntries;
+  
+    // Filter the table for all entries that match the product name
+    const productEntries = table.filter(entry => entry.productName.toLowerCase() === value.toLowerCase());
+  
+    if (productEntries.length > 0) {
+      // Sort the entries by date (newest first) to get the most recent entry
+      const sortedEntries = productEntries.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date (latest first)
+      const mostRecentEntry = sortedEntries[0]; // Take the most recent entry
+  
+      // Calculate the balance by subtracting quantity from total
+      const totalBalance = parseFloat(mostRecentEntry.balance || 0) - parseFloat(mostRecentEntry.quantity || 0);
+      const discount = parseFloat(mostRecentEntry.discount || 0); // Fetch the discount as well
+  
+      // Set both balance and discount in the manual entry state
+      setManualEntry((prevEntry) => ({
+        ...prevEntry,
+        balance: totalBalance.toFixed(2), // Autofill balance with the most recent total
+        discount: discount.toFixed(2), // Autofill discount with the most recent discount
+      }));
+    } else {
+      // If no matching product is found, reset the balance and discount fields
+      setManualEntry((prevEntry) => ({
+        ...prevEntry,
+        balance: '', // Reset balance if no match is found
+        discount: '', // Reset discount if no match is found
+      }));
+    }
+  };
+  
   const handleManualEntrySubmit = () => {
-    const entry = { ...manualEntry };
-
-    addEntryToTable(entry);
-
+    const { productName, balance, quantity, discount, date, time } = manualEntry;
+  
+    // Validate balance before submitting
+    if (parseFloat(balance) <= 0) {
+      alert('Insufficient Balance');
+      return; // Prevent further actions if balance is zero or negative
+    }
+  
+    // Check if the product name exists in the current table
+    const table = currentTable === 'medicine' ? medicineEntries : groceryEntries;
+    const existingEntry = table.find(entry => entry.productName.toLowerCase() === productName.toLowerCase());
+  
+    if (existingEntry) {
+      // If the product exists, update the table by adding a new row with the new balance and other details
+      const newEntry = {
+        productName,
+        balance,
+        quantity,
+        discount,
+        date,
+        time,
+        totalBalance: (parseFloat(existingEntry.balance) - parseFloat(quantity)).toFixed(2), // New balance after deduction
+      };
+  
+      // Add new entry to the table (this will display as a new row)
+      addEntryToTable(newEntry);
+    } else {
+      // If the product doesn't exist, add a new entry with the initial details
+      const newEntry = { productName, balance, quantity, discount, date, time };
+      addEntryToTable(newEntry);
+    }
+  
+    // Clear the manual entry form after submission
     setManualEntry({ balance: '', productName: '', quantity: '', discount: '', date: '', time: '' });
     setManualEntryModalOpen(false);
-};
-
+  };
+  
   const addEntryToTable = (entry) => {
     const discount = parseFloat(entry.discount || 0);
     if (discount >= 20) {
@@ -139,19 +206,25 @@ const Booklet = () => {
               <th>Product Name</th>
               <th>Quantity</th>
               <th>Discount</th>
+              <th>Total</th> {/* New column for Total */}
             </tr>
           </thead>
           <tbody>
-            {(currentTable === 'medicine' ? medicineEntries : groceryEntries).map((entry, index) => (
-              <tr key={index}>
-                <td>{entry.date}</td>
-                <td>{entry.time}</td>
-                <td>{entry.balance}</td>
-                <td>{entry.productName}</td>
-                <td>{entry.quantity}</td>
-                <td>{entry.discount}</td>
-              </tr>
-            ))}
+            {(currentTable === 'medicine' ? medicineEntries : groceryEntries).map((entry, index) => {
+              // Calculate the Total (Balance - Quantity)
+              const total = parseFloat(entry.balance || 0) - parseFloat(entry.quantity || 0);
+              return (
+                <tr key={index}>
+                  <td>{entry.date}</td>
+                  <td>{entry.time}</td>
+                  <td>{entry.balance}</td>
+                  <td>{entry.productName}</td>
+                  <td>{entry.quantity}</td>
+                  <td>{entry.discount}</td>
+                  <td>{total}</td> {/* Display the Total */}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -196,7 +269,7 @@ const Booklet = () => {
               name="productName"
               placeholder="Product Name"
               value={manualEntry.productName}
-              onChange={handleManualEntryChange}
+              onChange={handleProductNameChange}
             />
             <input
               type="text"

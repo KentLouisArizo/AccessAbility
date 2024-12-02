@@ -1,18 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Filter from './Filter';
 import Verify from './Verify'; 
 import Reset from './Reset';
 import styles from '../components/styles/User.module.css';
 
-const User = () => {
-  const [activeTab, setActiveTab] = useState('filter');
-  const [showVerified, setShowVerified] = useState(false); 
+const User = ({ defaultTab = 'filter', defaultShowVerified = false, redirectUser = null }) => {
+  const [activeTab, setActiveTab] = useState(defaultTab);
+  const [showVerified, setShowVerified] = useState(defaultShowVerified);
+
+  useEffect(() => {
+    // Update states based on default props if provided
+    setActiveTab(defaultTab);
+    setShowVerified(defaultShowVerified);
+
+    // Redirect logic: if a redirectUser is provided, switch to Verify tab and show unverified users
+    if (redirectUser) {
+      setActiveTab('verify');
+      setShowVerified(false); // Ensure "Unverified Users" are displayed
+    }
+  }, [defaultTab, defaultShowVerified, redirectUser]);
+
   const renderContent = () => {
     switch (activeTab) {
       case 'filter':
         return <Filter />;
       case 'verify':
-        return <Verify showVerified={showVerified} setShowVerified={setShowVerified} />;
+        return (
+          <Verify
+            showVerified={showVerified}
+            setShowVerified={setShowVerified}
+            redirectUser={redirectUser} // Pass redirectUser to Verify
+          />
+        );
       case 'reset':
         return <Reset />;
       default:

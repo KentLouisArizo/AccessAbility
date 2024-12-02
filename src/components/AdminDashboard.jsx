@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { onSnapshot, collection, query, where } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import styles from './styles/AdminDashboard.module.css';
@@ -10,7 +11,7 @@ import logo from '../imgs/PDAOlogo.png';
 import notif from '../imgs/notification.png';
 import profile from '../imgs/profilelogo.png';
 
-// Test imports for tab content
+// Tab content components
 import PrintRecord from './PrintRecord';
 import Announcement from './Announcement';
 import GenerateReport from './GenerateReport';
@@ -22,14 +23,15 @@ const AdminDashboard = () => {
   const [showNotificationBox, setShowNotificationBox] = useState(false);
   const [verifiedUsersCount, setVerifiedUsersCount] = useState(0);
   const [unverifiedUsersCount, setUnverifiedUsersCount] = useState(0);
+  const [redirectUser, setRedirectUser] = useState(null); // To store user info for redirection
 
-  // Firestore listener for new document in registrations
+  // Firestore listener for new documents in registrations
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'registrations'), (snapshot) => {
       const newNotifications = [];
       snapshot.docChanges().forEach((change) => {
         if (change.type === 'added') {
-          newNotifications.push({
+          newNotifications.unshift({
             id: change.doc.id,
             ...change.doc.data(),
           });
@@ -70,12 +72,11 @@ const AdminDashboard = () => {
     fetchUserCounts();
   }, []);
 
-  const handleNotificationClick = () => {
-    setShowNotificationBox(!showNotificationBox);
-  };
-
-  const handleCloseNotificationBox = () => {
-    setShowNotificationBox(false);
+  // Handle clicking a notification to redirect
+  const handleNotificationClick = (user) => {
+    setRedirectUser(user); // Store user information
+    setActiveSection('user'); // Switch to "User" section
+    setShowNotificationBox(false); // Close the notification box
   };
 
   return (
@@ -83,43 +84,47 @@ const AdminDashboard = () => {
       <aside className={styles.sidebar}>
         <img src={logo} alt="AccessAbility Logo" className={styles.sidebarLogo} />
         <div className={styles.sidebarIcons}>
-          <div className={styles.notificationIconWrapper} onClick={handleNotificationClick}>
+          <div
+            className={styles.notificationIconWrapper}
+            onClick={() => setShowNotificationBox(!showNotificationBox)}
+          >
             <img src={notif} alt="Notifications" className={styles.icon} />
             {notifications.length > 0 && (
               <span className={styles.notificationBadge}>{notifications.length}</span>
             )}
           </div>
           <img src={profile} alt="Profile" className={styles.icon} />
+          <Link to="/">Logout</Link>
         </div>
         <div className={styles.navItems}>
-          <div 
+          <div
             className={`${styles.navItem} ${activeSection === 'dashboard' ? styles.active : ''}`}
             onClick={() => setActiveSection('dashboard')}
           >
             <span className={styles.navText}>Dashboard</span>
           </div>
-          <div 
+          <div
             className={`${styles.navItem} ${activeSection === 'user' ? styles.active : ''}`}
             onClick={() => setActiveSection('user')}
           >
             <img src={search} alt="User" className={styles.navIcon} />
             <span className={styles.navText}>User</span>
           </div>
-          <div 
+          <div
             className={`${styles.navItem} ${activeSection === 'print' ? styles.active : ''}`}
             onClick={() => setActiveSection('print')}
           >
             <img src={print} alt="Print Record" className={styles.navIcon} />
             <span className={styles.navText}>Print Record</span>
           </div>
-          <div 
+          <div
             className={`${styles.navItem} ${activeSection === 'announcement' ? styles.active : ''}`}
             onClick={() => setActiveSection('announcement')}
           >
             <img src={announcement} alt="Announcement" className={styles.navIcon} />
             <span className={styles.navText}>Announcement</span>
           </div>
-          <div 
+          <div
             className={`${styles.navItem} ${activeSection === 'report' ? styles.active : ''}`}
             onClick={() => setActiveSection('report')}
           >
@@ -132,14 +137,24 @@ const AdminDashboard = () => {
           <div className={styles.notificationDropdown}>
             <div className={styles.notificationHeader}>
               <h4>Notifications</h4>
-              <button onClick={handleCloseNotificationBox} className={styles.closeButton}>Close</button>
+              <button onClick={() => setShowNotificationBox(false)} className={styles.closeButton}>
+                Close
+              </button>
             </div>
             <div className={styles.notificationContent}>
               {notifications.length > 0 ? (
                 notifications.map((notification) => (
-                  <div key={notification.id} className={styles.notificationItem}>
-                    <p><strong>Name:</strong> {notification.firstName} {notification.lastName}</p>
-                    <p><strong>Email:</strong> {notification.email}</p>
+                  <div
+                    key={notification.id}
+                    className={styles.notificationItem}
+                    onClick={() => handleNotificationClick(notification)}
+                  >
+                    <p>
+                      <strong>Name:</strong> {notification.firstName} {notification.lastName}
+                    </p>
+                    <p>
+                      <strong>Email:</strong> {notification.email}
+                    </p>
                   </div>
                 ))
               ) : (
@@ -166,7 +181,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         )}
-        {activeSection === 'user' && <User />}
+        {activeSection === 'user' && <User redirectUser={redirectUser} />}
         {activeSection === 'print' && <PrintRecord />}
         {activeSection === 'announcement' && <Announcement />}
         {activeSection === 'report' && <GenerateReport />}

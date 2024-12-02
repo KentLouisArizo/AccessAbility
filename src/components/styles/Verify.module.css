@@ -173,3 +173,8 @@
 .rejectButton:hover {
   background-color: #c82333;
 }
+
+.highlightedRow {
+  background-color: #ffeeba; /* Light yellow highlight */
+  transition: background-color 0.3s ease;
+}

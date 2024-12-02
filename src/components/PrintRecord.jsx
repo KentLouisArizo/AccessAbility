@@ -64,7 +64,7 @@ const PrintRecord = () => {
                 .map(
                   (record) => `
                 <tr>
-                  <td>${record.uniqueId || 'N/A'}</td>
+                  <td>${record.uniqueID || 'N/A'}</td>
                   <td>${record.firstName} ${record.lastName}</td>
                   <td>${record.barangay}</td>
                   <td>${record.disabilityType || 'N/A'}</td>
@@ -154,7 +154,7 @@ const PrintRecord = () => {
             <tbody>
               {records.map((record) => (
                 <tr key={record.id}>
-                  <td>{record.uniqueId || 'N/A'}</td>
+                  <td>{record.uniqueID || 'N/A'}</td>
                   <td>
                     {record.firstName} {record.lastName}
                   </td>

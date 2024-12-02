@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import AdminNavbar from './components/AdminNavbar';
 import UserNavbar from './components/UserNavbar';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
@@ -12,6 +11,7 @@ import IDCard from './components/IDCard';
 import UserAnnouncement from './components/UserAnnouncement';
 import Booklet from './components/Booklet';
 import PasswordReset from './components/resetPassword';
+import Footer from './components/Footer';
 import './App.css';
 
 const App = () => {
@@ -31,6 +31,7 @@ const App = () => {
           <Route path="/user-announcement" element={<UserAnnouncement />} />
           <Route path="/virtual-booklet" element={<Booklet />} />
         </Routes>
+        <FooterSwitcher />
       </div>
     </Router>
   );
@@ -42,10 +43,25 @@ const NavbarSwitcher = () => {
 
   return (
     <>
-      {location.pathname.startsWith('/admin-dashboard') ? (
-        <AdminNavbar userName="Daddy Pdf" />
+      {location.pathname.startsWith('/user-dashboard') ? (
+        <UserNavbar userName="Daddy Pdf" />
       ) : isUser ? (
         <UserNavbar userName="User Name" />
+      ) : null}
+    </>
+  );
+};
+
+const FooterSwitcher = () => {
+  const location = useLocation();
+  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id') || location.pathname.startsWith('/virtual-booklet');
+
+  return (
+    <>
+      {location.pathname.startsWith('/user-dashboard') ? (
+        <Footer userName="Daddy Pdf" />
+      ) : isUser ? (
+        <Footer userName="User Name" />
       ) : null}
     </>
   );

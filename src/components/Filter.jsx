@@ -19,13 +19,13 @@ const Filter = () => {
     const fetchUsers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'registrations')); // Ensure the collection name is correct
-        const usersList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const usersList = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setUsers(usersList);
         setFilteredUsers(usersList); // Initialize filteredUsers with the complete user list
         // Extract unique barangays, disability types, and blood types
-        const uniqueBarangays = [...new Set(usersList.map(user => user.barangay))];
-        const uniqueDisabilityTypes = [...new Set(usersList.map(user => user.disabilityType))];
-        const uniqueBloodTypes = [...new Set(usersList.map(user => user.bloodType))];
+        const uniqueBarangays = [...new Set(usersList.map((user) => user.barangay))];
+        const uniqueDisabilityTypes = [...new Set(usersList.map((user) => user.disabilityType))];
+        const uniqueBloodTypes = [...new Set(usersList.map((user) => user.bloodType))];
 
         setBarangays(uniqueBarangays);
         setDisabilityTypes(uniqueDisabilityTypes);
@@ -39,8 +39,8 @@ const Filter = () => {
   }, []);
 
   const handleSearch = () => {
-    const filtered = users.filter(user => {
-      const userIdMatch = user.uniqueId && user.uniqueId.includes(searchTerm); // Check if uniqueId exists
+    const filtered = users.filter((user) => {
+      const userIdMatch = user.uniqueID && user.uniqueID.includes(searchTerm); // Check if uniqueId exists
       const nameMatch = user.firstName && user.firstName.toLowerCase().includes(searchTerm.toLowerCase()); // Check if firstName exists
       const barangayMatch = selectedBarangay ? user.barangay === selectedBarangay : true;
       const disabilityMatch = selectedDisabilityType ? user.disabilityType === selectedDisabilityType : true;
@@ -54,7 +54,7 @@ const Filter = () => {
   return (
     <div className={styles.filterContainer}>
       <h2 className={styles.title}>Filter Users</h2>
-      
+
       <div className={styles.searchBar}>
         <input
           type="text"
@@ -63,7 +63,9 @@ const Filter = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <button className={styles.searchButton} onClick={handleSearch}>Search</button>
+        <button className={styles.searchButton} onClick={handleSearch}>
+          Search
+        </button>
       </div>
 
       <div className={styles.filterOptions}>
@@ -74,7 +76,9 @@ const Filter = () => {
         >
           <option value="">Select Barangay</option>
           {barangays.map((barangay, index) => (
-            <option key={index} value={barangay}>{barangay}</option>
+            <option key={index} value={barangay}>
+              {barangay}
+            </option>
           ))}
         </select>
 
@@ -85,7 +89,9 @@ const Filter = () => {
         >
           <option value="">Select Disability Type</option>
           {disabilityTypes.map((type, index) => (
-            <option key={index} value={type}>{type}</option>
+            <option key={index} value={type}>
+              {type}
+            </option>
           ))}
         </select>
 
@@ -96,7 +102,9 @@ const Filter = () => {
         >
           <option value="">Select Blood Type</option>
           {bloodTypes.map((type, index) => (
-            <option key={index} value={type}>{type}</option>
+            <option key={index} value={type}>
+              {type}
+            </option>
           ))}
         </select>
       </div>
@@ -114,14 +122,16 @@ const Filter = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredUsers.map(user => (
-              <tr key={user.uniqueId}>
-                <td>{user.uniqueId}</td>
-                <td>{user.firstName} {user.lastName}</td>
-                <td>{user.barangay}</td>
+            {filteredUsers.map((user) => (
+              <tr key={user.id}>
+                <td>{user.uniqueID || 'N/A'}</td>
+                <td>
+                  {user.firstName} {user.lastName}
+                </td>
+                <td>{user.barangay || 'N/A'}</td>
                 <td>{user.disabilityType || 'N/A'}</td>
                 <td>{user.bloodType || 'N/A'}</td>
-                <td>{user.status || 'Unverified'}</td>
+                <td>{user.isVerified ? 'Verified' : 'Unverified'}</td>
               </tr>
             ))}
           </tbody>

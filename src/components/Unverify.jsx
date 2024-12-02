@@ -32,7 +32,7 @@ const Unverify = () => {
 
   const handleSearch = () => {
     const filteredUsers = users.filter((user) =>
-      user.uniqueId.includes(searchTerm) ||
+      user.uniqueID.includes(searchTerm) ||
       user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setUsers(filteredUsers);
@@ -52,7 +52,7 @@ const Unverify = () => {
         await updateDoc(userRef, { isDisabled: false });
         alert('Current isDisabled value:', selectedUser.isDisabled);
 
-        alert(`User ${selectedUser.uniqueId} verified successfully`);
+        alert(`User ${selectedUser.uniqueID} verified successfully`);
 
         // Remove verified user from the list and clear selected user
         setUsers(users.filter((user) => user.id !== selectedUser.id));
@@ -104,7 +104,7 @@ const Unverify = () => {
           <tbody>
             {users.map((user) => (
               <tr key={user.id} onClick={() => handleUserClick(user)}>
-                <td>{user.uniqueId}</td>
+                <td>{user.uniqueID}</td>
                 <td>{user.firstName} {user.lastName}</td>
                 <td>{user.barangay}</td>
                 <td>{user.isVerified ? 'Verified' : 'Unverified'}</td>
@@ -119,7 +119,7 @@ const Unverify = () => {
         {selectedUser && (
           <div className={styles.selectedUserDetails}>
             <h3>User Details</h3>
-            <p><strong>ID:</strong> {selectedUser.uniqueId}</p>
+            <p><strong>ID:</strong> {selectedUser.uniqueID}</p>
             <p><strong>Name:</strong> {selectedUser.firstName} {selectedUser.lastName}</p>
             <p><strong>Barangay:</strong> {selectedUser.barangay}</p>
             <div className={styles.actionButtons}>

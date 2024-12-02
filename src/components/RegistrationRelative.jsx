@@ -5,6 +5,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, db, storage } from '../firebase/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'; // Import Firebase auth functions
+import Select from 'react-select';
 import styles from './styles/Registration.module.css';
 import PDAOlogo from '../imgs/PDAOlogo.png';
 import vector from '../imgs/Vector.png';
@@ -31,7 +32,7 @@ const Registration = () => {
     barangay: '',
     municipality: '',
     province: '',
-    disabilityType: 'Deaf or Hard of Hearing',
+    disabilityType: [],
     disabilityCause: 'ADHD',
     bloodType: 'A',
     isVerified: false,
@@ -52,6 +53,54 @@ const Registration = () => {
       uniqueID: `RELATIVE-${uuidv4()}`, 
     }));
   }, []);
+
+  const barangays = [
+    'Abuno', 'Acmac', 'Bagong Silang', 'Bonbonon', 'Bunawan', 'Buru-un', 'Dalipuga', 'Del Carmen', 'Digkilaan', 'Ditucalan', 
+    'Dulag', 'Hinaplanon', 'Hindang', 'Kabacsanan', 'Kalilangan', 'Kiwalan', 'Lanipao', 'Luinab', 'Mahayahay', 'Mainit', 
+    'Mandulog', 'Maria Cristina', 'Palao', 'Panoroganan', 'Población', 'Puga-an', 'Rogongon', 'San Miguel', 'San Roque', 
+    'Santiago', 'Saray-Tibanga (Saray)', 'Santa Elena (Tominobo-Ilaya)', 'Santa Filomena', 'Santo Rosario', 'Suarez', 'Tambacan', 
+    'Tibanga (Canaway)', 'Tipanoy', 'Tomas Cabili', 'Tubod', 'Ubaldo Laya', 'Upper Hinaplanon', 'Upper Tominobo', 'Villaverde'
+  ];
+
+  const disabilityTypes = [
+    { value: 'deaf', label: 'Deaf or Hard of Hearing' },
+    { value: 'intellectual', label: 'Intellectual Disability' },
+    { value: 'learning', label: 'Learning Disability' },
+    { value: 'mental', label: 'Mental Disability' },
+    { value: 'physical', label: 'Physical Disability (Orthopedic)' },
+    { value: 'psychosocial', label: 'Psychosocial Disability' },
+    { value: 'speech', label: 'Speech and Language Impairment' },
+    { value: 'visual', label: 'Visual Disability' },
+    { value: 'cancer', label: 'Cancer (RA11215)' },
+    { value: 'disease', label: 'Rare Disease (RA10747)' },
+  ];
+
+  const handleDisabilityChange = (selectedOptions) => {
+    // Handle the multi-select of disabilities
+    const disabilityValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
+    setFormData(prevData => ({ ...prevData, disabilityType: disabilityValues }));
+  };
+
+  const barangayOptions = barangays.map(barangay => ({
+    value: barangay,
+    label: barangay
+  }));
+
+  const handleBarangayChange = (selectedOption) => {
+    const selectedBarangay = selectedOption.value;
+  
+    // Update the form data with the selected barangay
+    handleChange({ target: { name: 'barangay', value: selectedBarangay } });
+  
+    // Automatically update municipality and province based on the barangay selected
+    if (selectedBarangay) {
+      setFormData((prevData) => ({
+        ...prevData,
+        municipality: 'Iligan',   // Automatically set Municipality to Iligan
+        province: 'Lanao del Norte'  // Automatically set Province to Lanao del Norte
+      }));
+    }
+  };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
@@ -121,6 +170,24 @@ const Registration = () => {
     }
   };
 
+  const calculateAge = (dob) => {
+    const today = new Date();
+    const birthDate = new Date(dob);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+  
+    // If the current month is before the birth month, or it's the same month but before the birthday
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+      age--; // Reduce the age by 1
+    }
+  
+    // Update the formData with the calculated age
+    setFormData((prevData) => ({
+      ...prevData,
+      age: age,
+    }));
+  };  
+
   const handleLoginRedirect = () => {
     navigate('/login'); 
   };
@@ -161,10 +228,6 @@ const Registration = () => {
               <input type="text" id="suffix" name="suffix" placeholder="Enter suffix (e.g., Jr., Sr.)" value={formData.suffix}  onChange={handleChange} />
             </div>
             <div className={styles.formGroup}>
-              <label htmlFor="age">Age:</label>
-              <input type="number" id="age" name="age" placeholder="Enter your age" value={formData.age}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
               <label htmlFor="email">Email:</label>
               <input type="email" id="email" name="email" placeholder="Enter your email" value={formData.email}  onChange={handleChange} />
             </div>
@@ -186,111 +249,161 @@ const Registration = () => {
             </div>
           </div>
         )}
-        {currentStep === 2 && (
-          <div>
-            <h2>Step 2: Personal Details</h2>
-            <div className={styles.formGroup}>
-              <label htmlFor="dob">Date of Birth:</label>
-              <input type="date" id="dob" name="dob" value={formData.dob}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="sex">Sex:</label>
-              <select id="sex" name="sex" value={formData.sex}  onChange={handleChange} >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="civilStatus">Civil Status:</label>
-              <select id="civilStatus" name="civilStatus" value={formData.civilStatus}  onChange={handleChange} >
-                <option value="single">Single</option>
-                <option value="married">Married</option>
-                <option value="widowed">Widowed</option>
-                <option value="divorced">Divorced</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="barangay">Barangay:</label>
-              <input type="text" id="barangay" name="barangay" placeholder="Enter your barangay" value={formData.barangay}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="municipality">Municipality:</label>
-              <input type="text" id="municipality" name="municipality" placeholder="Enter your municipality" value={formData.municipality}  onChange={handleChange} />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="province">Province:</label>
-              <input type="text" id="province" name="province" placeholder="Enter your province" value={formData.province}  onChange={handleChange} />
-            </div>
-            <div className={styles.buttonContainer}>
-              <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-              <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
-            </div>
-          </div>
-        )}
-        {currentStep === 3 && (
-          <div>
-            <h2>Step 3: Disability Information & Upload Document</h2>
-            <div className={styles.formGroup}>
-              <label htmlFor="disabilityType">Type of Disability:</label>
-              <select id="disabilityType" name="disabilityType" value={formData.disabilityType}  onChange={handleChange} >
-                <option value="deaf">Deaf or Hard of Hearing</option>
-                <option value="intellectual">Intellectual Disability</option>
-                <option value="learning">Learning Disability</option>
-                <option value="mental">Mental Disability</option>
-                <option value="physical">Physical Disability(orthopedic)</option>
-                <option value="psychosocial">Psychosocial Disability</option>
-                <option value="speech">Speech and Language Impairment</option>
-                <option value="visual">Visual Disability</option>
-                <option value="cancer">Cancer(RA11215)</option>
-                <option value="disease">Rare Disease(RA10747)</option>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="disabilityCause">Cause of Disability:</label>
-              <select id="disabilityCause" name="disabilityCause" value={formData.disabilityCause}  onChange={handleChange} >
-                <optgroup label="Congenital/Inborn" value="congenital">
-                  <option value="adhd">ADHD</option>
-                  <option value="cerebral">Cerebral Palsy</option>
-                  <option value="down">Down Syndrome</option>
-                </optgroup>
-                <optgroup label="Acquired" value="acquired">
-                  <option value="chronic">Chronic Illness</option>
-                  <option value="cerebral">Cerebral Palsy</option>
-                  <option value="injury">Injury</option>
-                </optgroup>
-              </select>
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="bloodType">Blood Type:</label>
-              <select id="bloodType" name="bloodType" value={formData.bloodType}  onChange={handleChange} >
-                <option value="a">A</option>
-                <option value="b">B</option>
-                <option value="ab">AB</option>
-                <option value="o">O</option>
-              </select>
-            </div>
-            <div className={styles.uploadSection}>
-              <div className={styles.uploadContainer}>
-                <div className={styles.uploadItem}>
-                  <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
-                  <input type="file" name="profileImage" onChange={handleFileChange} />
+          {currentStep === 2 && (
+              <div>
+                <h2>Step 2: Personal Details</h2>
+                <div className={styles.formGroup}>
+                  <label htmlFor="dob">Date of Birth:</label>
+                  <input
+                    type="date"
+                    id="dob"
+                    name="dob"
+                    value={formData.dob}
+                    onChange={(e) => {
+                      handleChange(e); // Keep the handleChange for form handling
+                      calculateAge(e.target.value); // Calculate the age when DOB is changed
+                    }}
+                  />
                 </div>
-                <div className={styles.uploadItem}>
-                  <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
-                  <input type="file" name="wholeBodyImage" onChange={handleFileChange} />
+                <div className={styles.formGroup}>
+                  <label htmlFor="age">Age:</label>
+                  <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    placeholder="Enter your age"
+                    value={formData.age}
+                    onChange={handleChange}
+                    disabled
+                  />
                 </div>
-                <div className={styles.uploadItem}>
-                  <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
-                  <input type="file" name="medicalRecord" onChange={handleFileChange} />
+                <div className={styles.formGroup}>
+                  <label htmlFor="sex">Sex:</label>
+                  <select id="sex" name="sex" value={formData.sex} onChange={handleChange}>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="civilStatus">Civil Status:</label>
+                  <select id="civilStatus" name="civilStatus" value={formData.civilStatus} onChange={handleChange}>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="widowed">Widowed</option>
+                    <option value="divorced">Divorced</option>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="barangay">Barangay:</label>
+                  <Select
+                    id="barangay"
+                    name="barangay"
+                    options={barangayOptions}
+                    value={formData.barangay ? { value: formData.barangay, label: formData.barangay } : null}
+                    onChange={handleBarangayChange}  // Using the custom handler
+                    placeholder="Search Barangay"
+                    isSearchable
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="municipality">Municipality:</label>
+                  <input
+                    type="text"
+                    id="municipality"
+                    name="municipality"
+                    placeholder="Enter your municipality"
+                    value={formData.municipality || 'Iligan'}  // Automatically set to Iligan if not set
+                    onChange={handleChange}
+                    disabled  // Disabling the input so it is auto-filled
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="province">Province:</label>
+                  <input
+                    type="text"
+                    id="province"
+                    name="province"
+                    placeholder="Enter your province"
+                    value={formData.province || 'Lanao del Norte'}  // Automatically set to Lanao del Norte if not set
+                    onChange={handleChange}
+                    disabled  // Disabling the input so it is auto-filled
+                  />
+                </div>
+                <div className={styles.buttonContainer}>
+                  <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>
+                    Back
+                  </button>
+                  <button type="button" className={styles.rightButton} onClick={handleNextStep}>
+                    Next
+                  </button>
                 </div>
               </div>
-            </div>
-            <div className={styles.buttonContainer}>
-              <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
-              <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
-            </div>
-          </div>
-        )}
+            )}
+        {currentStep === 3 && (
+              <div>
+                <h2>Step 3: Disability Information & Upload Document</h2>
+                <div className={styles.formGroup}>
+                      <label htmlFor="disabilityType">Type of Disability:</label>
+                      <Select
+                        id="disabilityType"
+                        name="disabilityType"
+                        options={disabilityTypes}
+                        value={formData.disabilityType.map(disability => ({
+                          value: disability,
+                          label: disabilityTypes.find(type => type.value === disability).label
+                        }))}
+                        onChange={handleDisabilityChange}
+                        isMulti
+                        placeholder="Select Disability Types"
+                        className={styles.selectContainer}
+                      />
+                    </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="disabilityCause">Cause of Disability:</label>
+                  <select id="disabilityCause" name="disabilityCause" value={formData.disabilityCause}  onChange={handleChange} >
+                    <optgroup label="Congenital/Inborn" value="congenital">
+                      <option value="adhd">ADHD</option>
+                      <option value="cerebral">Cerebral Palsy</option>
+                      <option value="down">Down Syndrome</option>
+                    </optgroup>
+                    <optgroup label="Acquired" value="acquired">
+                      <option value="chronic">Chronic Illness</option>
+                      <option value="cerebral">Cerebral Palsy</option>
+                      <option value="injury">Injury</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="bloodType">Blood Type:</label>
+                  <select id="bloodType" name="bloodType" value={formData.bloodType}  onChange={handleChange} >
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="ab">AB</option>
+                    <option value="o">O</option>
+                  </select>
+                </div>
+                <div className={styles.uploadSection}>
+                  <div className={styles.uploadContainer}>
+                    <div className={styles.uploadItem}>
+                      <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
+                      <input type="file" name="profileImage" onChange={handleFileChange} />
+                    </div>
+                    <div className={styles.uploadItem}>
+                      <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
+                      <input type="file" name="wholeBodyImage" onChange={handleFileChange} />
+                    </div>
+                    <div className={styles.uploadItem}>
+                      <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
+                      <input type="file" name="medicalRecord" onChange={handleFileChange} />
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.buttonContainer}>
+                  <button type="button" className={styles.leftButton} onClick={handlePreviousStep}>Back</button>
+                  <button type="button" className={styles.rightButton} onClick={handleNextStep}>Next</button>
+                </div>
+              </div>
+            )}
         {currentStep === 4 && (
             <div>
               <h2>Step 4: Verify Relationship to PWD</h2>
