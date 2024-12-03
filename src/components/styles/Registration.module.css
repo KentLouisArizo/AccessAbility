@@ -76,7 +76,7 @@ input[type="password"],
 select {
   width: 60%; /* Adjust width of input to leave space for label */
   padding: 12px;
-  border: 2px solid #8c2636;
+  border: 2px solid #005f8a;
   border-radius: 40px;
   box-sizing: border-box;
   font-size: 16px;
@@ -87,7 +87,7 @@ input[type="number"]:focus,
 input[type="email"]:focus,
 select:focus {
   outline: none;
-  border-color: #ff8c94;
+  border-color: #017fb9;
   box-shadow: 0 0 5px rgba(140, 38, 54, 0.5);
 }
 
@@ -99,7 +99,7 @@ select:focus {
 
 .leftButton,
 .rightButton {
-  background-color: #8c2636;
+  background-color: #005f8a;
   color: white;
   border: none;
   padding: 12px 30px;
@@ -112,7 +112,7 @@ select:focus {
 
 .leftButton:hover,
 .rightButton:hover {
-  background-color: #ff5f6d;
+  background-color: #017fb9;
 }
 
 .leftButton {

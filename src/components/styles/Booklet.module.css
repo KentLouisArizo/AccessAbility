@@ -1,58 +1,105 @@
-.booklet-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* booklet.module.css */
+
+.container {
   padding: 20px;
 }
 
-.top-left {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+.header {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-.top-right {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
-.center-table {
-  margin-top: 80px;
-  width: 80%;
+.button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.center-table table {
+.button:hover {
+  background-color: #0056b3;
+}
+
+.tableContainer {
+  width: 100%;
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.center-table th, .center-table td {
+.table th,
+.table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
-.manual-entry {
-  margin-top: 20px;
+.table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.manual-entry input {
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 300px;
+}
+
+.modalInput {
+  width: 100%;
   padding: 8px;
-  margin-right: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.manual-entry button {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: #fff;
+.modalButton {
+  margin-top: 10px;
+  padding: 10px;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.manual-entry button:hover {
-  background-color: #0056b3;
+.modalButtonClose {
+  background-color: red;
+  color: white;
+}
+
+.modalButtonSubmit {
+  background-color: green;
+  color: white;
+}
+
+.ocrTextContainer {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 100px;
+  overflow-y: auto;
 }

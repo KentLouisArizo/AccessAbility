@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import styles from './styles/Booklet.module.css';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, addDoc, getDocs, query } from 'firebase/firestore';  // Add query import
 
 const Booklet = () => {
   const [isOCRModalOpen, setOCRModalOpen] = useState(false);
@@ -12,7 +15,29 @@ const Booklet = () => {
 
   const apiKey = 'a49fd44deb97df2eb9cddeaea0dd3845';
   const postApiUrl = 'https://api.mindee.net/v1/products/KentLouisArizo/booklet/v1/predict_async';
+  const auth = getAuth();
+  const db = getFirestore();
+  const currentUser = auth.currentUser;
 
+  useEffect(() => {
+    if (currentUser) {
+      const fetchEntries = async () => {
+        const userCollection = collection(db, 'users', currentUser.uid, currentTable);
+        const q = query(userCollection);  // Use query function here
+        const querySnapshot = await getDocs(q);
+
+        const entries = querySnapshot.docs.map((doc) => doc.data());
+        if (currentTable === 'medicine') {
+          setMedicineEntries(entries);
+        } else {
+          setGroceryEntries(entries);
+        }
+      };
+
+      fetchEntries();
+    }
+  }, [currentUser, currentTable, db]);
+  
   const handleOCR = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
@@ -130,7 +155,7 @@ const Booklet = () => {
       }));
     }
   };
-  
+
   const handleManualEntrySubmit = () => {
     const { productName, balance, quantity, discount, date, time } = manualEntry;
   
@@ -155,7 +180,7 @@ const Booklet = () => {
         time,
         totalBalance: (parseFloat(existingEntry.balance) - parseFloat(quantity)).toFixed(2), // New balance after deduction
       };
-  
+
       // Add new entry to the table (this will display as a new row)
       addEntryToTable(newEntry);
     } else {
@@ -168,36 +193,51 @@ const Booklet = () => {
     setManualEntry({ balance: '', productName: '', quantity: '', discount: '', date: '', time: '' });
     setManualEntryModalOpen(false);
   };
-  
-  const addEntryToTable = (entry) => {
-    const discount = parseFloat(entry.discount || 0);
-    if (discount >= 20) {
-      setMedicineEntries((prevEntries) => [...prevEntries, { ...entry, discount }]);
-    } else {
-      setGroceryEntries((prevEntries) => [...prevEntries, { ...entry, discount }]);
+
+  const addEntryToTable = async (entry) => {
+    const userCollection = collection(db, 'users', currentUser.uid, currentTable);
+    try {
+      await addDoc(userCollection, entry); // Add the entry to Firestore
+      if (currentTable === 'medicine') {
+        setMedicineEntries((prevEntries) => [...prevEntries, entry]);
+      } else {
+        setGroceryEntries((prevEntries) => [...prevEntries, entry]);
+      }
+    } catch (error) {
+      console.error("Error adding entry to Firestore:", error);
     }
   };
 
+  // Handle printing
   const handlePrint = () => {
-    window.print();
+    const content = document.getElementById('booklet-content');
+    const printWindow = window.open('', '', 'width=800, height=600');
+    printWindow.document.write('<html><head><title>Booklet Print</title></head><body>');
+    printWindow.document.write(content.innerHTML);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Virtual Booklet</h2>
+    <div className={styles.container}>
+      <h2 className={styles.header}>Virtual Booklet</h2>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-        <button onClick={handlePrint}>Print</button>
-        <button onClick={() => setOCRModalOpen(true)}>Image to Text</button>
-        <button onClick={() => setManualEntryModalOpen(true)}>Manual Entry</button>
-        <button onClick={() => setCurrentTable(currentTable === 'medicine' ? 'grocery' : 'medicine')}>
+      <div className={styles.buttonsContainer}>
+        <button className={styles.button} onClick={handlePrint}>Print</button>
+        <button className={styles.button} onClick={() => setOCRModalOpen(true)}>Image to Text</button>
+        <button className={styles.button} onClick={() => setManualEntryModalOpen(true)}>Manual Entry</button>
+        <button
+          className={styles.button}
+          onClick={() => setCurrentTable(currentTable === 'medicine' ? 'grocery' : 'medicine')}
+        >
           Switch to {currentTable === 'medicine' ? 'Grocery' : 'Medicine'} Table
         </button>
       </div>
 
-      <div id="printable-area" style={{ width: '100%' }}>
+      <div id="printable-area" className={styles.tableContainer}>
         <h3>{currentTable === 'medicine' ? 'Medicine' : 'Grocery'} Table</h3>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table className={styles.table}>
           <thead>
             <tr>
               <th>Date</th>
@@ -206,12 +246,11 @@ const Booklet = () => {
               <th>Product Name</th>
               <th>Quantity</th>
               <th>Discount</th>
-              <th>Total</th> {/* New column for Total */}
+              <th>Total</th>
             </tr>
           </thead>
           <tbody>
             {(currentTable === 'medicine' ? medicineEntries : groceryEntries).map((entry, index) => {
-              // Calculate the Total (Balance - Quantity)
               const total = parseFloat(entry.balance || 0) - parseFloat(entry.quantity || 0);
               return (
                 <tr key={index}>
@@ -221,7 +260,7 @@ const Booklet = () => {
                   <td>{entry.productName}</td>
                   <td>{entry.quantity}</td>
                   <td>{entry.discount}</td>
-                  <td>{total}</td> {/* Display the Total */}
+                  <td>{total}</td>
                 </tr>
               );
             })}
@@ -229,37 +268,30 @@ const Booklet = () => {
         </table>
       </div>
 
-      {/* OCR Modal */}
       {isOCRModalOpen && (
-        <div style={{
-          position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'
-        }}>
-          <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '5px', width: '300px' }}>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
             <h3>Image to Text</h3>
             <input type="file" onChange={handleOCR} />
             {ocrText && (
-              <div style={{ marginTop: '10px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', maxHeight: '100px', overflowY: 'auto' }}>
+              <div className={styles.ocrTextContainer}>
                 <strong>Extracted Text:</strong>
                 <p>{ocrText}</p>
               </div>
             )}
-            <button onClick={() => setOCRModalOpen(false)}>Close</button>
+            <button className={`${styles.modalButton} ${styles.modalButtonClose}`} onClick={() => setOCRModalOpen(false)}>Close</button>
           </div>
         </div>
       )}
 
-      {/* Manual Entry Modal */}
       {isManualEntryModalOpen && (
-        <div style={{
-          position: 'fixed', top: '0', left: '0', width: '100%', height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center'
-        }}>
-          <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '5px', width: '300px' }}>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
             <h3>Manual Entry</h3>
             <input
               type="text"
               name="balance"
+              className={styles.modalInput}
               placeholder="Balance"
               value={manualEntry.balance}
               onChange={handleManualEntryChange}
@@ -267,6 +299,7 @@ const Booklet = () => {
             <input
               type="text"
               name="productName"
+              className={styles.modalInput}
               placeholder="Product Name"
               value={manualEntry.productName}
               onChange={handleProductNameChange}
@@ -274,6 +307,7 @@ const Booklet = () => {
             <input
               type="text"
               name="quantity"
+              className={styles.modalInput}
               placeholder="Quantity"
               value={manualEntry.quantity}
               onChange={handleManualEntryChange}
@@ -281,6 +315,7 @@ const Booklet = () => {
             <input
               type="text"
               name="discount"
+              className={styles.modalInput}
               placeholder="Discount"
               value={manualEntry.discount}
               onChange={handleManualEntryChange}
@@ -288,6 +323,7 @@ const Booklet = () => {
             <input
               type="date"
               name="date"
+              className={styles.modalInput}
               placeholder="Date"
               value={manualEntry.date}
               onChange={handleManualEntryChange}
@@ -295,12 +331,23 @@ const Booklet = () => {
             <input
               type="time"
               name="time"
+              className={styles.modalInput}
               placeholder="Time"
               value={manualEntry.time}
               onChange={handleManualEntryChange}
             />
-            <button onClick={handleManualEntrySubmit}>Submit</button>
-            <button onClick={() => setManualEntryModalOpen(false)}>Close</button>
+            <button
+              className={`${styles.modalButton} ${styles.modalButtonSubmit}`}
+              onClick={handleManualEntrySubmit}
+            >
+              Submit
+            </button>
+            <button
+              className={`${styles.modalButton} ${styles.modalButtonClose}`}
+              onClick={() => setManualEntryModalOpen(false)}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

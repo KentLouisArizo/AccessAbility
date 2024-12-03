@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles/ResetPassword.module.css';
+import { Link } from 'react-router-dom';
 
 const ResetPassword = () => {
   return (
@@ -10,7 +11,7 @@ const ResetPassword = () => {
           If you’ve forgotten your password, please contact the admin by filling out the form below. We will review
           your request and get back to you as soon as possible.
         </p>
-        <form>
+        <form className={styles.forms}>
           <div>
             <label htmlFor="email">Email:</label>
             <input
@@ -30,6 +31,7 @@ const ResetPassword = () => {
             ></textarea>
           </div>
           <button type="submit">Send Message</button>
+          <Link to="/">Go Back</Link>
         </form>
       </div>
     </div>

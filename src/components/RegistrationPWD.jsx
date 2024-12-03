@@ -374,16 +374,19 @@ const Registration = () => {
                 <div className={styles.uploadSection}>
                   <div className={styles.uploadContainer}>
                     <div className={styles.uploadItem}>
-                      <img src={upicon} alt="Upload 1x1 Icon" className={styles.icon} />
+                      <img src={upicon} alt="Upload Profile Icon" className={styles.icon} />
                       <input type="file" name="profileImage" onChange={handleFileChange} />
+                      <p className={styles.uploadText}>Upload 1x1 Profile Picture</p>
                     </div>
                     <div className={styles.uploadItem}>
                       <img src={upicon} alt="Upload Whole Body Icon" className={styles.icon} />
                       <input type="file" name="wholeBodyImage" onChange={handleFileChange} />
+                      <p className={styles.uploadText}>Upload Whole Body Image</p>
                     </div>
                     <div className={styles.uploadItem}>
                       <img src={upicon} alt="Upload Medical Record Icon" className={styles.icon} />
                       <input type="file" name="medicalRecord" onChange={handleFileChange} />
+                      <p className={styles.uploadText}>Upload Medical Record</p>
                     </div>
                   </div>
                 </div>

@@ -1,95 +1,72 @@
 .cardContainer {
-    max-width: 400px;
-    margin: 0 auto;
-    background: #b33652; /* Solid maroon background */
-    border-radius: 20px;
-    overflow: hidden;
-    padding: 20px;
-    text-align: center;
-    color: #ffffff;
-    position: relative;
-  }
-  
-  .logo {
-    width: 80px;
-    margin-bottom: 20px;
-  }
-  
-  .cardContent {
-    background-color: white; /* White background for the content */
-    padding: 60px 20px 20px;
-    border-radius: 15px;
-    color: #b33652;
-    text-align: center;
-    margin-top: -40px; /* To lift content closer to the profile picture */
-  }
-  
-  .profilePicture {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin: 0 auto;
-    border: 5px solid #ffffff;
-    background-color: #b33652; /* Center maroon color under profile picture */
-    position: relative;
-    top: -50px; /* Centers the profile picture */
-  }
-  
-  .name {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 10px 0 5px 0;
-  }
-  
-  .title {
-    font-size: 14px;
-    margin-bottom: 20px;
-    font-weight: 300;
-    color: #7d7d7d; /* Slightly gray color for the subtitle */
-  }
-  
-  .details {
-    text-align: left;
-    margin-top: 20px;
-  }
-  
-  .detailItem {
-    display: flex;
-    justify-content: space-between;
-    margin: 5px 0;
-  }
-  
-  .label {
-    font-weight: bold;
-    font-size: 14px;
-  }
-  
-  .value {
-    font-size: 14px;
-  }
-  
-  .validity {
-    margin-top: 20px;
-    font-size: 12px;
-    color: #7d7d7d;
-  }
-  
-  .nextButton {
-    background: transparent;
-    color: #b33652;
-    border: 2px solid #b33652;
-    border-radius: 25px;
-    padding: 8px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    transition: 0.3s;
-  }
-  
-  .nextButton:hover {
-    background: #b33652;
-    color: #ffffff;
-  }
-  
+  max-width: 400px;
+  margin: 0 auto;
+  background: #004d99; /* Solid maroon background */
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  color: #ffffff;
+  position: relative;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.logo {
+  width: 70px;
+  margin: 10px auto 20px;
+}
+
+.cardContent {
+  background-color: #ffffff; /* White background for the inner content */
+  border-radius: 10px;
+  padding: 30px 20px; /* Adjusted padding */
+  color: #004d99;
+  text-align: center;
+  position: relative;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 10px; /* Adjusted spacing */
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 400;
+  color: #7d7d7d; /* Light gray for the subtitle */
+  margin-bottom: 15px;
+}
+
+.details {
+  text-align: left;
+  margin-top: 20px;
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0; /* Light divider between items */
+}
+
+.detailItem:last-child {
+  border-bottom: none; /* Remove border for the last item */
+}
+
+.label {
+  font-weight: 500;
+  color: #004d99;
+}
+
+.value {
+  font-weight: 400;
+}
+
+.validity {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #7d7d7d;
+  font-style: italic;
+}
