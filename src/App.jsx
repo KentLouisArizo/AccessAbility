@@ -12,6 +12,7 @@ import UserAnnouncement from './components/UserAnnouncement';
 import Booklet from './components/Booklet';
 import PasswordReset from './components/resetPassword';
 import Footer from './components/Footer';
+import EditProfile from './components/EditProfile';
 import './App.css';
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/virtual-id" element={<IDCard />} />
           <Route path="/user-announcement" element={<UserAnnouncement />} />
           <Route path="/virtual-booklet" element={<Booklet />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Routes>
         <FooterSwitcher />
       </div>
@@ -39,7 +41,7 @@ const App = () => {
 
 const NavbarSwitcher = () => {
   const location = useLocation();
-  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id') || location.pathname.startsWith('/virtual-booklet');
+  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id') || location.pathname.startsWith('/virtual-booklet') || location.pathname.startsWith('/edit-profile');
 
   return (
     <>
@@ -54,7 +56,7 @@ const NavbarSwitcher = () => {
 
 const FooterSwitcher = () => {
   const location = useLocation();
-  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id') || location.pathname.startsWith('/virtual-booklet');
+  const isUser = location.pathname.startsWith('/user-dashboard') || location.pathname.startsWith('/user-announcement') || location.pathname.startsWith('/virtual-id') || location.pathname.startsWith('/virtual-booklet') || location.pathname.startsWith('/edit-profile');
 
   return (
     <>

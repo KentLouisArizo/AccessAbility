@@ -1,0 +1,204 @@
+/* Container for the entire profile edit section */
+.editProfileContainer {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .editProfileContainer h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  
+/* Profile image container */
+.profileImageContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Profile image styling */
+  .profileImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    margin-bottom: 10px;
+  }
+  
+  /* Hidden file input */
+  .imageUploadInput {
+    display: none; /* Hide default file input */
+  }
+  
+  /* Upload button styling */
+  .profileImageContainer label {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #007bff;
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .profileImageContainer label:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  
+  .profileImageContainer img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #ccc;
+  }
+  
+  .profileImageContainer input {
+    display: none; /* Hide default file input */
+  }
+  
+  .profileImageContainer label {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .profileImageContainer label:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Styling for the form */
+  .editProfileForm {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .formRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    max-width: 600px; /* Limit the width for better alignment */
+    margin: 0 auto; /* Center the rows horizontally */
+  }
+  
+  .formRow label {
+    flex: 0 0 180px; /* Set consistent label width for uniform alignment */
+    font-weight: 600;
+    color: #555;
+    text-align: left; /* Left-align labels */
+  }
+  
+  .formRow input,
+  .formRow select {
+    flex: 1;
+    max-width: 300px;
+    width: 100%; /* Make all fields the same size */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .formRow input:focus,
+  .formRow select:focus {
+    border-color: #007bff;
+  }
+  
+  .mobileFieldRow {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .mobileFieldRow label,
+  .mobileFieldRow input {
+    flex: 1;
+    max-width: 300px;
+    padding: 10px;
+  }
+  
+  /* Submit button */
+  .submitButton {
+    margin-top: 20px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submitButton:hover {
+    background-color: #218838;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .editProfileContainer {
+      padding: 15px;
+    }
+  
+    .formRow {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .formRow label {
+      width: 100%;
+      margin-bottom: 5px;
+    }
+  
+    .submitButton {
+      font-size: 0.9rem;
+    }
+  
+    .profileImageContainer img {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .editProfileContainer {
+      padding: 10px;
+    }
+  
+    .editProfileContainer h2 {
+      font-size: 1.5rem;
+    }
+  }
+  

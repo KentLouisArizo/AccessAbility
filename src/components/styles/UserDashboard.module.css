@@ -54,6 +54,32 @@
   outline-offset: 2px;
 }
 
+.profileImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profileImage {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.userName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.disability, .pwdId {
+  font-size: 1rem;
+  text-align: center;
+  color: #ffffff;
+}
 
 @media (max-width: 768px) {
   .mainContent {
