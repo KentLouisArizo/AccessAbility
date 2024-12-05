@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { onSnapshot, collection, query, where } from 'firebase/firestore';
+import { onSnapshot, collection, query, where, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import styles from './styles/AdminDashboard.module.css';
 import search from '../imgs/filter.png';
@@ -29,20 +29,22 @@ const AdminDashboard = () => {
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'registrations'), (snapshot) => {
       const newNotifications = [];
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === 'added') {
-          newNotifications.unshift({
-            id: change.doc.id,
-            ...change.doc.data(),
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (!data.isRead) {
+          // Only include unread notifications
+          newNotifications.push({
+            id: doc.id,
+            ...data,
           });
         }
       });
-      setNotifications((prev) => [...newNotifications, ...prev]);
+      setNotifications(newNotifications);
     });
-
+  
     return () => unsub();
   }, []);
-
+  
   // Fetch and count verified and unverified users
   useEffect(() => {
     const fetchUserCounts = async () => {
@@ -72,12 +74,40 @@ const AdminDashboard = () => {
     fetchUserCounts();
   }, []);
 
-  // Handle clicking a notification to redirect
-  const handleNotificationClick = (user) => {
-    setRedirectUser(user); // Store user information
+// Handle clicking a notification to redirect and mark as read
+const handleNotificationClick = async (notification) => {
+  try {
+    // Mark notification as read in Firestore
+    const notificationRef = doc(db, 'registrations', notification.id);
+    await updateDoc(notificationRef, { isRead: true });
+
+    // Remove from unread notifications and redirect
+    setNotifications((prevNotifications) =>
+      prevNotifications.filter((notif) => notif.id !== notification.id)
+    );
+    setRedirectUser(notification); // Store user information for redirection
     setActiveSection('user'); // Switch to "User" section
     setShowNotificationBox(false); // Close the notification box
-  };
+  } catch (error) {
+    console.error('Error handling notification click:', error);
+  }
+};
+
+const markAsRead = async (notificationId) => {
+  try {
+    const notificationRef = doc(db, 'registrations', notificationId);
+    await updateDoc(notificationRef, { isRead: true }); // Update Firestore
+
+    // Update the local notifications array to reflect the read status
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notif) =>
+        notif.id === notificationId ? { ...notif, isRead: true } : notif
+      )
+    );
+  } catch (error) {
+    console.error('Error marking notification as read:', error);
+  }
+};
 
   return (
     <div className={styles.dashboardContainer}>
@@ -94,7 +124,6 @@ const AdminDashboard = () => {
             )}
           </div>
           <img src={profile} alt="Profile" className={styles.icon} />
-          <Link to="/">Logout</Link>
         </div>
         <div className={styles.navItems}>
           <div
@@ -131,8 +160,12 @@ const AdminDashboard = () => {
             <img src={report} alt="Generate Report" className={styles.navIcon} />
             <span className={styles.navText}>Generate Report</span>
           </div>
+          <div
+            className={`${styles.navItem}`}
+          >
+            <Link to="/" className={styles.text}>Logout</Link>
+          </div>
         </div>
-
         {showNotificationBox && (
           <div className={styles.notificationDropdown}>
             <div className={styles.notificationHeader}>
@@ -147,7 +180,7 @@ const AdminDashboard = () => {
                   <div
                     key={notification.id}
                     className={styles.notificationItem}
-                    onClick={() => handleNotificationClick(notification)}
+                    onClick={() => handleNotificationClick(notification)} // Click to redirect and mark as read
                   >
                     <p>
                       <strong>Name:</strong> {notification.firstName} {notification.lastName}
@@ -155,6 +188,15 @@ const AdminDashboard = () => {
                     <p>
                       <strong>Email:</strong> {notification.email}
                     </p>
+                    <button
+                      className={styles.markAsReadButton}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering the redirect
+                        markAsRead(notification.id);
+                      }}
+                    >
+                      Mark as Read
+                    </button>
                   </div>
                 ))
               ) : (

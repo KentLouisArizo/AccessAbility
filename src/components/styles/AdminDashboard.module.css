@@ -12,6 +12,10 @@
   flex-direction: column;
 }
 
+.text{
+  color: #f0f0f0;
+}
+
 .sidebarLogo {
   height: auto;
 }
@@ -151,7 +155,7 @@
   width: 300px;
   max-height: 300px; 
   overflow-y: auto;  
-  background-color: #0077b6;
+  background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
