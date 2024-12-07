@@ -76,20 +76,26 @@ const Booklet = () => {
             console.log("Predictions object:", predictions);
 
             if (predictions) {
-              const balance = predictions.balance?.[0]?.value || '';
+              const balance = parseFloat(predictions.balance?.[0]?.value || '0'); // Parse balance as a float
               const productName = predictions.product_name?.[0]?.value || '';
-              const quantity = predictions.quantity?.[0]?.value || '';
-              const discount = predictions.discount?.[0]?.value || '';
+              const quantity = parseFloat(predictions.quantity?.[0]?.value || '0');
+              let discount = parseFloat(predictions.discount?.[0]?.value || '0'); // Initialize discount
               const date = predictions.date ? predictions.date[0]?.value || new Date().toLocaleDateString() : new Date().toLocaleDateString();
               const time = predictions.time ? predictions.time[0]?.value || new Date().toLocaleTimeString() : new Date().toLocaleTimeString();
-
+            
+              // Check if balance is 0
+              if (balance === 0) {
+                discount = 0; // Set discount to 0 if balance is 0
+                alert('Balance is 0. The discount has been set to 0.');
+              }
+            
               const entry = { balance, productName, quantity, discount, date, time };
-
+            
               addEntryToTable(entry);
-
+            
               setOcrText(`Balance: ${balance}, Product Name: ${productName}, Quantity: ${quantity}, Discount: ${discount}, Date: ${date}, Time: ${time}`);
             } else {
-              console.warn("Predictions object is null or undefined.");
+              console.warn('Predictions object is null or undefined.');
             }
 
             setOCRModalOpen(false);
@@ -159,11 +165,8 @@ const Booklet = () => {
   const handleManualEntrySubmit = () => {
     const { productName, balance, quantity, discount, date, time } = manualEntry;
   
-    // Validate balance before submitting
-    if (parseFloat(balance) <= 0) {
-      alert('Insufficient Balance');
-      return; // Prevent further actions if balance is zero or negative
-    }
+    // Check if the balance is zero and set discount to 0 if it is
+    let updatedDiscount = parseFloat(balance) === 0 ? 0 : discount;
   
     // Check if the product name exists in the current table
     const table = currentTable === 'medicine' ? medicineEntries : groceryEntries;
@@ -175,17 +178,17 @@ const Booklet = () => {
         productName,
         balance,
         quantity,
-        discount,
+        discount: updatedDiscount, // Ensure discount is updated if balance is zero
         date,
         time,
         totalBalance: (parseFloat(existingEntry.balance) - parseFloat(quantity)).toFixed(2), // New balance after deduction
       };
-
+  
       // Add new entry to the table (this will display as a new row)
       addEntryToTable(newEntry);
     } else {
       // If the product doesn't exist, add a new entry with the initial details
-      const newEntry = { productName, balance, quantity, discount, date, time };
+      const newEntry = { productName, balance, quantity, discount: updatedDiscount, date, time };
       addEntryToTable(newEntry);
     }
   
@@ -193,20 +196,43 @@ const Booklet = () => {
     setManualEntry({ balance: '', productName: '', quantity: '', discount: '', date: '', time: '' });
     setManualEntryModalOpen(false);
   };
+  
+  
 
   const addEntryToTable = async (entry) => {
+    // Extract values for easier readability
+    const { balance, discount } = entry;
+  
+    // Check if it's in the 'medicine' table, balance is 0, and discount is 20
+    if (currentTable === 'medicine' && balance === 0 && discount === 20) {
+      // Set the discount to 0, but keep the entry in the medicine table
+      entry.discount = 0;
+      console.log("Balance is 0, so the discount has been set to 0, but the entry stays in the medicine table.");
+    }
+  
+    // Firestore reference
     const userCollection = collection(db, 'users', currentUser.uid, currentTable);
+  
     try {
-      await addDoc(userCollection, entry); // Add the entry to Firestore
-      if (currentTable === 'medicine') {
+      // Add the entry to Firestore
+      await addDoc(userCollection, entry);
+  
+      // Check if the discount is <= 10% and place it in the 'grocery' table
+      if (discount <= 10) {
+        // If the entry should go to the grocery table, add it to the grocery entries
+        setGroceryEntries((prevEntries) => [...prevEntries, entry]);
+        console.log("Entry with discount <= 10% added to grocery table.");
+      } else if (currentTable === 'medicine') {
+        // If it's for medicine, add it to the medicine entries
         setMedicineEntries((prevEntries) => [...prevEntries, entry]);
       } else {
-        setGroceryEntries((prevEntries) => [...prevEntries, entry]);
+        console.warn("Entry does not meet criteria for grocery or medicine tables.");
       }
     } catch (error) {
       console.error("Error adding entry to Firestore:", error);
     }
   };
+  
 
   // Handle printing
   const handlePrint = () => {

@@ -64,16 +64,16 @@ const Registration = () => {
   ];
 
   const disabilityTypes = [
-    { value: 'deaf', label: 'Deaf or Hard of Hearing' },
-    { value: 'intellectual', label: 'Intellectual Disability' },
-    { value: 'learning', label: 'Learning Disability' },
-    { value: 'mental', label: 'Mental Disability' },
-    { value: 'physical', label: 'Physical Disability (Orthopedic)' },
-    { value: 'psychosocial', label: 'Psychosocial Disability' },
-    { value: 'speech', label: 'Speech and Language Impairment' },
-    { value: 'visual', label: 'Visual Disability' },
-    { value: 'cancer', label: 'Cancer (RA11215)' },
-    { value: 'disease', label: 'Rare Disease (RA10747)' },
+    { value: 'Deaf or Hard of Hearing', label: 'Deaf or Hard of Hearing' },
+    { value: 'Intellectual Disability', label: 'Intellectual Disability' },
+    { value: 'Learning Disability', label: 'Learning Disability' },
+    { value: 'Mental Disability', label: 'Mental Disability' },
+    { value: 'Physical Disability (Orthopedic)', label: 'Physical Disability (Orthopedic)' },
+    { value: 'Psychosocial Disability', label: 'Psychosocial Disability' },
+    { value: 'Speech and Language Impairment', label: 'Speech and Language Impairment' },
+    { value: 'Visual Disability', label: 'Visual Disability' },
+    { value: 'Cancer (RA11215)', label: 'Cancer (RA11215)' },
+    { value: 'Rare Disease (RA10747)', label: 'Rare Disease (RA10747)' },
   ];
 
   const handleDisabilityChange = (selectedOptions) => {

@@ -1,172 +1,195 @@
 import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import {
   Chart as ChartJS,
   ArcElement,
-  BarElement, 
-  LineElement, 
-  PointElement, 
-  CategoryScale,
-  LinearScale,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
-import { Pie, Bar, Line } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2';
 import styles from '../components/styles/GenerateReport.module.css';
 
-ChartJS.register(
-  ArcElement,
-  BarElement,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend
-);
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const GenerateReport = () => {
-  const [reportData, setReportData] = useState({
-    totalByAddress: {},
-    totalByAge: {},
-    totalByDisability: {},
-    totalByBloodType: {},
+  const [reportData, setReportData] = useState([]);
+  const [filters, setFilters] = useState({
+    barangay: [],
+    age: [],
+    disability: [],
+    bloodType: [],
+    educationalAttainment: [],
+    employmentCategory: [],
+    employmentStatus: [],
   });
-  const [chartType, setChartType] = useState('pie'); 
-  const [dataCategory, setDataCategory] = useState('disability'); 
+  const [filterOptions, setFilterOptions] = useState({
+    barangay: [],
+    age: [],
+    disability: [],
+    bloodType: [],
+    educationalAttainment: [],
+    employmentCategory: [],
+    employmentStatus: [],
+  });
 
+  // Fetch unique options and all registration data
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchOptions = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'registrations'));
-        const data = querySnapshot.docs.map(doc => doc.data());
+        const data = querySnapshot.docs.map((doc) => doc.data());
 
-        const report = {
-          totalByAddress: {},
-          totalByAge: {},
-          totalByDisability: {},
-          totalByBloodType: {},
-        };
+        // Extract unique values for each field
+        const uniqueValues = (key) =>
+          [...new Set(data.map((item) => item[key]).filter(Boolean))].map((value) => ({
+            value,
+            label: value,
+          }));
 
-        data.forEach((user) => {
-          const addressKey = `${user.barangay}, ${user.municipality}, ${user.province}`;
-          report.totalByAddress[addressKey] = (report.totalByAddress[addressKey] || 0) + 1;
-          report.totalByAge[user.age] = (report.totalByAge[user.age] || 0) + 1;
-          report.totalByDisability[user.disabilityType] = (report.totalByDisability[user.disabilityType] || 0) + 1;
-          report.totalByBloodType[user.bloodType] = (report.totalByBloodType[user.bloodType] || 0) + 1;
+        setFilterOptions({
+          barangay: uniqueValues('barangay'),
+          age: uniqueValues('age'),
+          disability: uniqueValues('disabilityType'),
+          bloodType: uniqueValues('bloodType'),
+          educationalAttainment: uniqueValues('educationalAttainment'),
+          employmentCategory: uniqueValues('employmentCategory'),
+          employmentStatus: uniqueValues('employmentStatus'),
         });
 
-        setReportData(report);
+        setReportData(data); // Store raw data for dynamic filtering
       } catch (error) {
         console.error('Error fetching data for report: ', error);
       }
     };
 
-    fetchData();
+    fetchOptions();
   }, []);
 
-  const getChartData = () => {
-    let labels = [];
-    let data = [];
+  // Handle multi-select changes
+  const handleSelectChange = (selectedOptions, category) => {
+    const selectedValues = selectedOptions ? selectedOptions.map((option) => option.value) : [];
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [category]: selectedValues,
+    }));
+  };
 
-    switch (dataCategory) {
-      case 'barangay':
-        labels = Object.keys(reportData.totalByAddress);
-        data = Object.values(reportData.totalByAddress);
-        break;
-      case 'age':
-        labels = Object.keys(reportData.totalByAge);
-        data = Object.values(reportData.totalByAge);
-        break;
-      case 'disability':
-        labels = Object.keys(reportData.totalByDisability);
-        data = Object.values(reportData.totalByDisability);
-        break;
-      case 'bloodType':
-        labels = Object.keys(reportData.totalByBloodType);
-        data = Object.values(reportData.totalByBloodType);
-        break;
-      default:
-        labels = Object.keys(reportData.totalByDisability);
-        data = Object.values(reportData.totalByDisability);
-        break;
-    }
+  // Filter data based on selected filters
+  const filteredData = reportData.filter((user) => {
+    return (
+      (!filters.barangay.length || filters.barangay.includes(user.barangay)) &&
+      (!filters.age.length || filters.age.includes(String(user.age))) &&
+      (!filters.disability.length || filters.disability.includes(user.disabilityType)) &&
+      (!filters.bloodType.length || filters.bloodType.includes(user.bloodType)) &&
+      (!filters.educationalAttainment.length ||
+        filters.educationalAttainment.includes(user.educationalAttainment)) &&
+      (!filters.employmentCategory.length ||
+        filters.employmentCategory.includes(user.employmentCategory)) &&
+      (!filters.employmentStatus.length ||
+        filters.employmentStatus.includes(user.employmentStatus))
+    );
+  });
+
+  // Aggregate data and dynamically create labels
+  const aggregatedData = filteredData.reduce((acc, user) => {
+    const labelParts = [];
+    if (user.barangay && filters.barangay.length) labelParts.push(user.barangay);
+    if (user.disabilityType && filters.disability.length) labelParts.push(user.disabilityType);
+    if (user.age && filters.age.length) labelParts.push(`Age: ${user.age}`);
+    if (user.bloodType && filters.bloodType.length) labelParts.push(`Blood: ${user.bloodType}`);
+    if (
+      user.educationalAttainment &&
+      filters.educationalAttainment.length
+    )
+      labelParts.push(user.educationalAttainment);
+    if (user.employmentCategory && filters.employmentCategory.length)
+      labelParts.push(user.employmentCategory);
+    if (user.employmentStatus && filters.employmentStatus.length)
+      labelParts.push(user.employmentStatus);
+
+    const label = labelParts.join(', ') || 'Uncategorized';
+    acc[label] = (acc[label] || 0) + 1;
+
+    return acc;
+  }, {});
+
+  const totalFiltered = filteredData.length;
+
+  // Prepare chart data with percentages
+  const getChartData = () => {
+    const labels = Object.keys(aggregatedData);
+    const rawData = Object.values(aggregatedData);
+    const percentages = rawData.map((value) => ((value / totalFiltered) * 100).toFixed(2));
 
     return {
-      labels: labels,
+      labels,
       datasets: [
         {
-          label: `Total by ${dataCategory}`,
-          data: data,
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
-        }
-      ]
+          label: 'Percentage (%)',
+          data: rawData,
+          backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#9966FF',
+            '#FF9F40',
+          ],
+          hoverBackgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            '#4BC0C0',
+            '#9966FF',
+            '#FF9F40',
+          ],
+        },
+      ],
+      percentages, // Add percentages to be used for tooltips
     };
   };
 
+  // Chart tooltip customization
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
-  };
-
-  const renderChart = () => {
-    const chartData = getChartData();
-
-    switch (chartType) {
-      case 'pie':
-        return <Pie data={chartData} options={chartOptions} />;
-      case 'bar':
-        return <Bar data={chartData} options={chartOptions} />;
-      case 'line':
-        return <Line data={chartData} options={chartOptions} />;
-      default:
-        return <Pie data={chartData} options={chartOptions} />;
-    }
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            const rawValue = tooltipItem.raw;
+            const percentage = getChartData().percentages[tooltipItem.dataIndex];
+            const label = tooltipItem.label;
+            return `${label}: ${rawValue} (${percentage}%)`;
+          },
+        },
+      },
+    },
   };
 
   return (
     <div className={styles.reportContainer}>
       <div className={styles.reportContent}>
         <h2>Generate Report</h2>
-        <p className={styles.placeholderText}>
-          Select a chart type and a data category to view the summary of the report.
-        </p>
 
-        <div className={styles.chartTypeSelector}>
-          <label htmlFor="chartType">Choose Chart Type:</label>
-          <select
-            id="chartType"
-            value={chartType}
-            onChange={(e) => setChartType(e.target.value)}
-            className={styles.chartSelector}
-          >
-            <option value="pie">Pie Chart</option>
-            <option value="bar">Bar Chart</option>
-            <option value="line">Line Chart</option>
-          </select>
-        </div>
-
-        <div className={styles.dataCategorySelector}>
-          <label htmlFor="dataCategory">Choose Data Category:</label>
-          <select
-            id="dataCategory"
-            value={dataCategory}
-            onChange={(e) => setDataCategory(e.target.value)}
-            className={styles.chartSelector}
-          >
-            <option value="barangay">Barangay</option>
-            <option value="age">Age</option>
-            <option value="disability">Disability Type</option>
-            <option value="bloodType">Blood Type</option>
-          </select>
+        <div className={styles.filters}>
+          {Object.entries(filterOptions).map(([key, options]) => (
+            <div key={key}>
+              <h4>{key.replace(/([A-Z])/g, ' $1')}</h4>
+              <Select
+                options={options}
+                isMulti
+                onChange={(selected) => handleSelectChange(selected, key)}
+              />
+            </div>
+          ))}
         </div>
 
         <div className={styles.chartContainer}>
-          {renderChart()}
+          <Pie data={getChartData()} options={chartOptions} />
         </div>
-
       </div>
     </div>
   );
