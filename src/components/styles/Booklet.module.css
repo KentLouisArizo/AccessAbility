@@ -8,6 +8,7 @@
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: #004d40; /* Header text color updated */
 }
 
 .buttonsContainer {
@@ -18,15 +19,16 @@
 
 .button {
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #4caf50; /* Primary button color */
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: #388e3c; /* Hover effect */
 }
 
 .tableContainer {
@@ -91,7 +93,7 @@
 }
 
 .modalButtonSubmit {
-  background-color: green;
+  background-color: #4caf50; /* Button color for submit */
   color: white;
 }
 
@@ -102,4 +104,5 @@
   border-radius: 5px;
   max-height: 100px;
   overflow-y: auto;
+  background-color: #f9f9f9;
 }

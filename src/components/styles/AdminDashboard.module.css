@@ -1,19 +1,22 @@
 .dashboardContainer {
   display: flex;
+  min-height: 100vh;
 }
 
 .sidebar {
   width: 250px;
-  background-color: #004d99;
-  color: white;
+  background-color: #f1f1f1; /* Neutral light gray for sidebar */
+  color: #004d40; /* Dark teal text for sidebar */
   padding: 20px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0;
 }
 
-.text{
-  color: #f0f0f0;
+.text {
+  color: #004d40;
 }
 
 .sidebarLogo {
@@ -39,7 +42,7 @@
 .navItem {
   display: flex;
   align-items: center;
-  color: white;
+  color: #004d40; /* Dark teal for nav items */
   text-decoration: none;
   padding: 10px;
   border-radius: 5px;
@@ -48,7 +51,7 @@
 }
 
 .navItem:hover {
-  background-color: #005f8a;
+  background-color: #388e3c; /* Green hover effect */
 }
 
 .navIcon {
@@ -62,13 +65,13 @@
 }
 
 .active {
-  background-color: #005f8a;
+  background-color: #4caf50; /* Green active state */
 }
 
 .mainContent {
   flex: 1;
   padding: 20px;
-  background-color: #f0f0f0;
+  background-color: #ffffff; /* White background for the main content */
 }
 
 .dashboardHeader {
@@ -78,6 +81,7 @@
 .welcomeMessage {
   font-size: 18px;
   font-weight: bold;
+  color: #004d40; /* Dark teal text for welcome message */
 }
 
 .countsContainer {
@@ -87,7 +91,7 @@
 }
 
 .countBox {
-  background: white;
+  background: #ffffff; /* White background for count boxes */
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -107,7 +111,7 @@
 }
 
 .moreInfoButton {
-  background-color: #0077b6;
+  background-color: #4caf50; /* Blue background for button */
   color: white;
   border: none;
   padding: 8px 16px;
@@ -117,7 +121,7 @@
 }
 
 .moreInfoButton:hover {
-  background-color: #005f8a;
+  background-color: #388e3c; /* Darker blue on hover */
 }
 
 .notificationIconWrapper {
@@ -139,7 +143,7 @@
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background-color: #005f8a;
+  background-color: #388e3c; /* Green header for notification */
   border-bottom: 1px solid #ccc;
 }
 
@@ -147,14 +151,13 @@
   padding: 10px;
 }
 
-
 .notificationDropdown {
   position: absolute;
-  top: 415px; 
-  left: 35px;   
+  top: 310px;
+  left: 35px;
   width: 300px;
-  max-height: 300px; 
-  overflow-y: auto;  
+  max-height: 300px;
+  overflow-y: auto;
   background-color: #ffffff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -182,4 +185,29 @@
   border: none;
   font-size: 16px;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .mainContent {
+    padding: 10px;
+  }
+
+  .countsContainer {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .countBox {
+    width: 100%;
+  }
 }

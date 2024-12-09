@@ -3,9 +3,6 @@ import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebaseConfig'; // Ensure auth is imported from your Firebase config
 import { createUserWithEmailAndPassword } from 'firebase/auth'; // Use createUserWithEmailAndPassword
 import styles from './styles/Unverify.module.css';
-import PDAOlogo from '../imgs/PDAOlogo.png';
-import bellIcon from '../imgs/notification.png';
-import userProfileIcon from '../imgs/profilelogo.png';
 import { useNavigate } from 'react-router-dom';
 
 const Unverify = () => {
@@ -67,16 +64,6 @@ const Unverify = () => {
 
   return (
     <div className={styles.unverifyContainer}>
-      <header className={styles.header}>
-        <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
-        <div className={styles.welcomeMessage}>
-          <h1>Welcome! Admin</h1>
-        </div>
-        <div className={styles.icons}>
-          <img src={bellIcon} alt="Notification Icon" className={styles.icon} />
-          <img src={userProfileIcon} alt="User Profile Icon" className={styles.icon} />
-        </div>
-      </header>
 
       <main className={styles.mainContent}>
         <h2 className={styles.title}>Unverified Users</h2>

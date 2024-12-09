@@ -9,7 +9,7 @@ import announcement from '../imgs/announce.png';
 import report from '../imgs/report.png';
 import logo from '../imgs/PDAOlogo.png';
 import notif from '../imgs/notification.png';
-import profile from '../imgs/profilelogo.png';
+//import profile from '../imgs/profilelogo.png';
 
 // Tab content components
 import PrintRecord from './PrintRecord';
@@ -123,7 +123,7 @@ const markAsRead = async (notificationId) => {
               <span className={styles.notificationBadge}>{notifications.length}</span>
             )}
           </div>
-          <img src={profile} alt="Profile" className={styles.icon} />
+          {/*<img src={profile} alt="Profile" className={styles.icon} />*/}
         </div>
         <div className={styles.navItems}>
           <div

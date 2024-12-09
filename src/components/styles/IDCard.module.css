@@ -1,7 +1,7 @@
 .cardContainer {
   max-width: 400px;
-  margin: 0 auto;
-  background: #004d99; /* Solid maroon background */
+  margin: 10px auto;
+  background: #388e3c; /* Primary color for DOH design */
   border-radius: 15px;
   padding: 20px;
   text-align: center;
@@ -13,28 +13,29 @@
 .logo {
   width: 70px;
   margin: 10px auto 20px;
-}
+} 
 
 .cardContent {
-  background-color: #ffffff; /* White background for the inner content */
+  background-color: #ffffff; /* Neutral white background for inner content */
   border-radius: 10px;
-  padding: 30px 20px; /* Adjusted padding */
-  color: #004d99;
+  padding: 30px 20px;
+  color: #004d40; /* Text color matching DOH design */
   text-align: center;
   position: relative;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .name {
   font-size: 22px;
-  font-weight: 600;
-  margin-top: 10px; /* Adjusted spacing */
+  font-weight: bold;
+  margin-top: 10px;
+  color: #004d40; /* DOH text color */
 }
 
 .title {
   font-size: 14px;
   font-weight: 400;
-  color: #7d7d7d; /* Light gray for the subtitle */
+  color: #388e3c; /* Hover effect color used for contrast */
   margin-bottom: 15px;
 }
 
@@ -57,7 +58,7 @@
 
 .label {
   font-weight: 500;
-  color: #004d99;
+  color: #004d40; /* Consistent text color */
 }
 
 .value {
@@ -67,6 +68,6 @@
 .validity {
   margin-top: 15px;
   font-size: 12px;
-  color: #7d7d7d;
+  color: #7d7d7d; /* Neutral color for subtlety */
   font-style: italic;
 }

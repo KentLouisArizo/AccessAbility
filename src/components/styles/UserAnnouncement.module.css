@@ -6,12 +6,12 @@
 
 h2 {
   text-align: center;
-  color: #004d99;
+  color: #004d40; /* Text color updated to match the DOH design */
   font-family: 'Sofia Sans', sans-serif;
 }
 
 .announcement {
-  background-color: #f9f9f9;
+  background-color: #ffffff; /* Neutral background for clarity */
   padding: 15px;
   margin: 10px 0;
   border-radius: 8px;
@@ -19,11 +19,12 @@ h2 {
 }
 
 .announcement h3 {
-  color: #004d99;
+  color: #4caf50; /* Primary color for heading */
+  font-size: 1.2rem;
 }
 
 .announcement p {
-  color: #333;
+  color: #333; /* Slightly dark text color for readability */
   font-family: 'Inter', sans-serif;
+  font-size: 1rem;
 }
-

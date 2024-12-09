@@ -2,9 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import styles from './styles/Verify.module.css';
-import PDAOlogo from '../imgs/PDAOlogo.png';
-import bellIcon from '../imgs/notification.png';
-import userProfileIcon from '../imgs/profilelogo.png';
 
 const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
   const [users, setUsers] = useState([]);
@@ -68,16 +65,6 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
 
   return (
     <div className={styles.verifyContainer}>
-      <header className={styles.header}>
-        <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
-        <div className={styles.welcomeMessage}>
-          <h1>Welcome! Admin</h1>
-        </div>
-        <div className={styles.icons}>
-          <img src={bellIcon} alt="Notification Icon" className={styles.icon} />
-          <img src={userProfileIcon} alt="User Profile Icon" className={styles.icon} />
-        </div>
-      </header>
 
       <main className={styles.mainContent}>
         <h2 className={styles.title}>{showVerified ? 'Verified Users' : 'Unverified Users'}</h2>

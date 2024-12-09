@@ -1,75 +1,108 @@
+/* Filter.module.css */
 .filterContainer {
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 8px; /* Slightly rounded corners for a modern feel */
+  background-color: #f9f9f9; /* Neutral background for contrast */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .title {
-  font-size: 24px;
+  font-size: 26px; /* Slightly larger font for emphasis */
   margin-bottom: 20px;
-  font-weight: bold; /* Added bold style for the title */
+  font-weight: bold; 
+  color: #004d40; /* Dark green for a professional look */
+  font-family: 'Sofia Sans', sans-serif;
 }
 
 .searchBar {
   display: flex;
   align-items: center;
-  margin-bottom: 20px; /* Space between search bar and table */
+  margin-bottom: 25px;
+  gap: 10px; /* Use gap for cleaner spacing */
 }
 
 .searchInput {
-  flex-grow: 1; /* Allows input to take full width */
-  padding: 10px; /* Added padding for better input area */
-  border: 1px solid #66FCF1; /* Match the color scheme */
-  border-radius: 5px;
-  outline: none; /* Remove default outline */
-  margin-right: 10px; /* Space between input and button */
+  flex-grow: 1;
+  padding: 12px; /* More padding for better usability */
+  border: 1px solid #4caf50; /* Updated border color for consistency */
+  border-radius: 8px; /* Softer corners */
+  outline: none;
+  font-size: 16px; /* Clear and readable input text */
+  font-family: 'Inter', sans-serif;
 }
 
 .searchButton {
-  padding: 10px 15px; /* Increase padding for better button size */
-  background-color: #0077b6; /* Button color */
-  color: #FFFFFF; /* Button text color */
+  padding: 12px 18px; /* Larger button size for better visibility */
+  background-color: #4caf50; /* Updated to match the main theme color */
+  color: #ffffff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
+  font-family: 'Sofia Sans', sans-serif;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .searchButton:hover {
-  background-color: #005f99; /* Darker button on hover */
+  background-color: #388e3c; /* Darker hover effect */
+  transform: scale(1.05); /* Slight growth on hover for feedback */
 }
 
 .userTable {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px; /* Space between search bar and table */
+  margin-top: 20px;
 }
 
 .userTable th,
 .userTable td {
-  padding: 12px; /* Added padding for cells */
-  text-align: left; /* Align text to the left */
-  border-bottom: 1px solid #66FCF1; /* Match the color scheme */
+  padding: 14px; /* Increased padding for readability */
+  text-align: left;
+  border-bottom: 1px solid #4caf50;
 }
 
 .userTable th {
-  background-color: #004d99; /* Header background color */
-  color: #FFFFFF; /* Header text color */
+  background-color: #388e3c; /* Consistent with title color */
+  color: #ffffff;
+  font-family: 'Sofia Sans', sans-serif;
+}
+
+.userTable tr:nth-child(even) {
+  background-color: #f4f4f4; /* Alternating row color */
 }
 
 .userTable tr:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* Subtle hover effect for rows */
+  background-color: rgba(76, 175, 80, 0.1); /* Subtle green hover effect */
 }
 
 .filterOptions {
   display: flex;
-  gap: 15px; /* Space between the dropdowns */
-  margin-bottom: 20px; /* Space below the filters */
+  gap: 20px; /* More space between dropdowns */
+  margin-bottom: 20px;
 }
 
 .filterSelect {
-  padding: 10px; /* Padding for the dropdown */
-  border: 1px solid #66FCF1; /* Match the color scheme */
-  border-radius: 5px; /* Rounded corners */
-  background-color: #ffffff; /* White background for dropdown */
-  color: #333; /* Text color */
-  flex-grow: 1; /* Make dropdowns grow to fill space */
+  padding: 12px; /* More padding for better usability */
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px; /* Ensure readability */
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .filterOptions {
+    flex-direction: column; /* Stack filters on smaller screens */
+  }
+
+  .searchBar {
+    flex-direction: column; /* Stack input and button for smaller screens */
+    gap: 15px;
+  }
+
+  .searchButton {
+    width: 100%; /* Full-width button for better UX */
+  }
 }

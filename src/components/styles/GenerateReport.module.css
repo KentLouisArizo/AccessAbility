@@ -8,23 +8,23 @@
 .reportContent {
   background-color: #FFFFFF;
   padding: 2rem;
-  border-radius: 12px; 
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25); 
+  border-radius: 12px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   width: 100%;
-  max-width: 600px; 
+  max-width: 600px;
   text-align: center;
-  border: 2px solid #66FCF1; 
+  border: 2px solid #388e3c; /* Change the border color to match the green theme */
 }
 
 h2 {
-  color: #66FCF1; 
+  color: #388e3c; /* Change header color to the green theme */
   font-family: 'Sofia Sans', sans-serif;
-  font-size: 2rem; 
+  font-size: 2rem;
   margin-bottom: 1rem;
 }
 
 .placeholderText {
-  color: #004944; 
+  color: #004d40; /* Dark teal for text */
   font-family: 'Inter', sans-serif;
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
@@ -37,7 +37,7 @@ h2 {
 .chartTypeSelector label, .dataCategorySelector label {
   display: block;
   font-family: 'Inter', sans-serif;
-  color: #0B243E; 
+  color: #0B243E; /* Dark color for the labels */
   margin-bottom: 0.5rem;
   text-align: left;
 }
@@ -45,9 +45,9 @@ h2 {
 .chartSelector {
   width: 100%;
   padding: 0.6rem;
-  border: 1px solid #66FCF1;
+  border: 1px solid #388e3c; /* Change border color to match green theme */
   border-radius: 6px;
-  color: #000000;
+  color: #004d40; /* Dark teal text */
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   cursor: pointer;
@@ -60,13 +60,13 @@ h2 {
 
 .chartContainer {
   margin-top: 1.5rem;
-  height: 300px; 
+  height: 300px;
 }
 
 .generateButton {
   padding: 0.8rem 2rem;
   background-color: #0077b6;
-  color: #FFFFFF; 
+  color: #FFFFFF;
   font-family: 'Sofia Sans', sans-serif;
   font-size: 1rem;
   border: none;
@@ -77,5 +77,14 @@ h2 {
 }
 
 .generateButton:hover {
-  background-color: #005f8d; 
+  background-color: #005f8d;
+}
+
+.percentages {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.percentages div {
+  margin: 5px 0;
 }

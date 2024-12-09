@@ -5,7 +5,7 @@
 }
 
 .header {
-  background-color: #004d99;
+  background-color: #388e3c;
   color: white;
   padding: 10px;
   border-radius: 5px;
@@ -40,7 +40,7 @@
 .virtualId h2, .virtualBooklet h2, .blank h2 {
   margin-bottom: 10px;
   font-size: 20px;
-  color: #0077b6;
+  color: #388e3c;
 }
 
 .link {
@@ -50,7 +50,7 @@
 
 
 .link:focus .virtualId, .link:focus .virtualBooklet {
-  outline: 2px solid #0077b6;
+  outline: 2px solid #388e3c;
   outline-offset: 2px;
 }
 

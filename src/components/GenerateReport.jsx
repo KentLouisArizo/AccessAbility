@@ -190,6 +190,15 @@ const GenerateReport = () => {
         <div className={styles.chartContainer}>
           <Pie data={getChartData()} options={chartOptions} />
         </div>
+
+        {/* Display percentages and count below the chart */}
+        <div className={styles.chartDetails}>
+          {Object.keys(aggregatedData).map((label, index) => (
+            <div key={index} className={styles.chartDetail}>
+              <span>{label}</span>: {aggregatedData[label]} ({getChartData().percentages[index]}%)
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

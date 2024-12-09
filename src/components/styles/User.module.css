@@ -1,44 +1,65 @@
 /* User.module.css */
 .userContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background-color: #f4f4f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f9f9f9; /* Slightly lighter background for a fresher look */
+  padding: 20px;
+  border-radius: 12px; /* Slightly rounded corners */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #ddd; /* Lighter border for more subtle contrast */
+}
+
+.tab {
+  padding: 12px 25px; /* More space for better clickability */
+  cursor: pointer;
+  font-weight: bold;
+  color: #004d40; /* Neutral text color */
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+  font-family: 'Sofia Sans', sans-serif; /* Custom font for a unique style */
+}
+
+.tab:hover {
+  color: #388e3c; /* Slightly darker hover color */
+}
+
+.active {
+  color: #004d40; /* Active tab color with your main theme color */
+  border-bottom: 2px solid #4caf50; /* Green underline to highlight active tab */
+}
+
+.tabContent {
+  flex-grow: 1;
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px; /* Matching rounded corners */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow for depth */
+  font-family: 'Inter', sans-serif; /* Consistent font for content */
+}
+
+@media (max-width: 768px) {
+  .userContainer {
+      padding: 15px; /* Less padding on smaller screens */
   }
   
   .tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #ccc;
+      flex-direction: column; /* Stack tabs vertically on smaller screens */
+      align-items: flex-start;
   }
   
   .tab {
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #333;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
+      padding: 10px 15px;
+      font-size: 14px; /* Adjust font size for smaller devices */
   }
-  
-  .tab:hover {
-    color: #007bff;
-  }
-  
-  .active {
-    color: #007bff;
-    border-bottom: 2px solid #007bff;
-  }
-  
+
   .tabContent {
-    flex-grow: 1;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px; /* Less padding inside the content area */
   }
-  
+}

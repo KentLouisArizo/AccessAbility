@@ -31,7 +31,7 @@ const ResetPassword = () => {
             ></textarea>
           </div>
           <button type="submit">Send Message</button>
-          <Link to="/">Go Back</Link>
+          <Link to="/" className={styles.goBack}>Go Back</Link>
         </form>
       </div>
     </div>

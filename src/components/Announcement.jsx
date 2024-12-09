@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import styles from './styles/Announcement.module.css';
-import PDAOlogo from '../imgs/PDAOlogo.png';
-import notif from '../imgs/notification.png';
-import profile from '../imgs/profilelogo.png';
 import { Link } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
@@ -49,15 +46,6 @@ const Announcement = ({ userName }) => {
 
   return (
     <div className={styles.announcementContainer}>
-      <header className={styles.header}>
-        <img src={PDAOlogo} alt="AccessAbility Logo" className={styles.logo} />
-        <div className={styles.welcomeMessage}>Welcome, {userName}</div>
-        <div className={styles.icons}>
-          <img src={notif} alt="Notifications" className={styles.icon} />
-          <img src={profile} alt="Profile" className={styles.icon} />
-        </div>
-      </header>
-
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.formGroup}>
           <label htmlFor="notificationName">Title:</label>
@@ -82,17 +70,18 @@ const Announcement = ({ userName }) => {
 
         {/* Date Range Picker */}
         <div className={styles.formGroup}>
-          <label htmlFor="dateRange">Date Range:</label>
-          <DatePicker
-            selectsRange
-            startDate={startDate}
-            endDate={endDate}
-            onChange={(update) => setDateRange(update)}
-            isClearable={true}
-            placeholderText="Select a date range"
-            className={styles.datePicker}
-          />
-        </div>
+  <label htmlFor="dateRange">Date Range:</label>
+  <DatePicker
+    selectsRange
+    startDate={startDate}
+    endDate={endDate}
+    onChange={(update) => setDateRange(update)}
+    isClearable={true}
+    placeholderText="Select a date range"
+    className={styles.datePicker}
+  />
+</div>
+
 
         {/* Start Time Picker */}
         <div className={styles.formGroup}>

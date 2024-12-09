@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig'; // Ensure this is correctly set up
 import styles from './styles/PrintRecord.module.css';
-import logo from '../imgs/PDAOlogo.png';
-import notificationIcon from '../imgs/notification.png';
-import profileIcon from '../imgs/profilelogo.png';
 
 const PrintRecord = () => {
   const [records, setRecords] = useState([]);
@@ -108,18 +105,6 @@ const PrintRecord = () => {
 
   return (
     <div className={styles.printRecordContainer}>
-      <header className={styles.header}>
-        <img src={logo} alt="AccessAbility Logo" className={styles.logo} />
-        <h2 className={styles.welcomeMessage}>Welcome! Admin</h2>
-        <div className={styles.icons}>
-          <img
-            src={notificationIcon}
-            alt="Notifications"
-            className={styles.icon}
-          />
-          <img src={profileIcon} alt="Profile" className={styles.icon} />
-        </div>
-      </header>
 
       <main className={styles.body}>
         <h3 className={styles.sectionTitle}>Print Record Section</h3>

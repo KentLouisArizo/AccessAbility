@@ -3,6 +3,7 @@
   display: flex;
   height: 100vh;
   font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa; /* Neutral background */
 }
 
 /* Left Section (Logo) */
@@ -11,38 +12,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; /* Allows absolute positioning of the blurred logo */
-  overflow: hidden; /* Ensures that no part of the blurred logo goes out of the section */
-}
-
-.logo-container {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%; /* Ensures the container takes up full width */
-  height: 100%; /* Ensures the container takes up full height */
+  overflow: hidden;
+  background-color: #e0e0e0; /* Light neutral color for background */
 }
 
 .large-logo {
   position: absolute;
-  width: 900px; /* Larger size for the background logo */
-  height: 900px; /* Larger size for the background logo */
-  object-fit: contain; /* Ensures the logo fits well */
-  filter: blur(6px); /* Apply the blur effect */
-  opacity: 0.3; /* Optional: Reduce opacity to make the blur effect subtler */
-  z-index: -1; /* Position behind the smaller logo */
-  top: 50%; /* Center it vertically */
-  left: 50%; /* Center it horizontally */
-  transform: translate(-50%, -50%); /* Center the logo perfectly */
+  width: 900px;
+  height: 900px;
+  object-fit: contain;
+  filter: blur(6px);
+  opacity: 0.3;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-/* Main logo (smaller logo) */
 .logo-image {
-  max-width: 250px; /* Adjust to your preferred size */
+  max-width: 200px;
   height: auto;
   border-radius: 50%;
-  z-index: 1; /* Position the smaller logo in front */
+  z-index: 1;
+  border: 3px solid #4caf50; /* Subtle green border */
 }
 
 /* Right Section (Info) */
@@ -51,14 +44,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0077b6;
-  color: white;
+  background-color: #ffffff; /* Neutral white background */
+  color: #333333; /* Neutral text color */
   text-align: center;
   padding: 2rem;
-  
-  /* Add mixed border-radius */
   border-top-left-radius: 50px;
   border-bottom-left-radius: 50px;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
 }
 
 .info-content {
@@ -66,17 +58,17 @@
 }
 
 .title {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color:aliceblue;
+  color: #4caf50; /* DOH green */
 }
 
 .description {
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 2rem;
-  color: aliceblue;
+  color: #555555; /* Softer text color */
 }
 
 /* Buttons */
@@ -88,8 +80,8 @@
 }
 
 .button-primary {
-  background-color: white;
-  color: #005f8a;
+  background-color: #4caf50; /* DOH green */
+  color: white;
   border: none;
   padding: 0.5rem 1.5rem;
   border-radius: 20px;
@@ -100,13 +92,13 @@
 }
 
 .button-primary:hover {
-  background-color: #fee2e2;
+  background-color: #388e3c; /* Darker green */
 }
 
 .button-secondary {
   background-color: transparent;
-  color: white;
-  border: 2px solid white;
+  color: #4caf50;
+  border: 2px solid #4caf50;
   padding: 0.5rem 1.5rem;
   border-radius: 20px;
   cursor: pointer;
@@ -116,47 +108,47 @@
 }
 
 .button-secondary:hover {
-  background-color: white;
-  color: #005f8a;
+  background-color: #4caf50;
+  color: white;
 }
 
 /* Dropdown */
 .dropdown {
-  padding-top: 0.7rem;
-  position: relative;
+  padding-top: 10px;
+  position: relative; /* Ensure the dropdown is positioned relative to its container */
 }
 
 .dropdown-content {
   position: absolute;
-  top: 50px;
-  left: 0;
-  background: white;
-  color: #005f8a;
+  top: 100%; /* Position it directly below the button */
+  left: 50%; /* Align it horizontally with the button's center */
+  transform: translateX(-50%); /* Center the dropdown content */
+  background: #ffffff;
+  color: #4caf50;
   border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 200px;
+  z-index: 1000; /* Ensure the dropdown is above other elements */
 }
 
 .dropdown-item {
   padding: 10px;
   text-align: left;
   text-decoration: none;
-  color: #005f8a;
+  color: #4caf50;
   display: block;
   font-size: 0.9rem;
 }
 
 .dropdown-item:hover {
-  background: #fee2e2;
+  background: #e8f5e9; /* Light green hover */
 }
 
 /* Forgot Password */
 .forgot-password {
-  display: inline-block;
-  font-size: 1.2rem;
-  color: white;
+  font-size: 1rem;
+  color: #4caf50;
   text-decoration: none;
-  margin-top: 1.5rem;
 }
 
 .forgot-password:hover {
