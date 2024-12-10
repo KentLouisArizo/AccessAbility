@@ -6,25 +6,25 @@
 }
 
 .reportContent {
-  background-color: #FFFFFF;
+  background-color: #FFFDFE; /* Light background for better contrast */
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
   width: 100%;
   max-width: 600px;
   text-align: center;
-  border: 2px solid #388e3c; /* Change the border color to match the green theme */
+  border: 2px solid #113AB0; /* Dark blue border for consistency */
 }
 
 h2 {
-  color: #388e3c; /* Change header color to the green theme */
+  color: #072176; /* Dark blue for header text */
   font-family: 'Sofia Sans', sans-serif;
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 
 .placeholderText {
-  color: #004d40; /* Dark teal for text */
+  color: #113AB0; /* Medium blue for supporting text */
   font-family: 'Inter', sans-serif;
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
@@ -37,7 +37,7 @@ h2 {
 .chartTypeSelector label, .dataCategorySelector label {
   display: block;
   font-family: 'Inter', sans-serif;
-  color: #0B243E; /* Dark color for the labels */
+  color: #0B2C93; /* Medium blue for labels */
   margin-bottom: 0.5rem;
   text-align: left;
 }
@@ -45,9 +45,9 @@ h2 {
 .chartSelector {
   width: 100%;
   padding: 0.6rem;
-  border: 1px solid #388e3c; /* Change border color to match green theme */
+  border: 1px solid #113AB0; /* Medium blue for input border */
   border-radius: 6px;
-  color: #004d40; /* Dark teal text */
+  color: #072176; /* Dark blue text */
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
   cursor: pointer;
@@ -55,7 +55,7 @@ h2 {
 }
 
 .chartSelector:hover {
-  background-color: #eeeeee;
+  background-color: #F0F4FF; /* Subtle hover background for contrast */
 }
 
 .chartContainer {
@@ -65,8 +65,8 @@ h2 {
 
 .generateButton {
   padding: 0.8rem 2rem;
-  background-color: #0077b6;
-  color: #FFFFFF;
+  background-color: #0B2C93; /* Primary button color */
+  color: #FFFDFE; /* White text for contrast */
   font-family: 'Sofia Sans', sans-serif;
   font-size: 1rem;
   border: none;
@@ -77,7 +77,7 @@ h2 {
 }
 
 .generateButton:hover {
-  background-color: #005f8d;
+  background-color: #072176; /* Darker hover effect for the button */
 }
 
 .percentages {
@@ -87,4 +87,5 @@ h2 {
 
 .percentages div {
   margin: 5px 0;
+  color: #113AB0; /* Medium blue for percentage details */
 }

@@ -1,6 +1,6 @@
 .printRecordContainer {
   padding: 20px;
-  background-color: #f5f5f5; /* Light neutral background */
+  background-color: #FFFDFE; /* Light background for better contrast */
   border-radius: 8px;
 }
 
@@ -8,10 +8,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #388e3c; /* Green for header background */
+  background-color: #072176; /* Dark blue for header background */
   padding: 10px;
   border-radius: 5px;
-  color: white;
+  color: #FFFDFE; /* White text for contrast */
 }
 
 .logo {
@@ -20,7 +20,7 @@
 
 .welcomeMessage {
   font-size: 24px;
-  font-family: 'Sofia Sans', sans-serif; /* Keeping your font consistent */
+  font-family: 'Sofia Sans', sans-serif;
 }
 
 .icons {
@@ -40,8 +40,8 @@
 .sectionTitle {
   font-size: 22px;
   margin-bottom: 10px;
-  font-family: 'Inter', sans-serif; /* Consistent font family for titles */
-  color: #004d40; /* Dark teal for section titles */
+  font-family: 'Inter', sans-serif;
+  color: #0B2C93; /* Medium blue for section titles */
 }
 
 .recordOptions {
@@ -57,8 +57,8 @@
 .printButton {
   width: 100%;
   padding: 10px;
-  background-color: #4caf50; /* Main button color */
-  color: white;
+  background-color: #113AB0; /* Primary button color */
+  color: #FFFDFE; /* White text for visibility */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -68,7 +68,7 @@
 }
 
 .printButton:hover {
-  background-color: #388e3c; /* Hover effect for button */
+  background-color: #0B2C93; /* Darker hover effect */
 }
 
 .recordTable table {
@@ -78,19 +78,19 @@
 
 .recordTable th,
 .recordTable td {
-  border: 1px solid #ddd;
+  border: 1px solid #1743C8; /* Accent blue for table borders */
   padding: 8px;
   text-align: center;
-  font-family: 'Inter', sans-serif; /* Consistent font for table */
+  font-family: 'Inter', sans-serif;
 }
 
 .recordTable th {
-  background-color: #4caf50; /* Button color for table headers */
-  color: white;
+  background-color: #072176; /* Dark blue for table headers */
+  color: #FFFDFE; /* White text for headers */
 }
 
 .recordTable td {
-  background-color: #ffffff; /* White background for table data */
+  background-color: #FFFDFE; /* Light background for table data */
 }
 
 /* Print styles */

@@ -1,11 +1,12 @@
+/* Dashboard container styles */
 .dashboardContainer {
   padding: 20px;
   max-width: 1200px;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .header {
-  background-color: #388e3c;
+  background-color: #072176; /* Deep blue for header background */
   color: white;
   padding: 10px;
   border-radius: 5px;
@@ -29,28 +30,28 @@
 }
 
 .virtualId, .virtualBooklet, .blank {
-  background-color: #f5f5f5;
+  background-color: #FFFDFE; /* Light background color */
   padding: 15px;
   border-radius: 5px;
   width: 100%;
   text-align: center;
-  cursor: pointer; 
+  cursor: pointer;
+  border: 1px solid #D3D3D3; /* Light grey border */
 }
 
 .virtualId h2, .virtualBooklet h2, .blank h2 {
   margin-bottom: 10px;
   font-size: 20px;
-  color: #388e3c;
+  color: #0B2C93; /* Lighter blue for headings */
 }
 
 .link {
-  text-decoration: none; 
-  display: block; 
+  text-decoration: none;
+  display: block;
 }
 
-
 .link:focus .virtualId, .link:focus .virtualBooklet {
-  outline: 2px solid #388e3c;
+  outline: 2px solid #388e3c; /* Primary color outline */
   outline-offset: 2px;
 }
 
@@ -66,7 +67,7 @@
   height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ccc;
+  border: 2px solid #D3D3D3; /* Light grey border */
 }
 
 .userName {
@@ -83,7 +84,7 @@
 
 @media (max-width: 768px) {
   .mainContent {
-    gap: 10px; 
+    gap: 10px;
   }
 
   .virtualId, .virtualBooklet, .blank {
@@ -91,88 +92,89 @@
   }
 
   .virtualId h2, .virtualBooklet h2, .blank h2 {
-    font-size: 18px;.dashboardContainer {
-      display: flex;
-      min-height: 100vh;
-    }
-    
-    /* Sidebar styling */
-    .sidebar {
-      background-color: #004944;
-      color: #fff;
-      padding: 1rem;
-      width: 250px;
-      transition: width 0.3s ease;
-    }
-    
-    .collapsed {
-      width: 70px;
-    }
-    
-    .collapseButton {
-      background-color: transparent;
-      color: #fff;
-      border: none;
-      cursor: pointer;
-      margin-bottom: 1rem;
-    }
-    
-    .userInfo {
-      margin-bottom: 2rem;
-    }
-    
-    .userName, .disability, .pwdId {
-      margin-bottom: 1rem;
-    }
-    
-    .navigationLinks {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .navigationLinks .link {
-      color: #66FCF1;
-      text-decoration: none;
-      margin-bottom: 1rem;
-    }
-    
-    .navigationLinks .link:hover {
-      text-decoration: underline;
-    }
-    
-    /* Main Content Styling */
-    .mainContent {
-      flex-grow: 1;
-      padding: 2rem;
-      background-color: #FFFFFF;
-    }
-    
-    .contentHeader h1 {
-      color: #0B243E;
-      font-family: 'Sofia Sans', sans-serif;
-      margin-bottom: 2rem;
-    }
-    
-    .virtualId, .virtualBooklet, .blank {
-      background-color: #0B243E;
-      color: #fff;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-radius: 8px;
-      text-align: center;
-    }
-    
-    .virtualId h2, .virtualBooklet h2, .blank h2 {
-      margin-bottom: 0.5rem;
-    }
-    
-    .virtualId p, .virtualBooklet p, .blank p {
-      margin: 0;
-    }
-    
-    .blank {
-      background-color: #004944;
-    }
-    
+    font-size: 18px;
+  }
+
+  .dashboardContainer {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* Sidebar styling */
+  .sidebar {
+    background-color: #0B243E; /* Darker blue for sidebar */
+    color: #fff;
+    padding: 1rem;
+    width: 250px;
+    transition: width 0.3s ease;
+  }
+
+  .collapsed {
+    width: 70px;
+  }
+
+  .collapseButton {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+
+  .userInfo {
+    margin-bottom: 2rem;
+  }
+
+  .userName, .disability, .pwdId {
+    margin-bottom: 1rem;
+  }
+
+  .navigationLinks {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navigationLinks .link {
+    color: #66FCF1; /* Light teal for links */
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  .navigationLinks .link:hover {
+    text-decoration: underline;
+  }
+
+  /* Main Content Styling */
+  .mainContent {
+    flex-grow: 1;
+    padding: 2rem;
+    background-color: #FFFFFF;
+  }
+
+  .contentHeader h1 {
+    color: #113AB0; /* A lighter blue for headers */
+    font-family: 'Sofia Sans', sans-serif;
+    margin-bottom: 2rem;
+  }
+
+  .virtualId, .virtualBooklet, .blank {
+    background-color: #0B243E; /* Darker background for virtual ID, booklet, etc. */
+    color: #fff;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .virtualId h2, .virtualBooklet h2, .blank h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .virtualId p, .virtualBooklet p, .blank p {
+    margin: 0;
+  }
+
+  .blank {
+    background-color: #004944; /* Darker green for blank section */
   }
 }

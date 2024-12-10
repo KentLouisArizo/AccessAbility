@@ -5,8 +5,8 @@
 
 .sidebar {
   width: 250px;
-  background-color: #f1f1f1; /* Neutral light gray for sidebar */
-  color: #004d40; /* Dark teal text for sidebar */
+  background-color: #072176; /* Primary dark blue for sidebar */
+  color: #FFFDFE; /* White text for sidebar */
   padding: 20px;
   min-height: 100vh;
   display: flex;
@@ -16,7 +16,7 @@
 }
 
 .text {
-  color: #004d40;
+  color: #FFFDFE; /* Medium blue for text */
 }
 
 .sidebarLogo {
@@ -42,7 +42,7 @@
 .navItem {
   display: flex;
   align-items: center;
-  color: #004d40; /* Dark teal for nav items */
+  color: #FFFDFE; /* White text for nav items */
   text-decoration: none;
   padding: 10px;
   border-radius: 5px;
@@ -51,7 +51,7 @@
 }
 
 .navItem:hover {
-  background-color: #388e3c; /* Green hover effect */
+  background-color: #1743C8; /* Lighter blue hover effect */
 }
 
 .navIcon {
@@ -65,13 +65,14 @@
 }
 
 .active {
-  background-color: #4caf50; /* Green active state */
+  background-color: #1743C8; /* Active state lighter blue */
+  color: #FFFDFE; /* White text for active state */
 }
 
 .mainContent {
   flex: 1;
   padding: 20px;
-  background-color: #ffffff; /* White background for the main content */
+  background-color: #FFFDFE; /* White background for main content */
 }
 
 .dashboardHeader {
@@ -81,7 +82,7 @@
 .welcomeMessage {
   font-size: 18px;
   font-weight: bold;
-  color: #004d40; /* Dark teal text for welcome message */
+  color: #0B2C93; /* Medium-dark blue for welcome message */
 }
 
 .countsContainer {
@@ -91,7 +92,7 @@
 }
 
 .countBox {
-  background: #ffffff; /* White background for count boxes */
+  background: #FFFDFE; /* White background for count boxes */
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -111,8 +112,8 @@
 }
 
 .moreInfoButton {
-  background-color: #4caf50; /* Blue background for button */
-  color: white;
+  background-color: #1743C8; /* Lighter blue for button */
+  color: #FFFDFE;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
@@ -121,7 +122,7 @@
 }
 
 .moreInfoButton:hover {
-  background-color: #388e3c; /* Darker blue on hover */
+  background-color: #0B2C93; /* Darker blue on hover */
 }
 
 .notificationIconWrapper {
@@ -132,8 +133,8 @@
   position: absolute;
   top: -5px;
   right: -5px;
-  background-color: red;
-  color: white;
+  background-color: #E63946; /* Red for notification badge */
+  color: #FFFDFE;
   padding: 3px 6px;
   border-radius: 50%;
   font-size: 12px;
@@ -143,7 +144,7 @@
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  background-color: #388e3c; /* Green header for notification */
+  background-color: #1743C8; /* Lighter blue for notification header */
   border-bottom: 1px solid #ccc;
 }
 
@@ -158,7 +159,7 @@
   width: 300px;
   max-height: 300px;
   overflow-y: auto;
-  background-color: #ffffff;
+  background-color: #FFFDFE; /* White for dropdown */
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

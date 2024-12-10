@@ -1,11 +1,11 @@
 .cardContainer {
   max-width: 400px;
   margin: 10px auto;
-  background: #388e3c; /* Primary color for DOH design */
+  background: #072176; /* Primary color updated to #072176 */
   border-radius: 15px;
   padding: 20px;
   text-align: center;
-  color: #ffffff;
+  color: #FFFDFE; /* Updated text color to white for contrast */
   position: relative;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
@@ -16,10 +16,10 @@
 } 
 
 .cardContent {
-  background-color: #ffffff; /* Neutral white background for inner content */
+  background-color: #FFFDFE; /* Neutral white background for inner content */
   border-radius: 10px;
   padding: 30px 20px;
-  color: #004d40; /* Text color matching DOH design */
+  color: #072176; /* Updated text color for inner content */
   text-align: center;
   position: relative;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
@@ -29,13 +29,13 @@
   font-size: 22px;
   font-weight: bold;
   margin-top: 10px;
-  color: #004d40; /* DOH text color */
+  color: #072176; /* Updated to match primary color */
 }
 
 .title {
   font-size: 14px;
   font-weight: 400;
-  color: #388e3c; /* Hover effect color used for contrast */
+  color: #0B2C93; /* Updated to contrast with the rest of the text */
   margin-bottom: 15px;
 }
 
@@ -58,7 +58,7 @@
 
 .label {
   font-weight: 500;
-  color: #004d40; /* Consistent text color */
+  color: #072176; /* Updated to match primary color */
 }
 
 .value {

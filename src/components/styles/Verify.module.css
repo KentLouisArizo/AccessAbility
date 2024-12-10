@@ -1,17 +1,17 @@
 /* Updated Verify.module.css */
 .verifyContainer {
   padding: 20px;
-  background-color: #f8f9fa; /* Subtle neutral background for contrast */
+  background-color: #FFFDFE; /* Light background color for contrast */
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4caf50; /* Consistent with your theme */
+  background-color: #072176; /* Primary blue color for the header */
   padding: 15px;
   border-radius: 10px;
-  color: white;
+  color: #FFFDFE;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
@@ -44,7 +44,7 @@
 
 .mainContent {
   margin-top: 20px;
-  background-color: #ffffff;
+  background-color: #FFFDFE;
   padding: 25px;
   border-radius: 10px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
@@ -53,7 +53,7 @@
 .title {
   font-size: 28px;
   margin-bottom: 20px;
-  color: #388e3c; /* Adjusted green to match hover effects */
+  color: #0B2C93; /* Secondary blue for titles */
   text-align: center;
   font-weight: bold;
   font-family: 'Sofia Sans', sans-serif;
@@ -62,14 +62,14 @@
 .searchSection {
   display: flex;
   justify-content: center;
-  gap: 15px; /* Increased gap for better spacing */
+  gap: 15px;
   margin-bottom: 20px;
 }
 
 .searchInput {
   padding: 12px;
-  width: 60%; /* More balanced width */
-  border: 1px solid #66fcf1; /* Theme-based border */
+  width: 60%;
+  border: 1px solid #113AB0; /* Accent blue for inputs */
   border-radius: 8px;
   font-size: 16px;
   font-family: 'Inter', sans-serif;
@@ -78,14 +78,14 @@
 }
 
 .searchInput:focus {
-  border-color: #388e3c; /* Highlighted border on focus */
-  box-shadow: 0 0 8px rgba(56, 142, 60, 0.2); /* Subtle glow effect */
+  border-color: #1743C8; /* Darker accent on focus */
+  box-shadow: 0 0 8px rgba(23, 67, 200, 0.2); /* Subtle glow effect */
 }
 
 .searchButton {
   padding: 12px 20px;
-  background-color: #4caf50; /* Consistent with buttons */
-  color: white;
+  background-color: #0B2C93; /* Consistent button color */
+  color: #FFFDFE;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -95,7 +95,7 @@
 }
 
 .searchButton:hover {
-  background-color: #388e3c; /* Darker green hover effect */
+  background-color: #113AB0; /* Hover effect with accent blue */
   transform: scale(1.03); /* Subtle zoom */
 }
 
@@ -103,7 +103,7 @@
   margin-top: 30px;
   font-size: 22px;
   font-weight: bold;
-  color: #388e3c;
+  color: #0B2C93; /* Secondary blue for table title */
   text-align: center;
 }
 
@@ -114,31 +114,31 @@
 }
 
 .userTable th, .userTable td {
-  padding: 12px; /* Adjusted for better spacing */
+  padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
   font-family: 'Inter', sans-serif;
 }
 
 .userTable th {
-  background-color: #388e3c; /* Consistent header color */
-  color: white;
+  background-color: #0B2C93; /* Table header with secondary blue */
+  color: #FFFDFE;
 }
 
 .userTable tr:hover {
-  background-color: rgba(72, 239, 144, 0.1); /* Subtle green hover effect */
+  background-color: rgba(11, 44, 147, 0.1); /* Subtle blue hover effect */
   cursor: pointer;
 }
 
 .newUser {
-  background-color: #e8f5e9; /* Softer green for new users */
+  background-color: rgba(7, 33, 118, 0.1); /* Light blue for new users */
   font-weight: bold;
 }
 
 .viewButton {
   padding: 8px 15px;
-  background-color: #0077b6;
-  color: white;
+  background-color: #113AB0; /* Accent blue for buttons */
+  color: #FFFDFE;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -146,11 +146,11 @@
 }
 
 .viewButton:hover {
-  background-color: #005f99;
+  background-color: #1743C8; /* Darker blue hover */
 }
 
 .selectedUserDetails {
-  background-color: #ffffff;
+  background-color: #FFFDFE;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -159,7 +159,7 @@
 
 .selectedUserDetails h3 {
   margin-bottom: 20px;
-  color: #004d40; /* Deep green for titles */
+  color: #072176; /* Primary blue for detail titles */
   font-size: 24px;
   font-family: 'Sofia Sans', sans-serif;
 }
@@ -181,7 +181,7 @@
 .verifyButton, .rejectButton {
   padding: 10px 20px;
   font-size: 16px;
-  color: white;
+  color: #FFFDFE;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -189,15 +189,15 @@
 }
 
 .verifyButton {
-  background-color: #28a745;
+  background-color: #113AB0; /* Consistent blue for verification */
 }
 
 .rejectButton {
-  background-color: #dc3545;
+  background-color: #dc3545; /* Red for rejection */
 }
 
 .verifyButton:hover {
-  background-color: #218838;
+  background-color: #1743C8;
 }
 
 .rejectButton:hover {
@@ -205,25 +205,25 @@
 }
 
 .highlightedRow {
-  background-color: #ffffcc; /* Lighter yellow highlight */
+  background-color: rgba(18, 58, 176, 0.1); /* Soft blue highlight */
   transition: background-color 0.3s ease;
 }
 
 @media (max-width: 768px) {
   .header, .mainContent {
-    padding: 15px; /* Adjust padding for smaller screens */
+    padding: 15px;
   }
 
   .searchInput {
-    width: 100%; /* Full width for narrow screens */
+    width: 100%;
   }
 
   .tableTitle, .title {
-    font-size: 18px; /* Adjust font size for better fit */
+    font-size: 18px;
   }
 
   .verifyButton, .rejectButton {
-    padding: 8px 16px; /* Smaller buttons for compact screens */
+    padding: 8px 16px;
     font-size: 14px;
   }
 }

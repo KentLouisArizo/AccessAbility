@@ -3,9 +3,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #f9f9f9; /* Slightly lighter background for a fresher look */
+  background-color: #FFFDFE; /* Light background color for a fresher look */
   padding: 20px;
-  border-radius: 12px; /* Slightly rounded corners */
+  border-radius: 12px; /* Rounded corners */
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow */
 }
 
@@ -13,34 +13,34 @@
   display: flex;
   justify-content: space-around;
   margin-bottom: 25px;
-  border-bottom: 2px solid #ddd; /* Lighter border for more subtle contrast */
+  border-bottom: 2px solid #ddd; /* Light border for subtle contrast */
 }
 
 .tab {
   padding: 12px 25px; /* More space for better clickability */
   cursor: pointer;
   font-weight: bold;
-  color: #004d40; /* Neutral text color */
+  color: #072176; /* Updated text color to dark blue for contrast */
   border-bottom: 2px solid transparent;
   transition: all 0.3s ease;
-  font-family: 'Sofia Sans', sans-serif; /* Custom font for a unique style */
+  font-family: 'Sofia Sans', sans-serif; /* Custom font for unique style */
 }
 
 .tab:hover {
-  color: #388e3c; /* Slightly darker hover color */
+  color: #0B2C93; /* Hover color updated to a lighter blue */
 }
 
 .active {
-  color: #004d40; /* Active tab color with your main theme color */
-  border-bottom: 2px solid #4caf50; /* Green underline to highlight active tab */
+  color: #072176; /* Active tab color with your main theme color */
+  border-bottom: 2px solid #1743C8; /* Updated underline color to a deeper blue */
 }
 
 .tabContent {
   flex-grow: 1;
-  background-color: #ffffff;
+  background-color: #FFFDFE; /* Neutral background for tab content */
   padding: 25px;
   border-radius: 12px; /* Matching rounded corners */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* More pronounced shadow for depth */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Pronounced shadow for depth */
   font-family: 'Inter', sans-serif; /* Consistent font for content */
 }
 

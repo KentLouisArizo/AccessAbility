@@ -1,16 +1,15 @@
-/* Filter.module.css */
 .filterContainer {
   padding: 20px;
   border-radius: 8px; /* Slightly rounded corners for a modern feel */
-  background-color: #f9f9f9; /* Neutral background for contrast */
+  background-color: #FFFDFE; /* Light background for contrast */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .title {
   font-size: 26px; /* Slightly larger font for emphasis */
   margin-bottom: 20px;
-  font-weight: bold; 
-  color: #004d40; /* Dark green for a professional look */
+  font-weight: bold;
+  color: #072176; /* Dark blue for a professional look */
   font-family: 'Sofia Sans', sans-serif;
 }
 
@@ -24,7 +23,7 @@
 .searchInput {
   flex-grow: 1;
   padding: 12px; /* More padding for better usability */
-  border: 1px solid #4caf50; /* Updated border color for consistency */
+  border: 1px solid #113AB0; /* Updated border color for consistency */
   border-radius: 8px; /* Softer corners */
   outline: none;
   font-size: 16px; /* Clear and readable input text */
@@ -33,8 +32,8 @@
 
 .searchButton {
   padding: 12px 18px; /* Larger button size for better visibility */
-  background-color: #4caf50; /* Updated to match the main theme color */
-  color: #ffffff;
+  background-color: #113AB0; /* Updated to match the main theme color */
+  color: #FFFDFE; /* White text for contrast */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -44,7 +43,7 @@
 }
 
 .searchButton:hover {
-  background-color: #388e3c; /* Darker hover effect */
+  background-color: #0B2C93; /* Darker hover effect */
   transform: scale(1.05); /* Slight growth on hover for feedback */
 }
 
@@ -58,12 +57,12 @@
 .userTable td {
   padding: 14px; /* Increased padding for readability */
   text-align: left;
-  border-bottom: 1px solid #4caf50;
+  border-bottom: 1px solid #1743C8; /* Subtle blue for row separation */
 }
 
 .userTable th {
-  background-color: #388e3c; /* Consistent with title color */
-  color: #ffffff;
+  background-color: #072176; /* Consistent with title color */
+  color: #FFFDFE; /* White text for contrast */
   font-family: 'Sofia Sans', sans-serif;
 }
 
@@ -72,7 +71,7 @@
 }
 
 .userTable tr:hover {
-  background-color: rgba(76, 175, 80, 0.1); /* Subtle green hover effect */
+  background-color: rgba(7, 33, 118, 0.1); /* Subtle blue hover effect */
 }
 
 .filterOptions {
@@ -83,10 +82,10 @@
 
 .filterSelect {
   padding: 12px; /* More padding for better usability */
-  border: 1px solid #4caf50;
+  border: 1px solid #113AB0;
   border-radius: 8px;
-  background-color: #ffffff;
-  color: #333;
+  background-color: #FFFDFE; /* White background for contrast */
+  color: #0B2C93; /* Medium blue for text */
   font-family: 'Inter', sans-serif;
   font-size: 16px; /* Ensure readability */
   flex-grow: 1;

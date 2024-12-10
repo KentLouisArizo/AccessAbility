@@ -11,7 +11,7 @@
 
 .editProfileContainer h2 {
   text-align: center;
-  color: #004d40; /* Text color updated to match DOH design */
+  color: #072176; /* Header text color updated to match the new palette */
   font-size: 1.8rem;
   margin-bottom: 20px;
 }
@@ -44,18 +44,18 @@
   display: inline-block;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #004d40; /* Updated text color */
+  color: #072176; /* Updated label text color */
   padding: 8px 12px;
   background-color: #f0f0f0;
-  border: 1px solid #004d40; /* Matching border color */
+  border: 1px solid #072176; /* Updated border color */
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .profileImageContainer label:hover {
-  background-color: #388e3c; /* Hover color for button */
-  color: #fff;
+  background-color: #0B2C93; /* Hover color for the button */
+  color: #FFFDFE; /* White text on hover */
 }
 
 /* Styling for the form */
@@ -79,7 +79,7 @@
 .formRow label {
   flex: 0 0 180px; /* Set consistent label width for uniform alignment */
   font-weight: 600;
-  color: #333; /* Label color updated */
+  color: #072176; /* Label color updated to match the new palette */
   text-align: left; /* Left-align labels */
 }
 
@@ -98,7 +98,7 @@
 
 .formRow input:focus,
 .formRow select:focus {
-  border-color: #004d40; /* Focus color updated */
+  border-color: #0B2C93; /* Focus color updated to match the palette */
 }
 
 .mobileFieldRow {
@@ -123,8 +123,8 @@
   padding: 12px;
   font-size: 1rem;
   font-weight: bold;
-  color: #fff;
-  background-color: #4caf50; /* Primary color for the button */
+  color: #FFFDFE; /* White text for better contrast */
+  background-color: #113AB0; /* Primary color for the button */
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -132,41 +132,41 @@
 }
 
 .submitButton:hover {
-  background-color: #388e3c; /* Hover effect for the button */
+  background-color: #1743C8; /* Hover effect for the button */
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .editProfileContainer {
-      padding: 15px;
+    padding: 15px;
   }
 
   .formRow {
-      flex-direction: column;
-      align-items: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .formRow label {
-      width: 100%;
-      margin-bottom: 5px;
+    width: 100%;
+    margin-bottom: 5px;
   }
 
   .submitButton {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
 
   .profileImageContainer img {
-      width: 100px;
-      height: 100px;
+    width: 100px;
+    height: 100px;
   }
 }
 
 @media (max-width: 480px) {
   .editProfileContainer {
-      padding: 10px;
+    padding: 10px;
   }
 
   .editProfileContainer h2 {
-      font-size: 1.5rem;
+    font-size: 1.5rem;
   }
 }

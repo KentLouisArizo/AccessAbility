@@ -1,3 +1,4 @@
+/* Announcement container styles */
 .announcementContainer {
   padding: 20px;
   max-width: 800px;
@@ -6,12 +7,12 @@
 
 h2 {
   text-align: center;
-  color: #004d40; /* Text color updated to match the DOH design */
+  color: #072176; /* Dark blue to match the new palette */
   font-family: 'Sofia Sans', sans-serif;
 }
 
 .announcement {
-  background-color: #ffffff; /* Neutral background for clarity */
+  background-color: #FFFDFE; /* Light background for better readability */
   padding: 15px;
   margin: 10px 0;
   border-radius: 8px;
@@ -19,12 +20,12 @@ h2 {
 }
 
 .announcement h3 {
-  color: #4caf50; /* Primary color for heading */
+  color: #0B2C93; /* Lighter blue for heading */
   font-size: 1.2rem;
 }
 
 .announcement p {
-  color: #333; /* Slightly dark text color for readability */
+  color: #333; /* Dark text color for readability */
   font-family: 'Inter', sans-serif;
   font-size: 1rem;
 }

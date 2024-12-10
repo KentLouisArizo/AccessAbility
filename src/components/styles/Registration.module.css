@@ -1,38 +1,39 @@
 html, body {
-  height: 100%; /* Ensure the height takes up the full viewport */
-  margin: 0; /* Remove default margin */
-  font-family: Arial, sans-serif; /* Set a clean font */
-  overflow: auto; /* Allow scrolling */
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  background-color: #FFFDFE; /* Light neutral background */
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertically center the form */
-  align-items: center; /* Horizontally center the form */
-  padding: 0px;
-  background-color: #f0f0f0;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: #FFFDFE; /* Soft background */
   min-height: 100vh;
-  position: relative; /* To ensure the logo positioning is relative to this container */
-  overflow: auto; /* Allow scrolling within the container */
+  position: relative;
+  overflow: auto;
 }
 
 .logo {
-  position: absolute; /* Position the logo absolutely */
+  position: absolute;
   top: 20px;
   left: 20px;
   width: 250px;
-  filter: blur(1px); /* Apply a slight blur effect */
-  z-index: 10; /* Ensure the logo stays on top */
+  filter: blur(1px);
+  z-index: 10;
 }
 
 .logoonce {
-  position: absolute; /* Position the image absolutely relative to the container */
+  position: absolute;
+  top: 20px;
+  right: 20px;
   width: 250px;
   filter: blur(5px);
-  top: 20px;
-  right: 20px; /* Position on the top-right */
-  z-index: 1; /* Behind the logo and form */
+  z-index: 1;
 }
 
 .formWrapper {
@@ -43,29 +44,29 @@ html, body {
   max-width: 800px;
   width: 100%;
   text-align: left;
-  z-index: 5; /* Ensure the form stays on top of the images */
+  z-index: 5;
 }
 
 h2 {
   margin-top: 0;
   font-size: 24px;
-  color: #004d40;
+  color: #072176; /* Deep blue for headings */
   font-weight: 600;
 }
 
 .formGroup {
   margin-bottom: 20px;
   display: flex;
-  align-items: center; /* Aligns label and input in a row */
-  justify-content: space-between; /* Ensures proper spacing between label and input */
+  align-items: center;
+  justify-content: space-between;
 }
 
 label {
   display: inline-block;
-  width: 35%; /* Adjust width of label */
+  width: 35%;
   margin-bottom: 0;
   font-weight: 600;
-  color: #333;
+  color: #113AB0; /* Medium blue for labels */
 }
 
 input[type="text"],
@@ -74,9 +75,9 @@ input[type="date"],
 input[type="email"],
 input[type="password"],
 select {
-  width: 60%; /* Adjust width of input to leave space for label */
+  width: 60%;
   padding: 12px;
-  border: 2px solid #4caf50;
+  border: 2px solid #113AB0; /* Input borders with medium blue */
   border-radius: 40px;
   box-sizing: border-box;
   font-size: 16px;
@@ -87,8 +88,8 @@ input[type="number"]:focus,
 input[type="email"]:focus,
 select:focus {
   outline: none;
-  border-color: #388e3c;
-  box-shadow: 0 0 5px rgba(140, 38, 54, 0.5);
+  border-color: #0B2C93; /* Darker blue on focus */
+  box-shadow: 0 0 5px rgba(11, 44, 147, 0.5);
 }
 
 .buttonContainer {
@@ -99,7 +100,7 @@ select:focus {
 
 .leftButton,
 .rightButton {
-  background-color: #4caf50;
+  background-color: #072176; /* Primary button color */
   color: white;
   border: none;
   padding: 12px 30px;
@@ -112,7 +113,7 @@ select:focus {
 
 .leftButton:hover,
 .rightButton:hover {
-  background-color: #388e3c;
+  background-color: #0B2C93; /* Darker blue on hover */
 }
 
 .leftButton {
@@ -144,7 +145,7 @@ select:focus {
 }
 
 .uploadButton {
-  background-color: #8c2636;
+  background-color: #1743C8; /* Lighter blue for secondary actions */
   color: white;
   border: none;
   padding: 12px 30px;
@@ -156,7 +157,7 @@ select:focus {
 }
 
 .uploadButton:hover {
-  background-color: #ff5f6d;
+  background-color: #113AB0; /* Medium blue on hover */
 }
 
 .successMessage {
@@ -165,11 +166,12 @@ select:focus {
 }
 
 .successMessage h1 {
-  color: #8c2636;
+  color: #072176; /* Strong blue for success */
 }
 
 .successMessage p {
   font-size: 16px;
+  color: #333;
 }
 
 .spinnerIcon {
@@ -179,7 +181,7 @@ select:focus {
 .spinnerIconLarge {
   font-size: 50px;
   animation: spin 1s linear infinite;
-  color: #0077b6;
+  color: #072176; /* Spinner in primary blue */
 }
 
 .loadingOverlay {
@@ -246,13 +248,13 @@ select:focus {
 @media (max-width: 768px) {
   .container {
     padding: 10px;
-    overflow: auto; /* Enable scrolling if content overflows */
+    overflow: auto;
   }
 
   .formWrapper {
     padding: 20px;
     max-width: 100%;
-    overflow: auto; /* Enable scrolling if content exceeds form */
+    overflow: auto;
   }
 
   .logo {
@@ -335,7 +337,7 @@ select:focus {
   }
 
   .container {
-    height: auto; /* Let the container height adjust with the content */
-    overflow-y: auto; /* Enable vertical scrolling */
+    height: auto;
+    overflow-y: auto;
   }
 }

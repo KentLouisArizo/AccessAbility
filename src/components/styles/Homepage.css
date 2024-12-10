@@ -3,7 +3,7 @@
   display: flex;
   height: 100vh;
   font-family: 'Arial', sans-serif;
-  background-color: #f8f9fa; /* Neutral background */
+  background-color: #FFFDFE; /* Updated neutral background */
 }
 
 /* Left Section (Logo) */
@@ -14,7 +14,7 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background-color: #e0e0e0; /* Light neutral color for background */
+  background-color: #FFFDFE; /* Updated background color */
 }
 
 .large-logo {
@@ -35,7 +35,7 @@
   height: auto;
   border-radius: 50%;
   z-index: 1;
-  border: 3px solid #4caf50; /* Subtle green border */
+  border: 3px solid #072176; /* Updated border color */
 }
 
 /* Right Section (Info) */
@@ -44,8 +44,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff; /* Neutral white background */
-  color: #333333; /* Neutral text color */
+  background-color: #113AB0; /* Updated neutral white background */
+  color: #072176; /* Updated text color */
   text-align: center;
   padding: 2rem;
   border-top-left-radius: 50px;
@@ -61,14 +61,14 @@
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #4caf50; /* DOH green */
+  color: #FFFDFE; /* Updated title color */
 }
 
 .description {
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 2rem;
-  color: #555555; /* Softer text color */
+  color: #FFFDFE; /* Updated text color */
 }
 
 /* Buttons */
@@ -80,8 +80,8 @@
 }
 
 .button-primary {
-  background-color: #4caf50; /* DOH green */
-  color: white;
+  background-color: #072176; /* Updated primary button color */
+  color: #FFFDFE;
   border: none;
   padding: 0.5rem 1.5rem;
   border-radius: 20px;
@@ -92,13 +92,13 @@
 }
 
 .button-primary:hover {
-  background-color: #388e3c; /* Darker green */
+  background-color: #0B2C93; /* Darker hover effect */
 }
 
 .button-secondary {
   background-color: transparent;
-  color: #4caf50;
-  border: 2px solid #4caf50;
+  color: #FFFDFE;
+  border: 2px solid #072176;
   padding: 0.5rem 1.5rem;
   border-radius: 20px;
   cursor: pointer;
@@ -108,8 +108,8 @@
 }
 
 .button-secondary:hover {
-  background-color: #4caf50;
-  color: white;
+  background-color: #072176;
+  color: #FFFDFE;
 }
 
 /* Dropdown */
@@ -123,8 +123,8 @@
   top: 100%; /* Position it directly below the button */
   left: 50%; /* Align it horizontally with the button's center */
   transform: translateX(-50%); /* Center the dropdown content */
-  background: #ffffff;
-  color: #4caf50;
+  background: #FFFDFE; /* Updated background */
+  color: #072176; /* Updated text color */
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 200px;
@@ -135,19 +135,20 @@
   padding: 10px;
   text-align: left;
   text-decoration: none;
-  color: #4caf50;
+  color: #072176;
   display: block;
   font-size: 0.9rem;
 }
 
 .dropdown-item:hover {
-  background: #e8f5e9; /* Light green hover */
+  background: #0B2C93; /* Updated hover background */
+  color: #FFFDFE; /* Updated hover text color */
 }
 
 /* Forgot Password */
 .forgot-password {
   font-size: 1rem;
-  color: #4caf50;
+  color: #FFFDFE;
   text-decoration: none;
 }
 

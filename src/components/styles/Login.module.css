@@ -2,7 +2,7 @@ html, body {
   height: 100%;
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9; /* Light neutral background */
+  background-color: #FFFDFE; /* Updated background color */
 }
 
 .loginContainer {
@@ -13,14 +13,14 @@ html, body {
   padding: 20px;
   min-height: 100vh;
   position: relative;
-  background-color: #ffffff; /* White background for cleaner design */
+  background-color: #FFFDFE; /* Updated white background */
 }
 
 .box {
   width: 320px;
   padding: 30px;
-  background-color: #ffffff;
-  border: 2px solid #e6e6e6; /* Light border */
+  background-color: #FFFDFE; /* Updated box background */
+  border: 2px solid #113AB0; /* Updated border color */
   border-radius: 12px; /* Slightly rounded corners */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
   text-align: center;
@@ -48,7 +48,7 @@ h1 {
   margin-bottom: 15px;
   font-size: 28px;
   font-weight: bold;
-  color: #004d40; /* Dark green for text */
+  color: #072176; /* Updated text color */
 }
 
 form div {
@@ -60,7 +60,7 @@ label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #333; /* Neutral label color */
+  color: #113AB0; /* Updated label color */
 }
 
 input {
@@ -73,15 +73,15 @@ input {
 
 input:focus {
   outline: none;
-  border: 1px solid #4caf50; /* Green focus border for accessibility */
-  box-shadow: 0 0 4px rgba(76, 175, 80, 0.2);
+  border: 1px solid #0B2C93; /* Updated green focus border */
+  box-shadow: 0 0 4px rgba(11, 44, 147, 0.2); /* Updated focus shadow */
 }
 
 button {
   width: 100%;
   padding: 12px;
-  background-color: #4caf50; /* DOH-inspired green */
-  color: #fff;
+  background-color: #072176; /* Updated button color */
+  color: #FFFDFE; /* Updated text color */
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -90,13 +90,13 @@ button {
 }
 
 button:hover {
-  background-color: #388e3c; /* Slightly darker green on hover */
+  background-color: #0B2C93; /* Slightly darker blue on hover */
 }
 
 a {
   display: block;
   margin-top: 10px;
-  color: #004d40; /* Dark green for links */
+  color: #1743C8; /* Updated link color */
   text-decoration: none;
   font-size: 14px;
 }
@@ -108,5 +108,5 @@ a:hover {
 .centerText {
   margin-top: 20px;
   font-size: 14px;
-  color: #555;
+  color: #555; /* Neutral text color */
 }

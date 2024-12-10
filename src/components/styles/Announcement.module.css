@@ -2,7 +2,7 @@
   padding: 30px;
   max-width: 700px;
   margin: 40px auto;
-  background-color: #f0f4f8; /* Soft neutral background */
+  background-color: #FFFDFE; /* White background for container */
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
 }
@@ -11,8 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #388e3c; /* Updated to match your green theme */
-  color: white;
+  background-color: #072176; /* Dark blue for header */
+  color: #FFFDFE; /* White text for header */
   padding: 15px;
   border-radius: 8px 8px 0 0;
   margin-bottom: 20px;
@@ -25,7 +25,8 @@
 .welcomeMessage {
   font-size: 20px;
   font-family: 'Sofia Sans', sans-serif;
-  font-weight: 600; /* Make the welcome message bold for emphasis */
+  font-weight: 600; /* Bold for emphasis */
+  color: #FFFDFE; /* White text */
 }
 
 .icons {
@@ -51,24 +52,24 @@
   margin-bottom: 8px;
   font-weight: bold;
   font-family: 'Inter', sans-serif;
-  color: #004d40; /* Dark teal for the label */
+  color: #0B2C93; /* Medium blue for labels */
 }
 
 .formGroup input,
 .formGroup textarea,
 .formGroup select {
   width: 100%;
-  padding: 12px; /* Increased padding for better spacing */
-  border: 1px solid #ddd; /* Light border for inputs */
+  padding: 12px;
+  border: 1px solid #ddd;
   border-radius: 6px;
   font-size: 16px;
   font-family: 'Inter', sans-serif;
-  background-color: #ffffff; /* White background for the inputs */
+  background-color: #FFFDFE; /* White background for inputs */
 }
 
 .textarea {
   height: 120px;
-  resize: vertical; /* Allow the textarea to be resizable */
+  resize: vertical; /* Resizable textarea */
 }
 
 .datePicker {
@@ -79,12 +80,12 @@
   font-size: 16px;
   margin-top: 5px;
   font-family: 'Inter', sans-serif;
-  background-color: #ffffff;
+  background-color: #FFFDFE; /* White background for date picker */
 }
 
 .datePicker:focus {
-  border-color: #66FCF1; /* Highlight border on focus */
-  box-shadow: 0 0 3px #66FCF1; /* Add subtle glow on focus */
+  border-color: #1743C8; /* Lighter blue border on focus */
+  box-shadow: 0 0 3px #1743C8; /* Subtle glow on focus */
 }
 
 .buttonGroup {
@@ -94,8 +95,8 @@
 }
 
 .closeButton {
-  background-color: #999;
-  color: white;
+  background-color: #113AB0; /* Medium blue for close button */
+  color: #FFFDFE; /* White text */
   padding: 12px 25px;
   border: none;
   border-radius: 6px;
@@ -106,8 +107,8 @@
 }
 
 .submitButton {
-  background-color: #388e3c; /* Green button to match your theme */
-  color: white;
+  background-color: #072176; /* Dark blue for submit button */
+  color: #FFFDFE;
   padding: 12px 25px;
   border: none;
   border-radius: 6px;
@@ -126,4 +127,3 @@
 .submitButton:active {
   transform: scale(0.98);
 }
-

@@ -4,70 +4,70 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f4f4f9; /* Neutral background for subtle contrast */
+  background-color: #FFFDFE; /* Light background for subtle contrast */
   padding: 20px;
 }
 
 .resetForm {
   background-color: #ffffff;
-  padding: 2.5rem; /* Increased padding for better spacing */
-  border-radius: 10px; /* Softer corners for a modern look */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+  padding: 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
 }
 
 h2 {
-  color: #004d40; /* Align with theme */
+  color: #072176; /* Dark blue for header */
   text-align: center;
-  margin-bottom: 1.5rem; /* Increased space for better separation */
+  margin-bottom: 1.5rem;
   font-family: 'Sofia Sans', sans-serif;
-  font-size: 1.8rem; /* Slightly larger font for visibility */
-  font-weight: bold; /* Emphasis on the title */
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
 label {
   font-family: 'Inter', sans-serif;
-  color: #333; /* Subtle color for labels */
-  font-size: 1rem; /* Ensure readability */
-  font-weight: bold; /* Emphasize form labels */
+  color: #0B2C93; /* Medium blue for labels */
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .inputField {
   width: 100%;
-  padding: 0.9rem; /* Slightly larger padding for a modern look */
+  padding: 0.9rem;
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem; /* Increase spacing between fields */
-  border: 1px solid #4caf50; /* Consistent green border */
-  border-radius: 6px; /* Rounded corners for input fields */
+  margin-bottom: 1.5rem;
+  border: 1px solid #113AB0; /* Primary blue border */
+  border-radius: 6px;
   font-family: 'Inter', sans-serif;
-  font-size: 1rem; /* Enhance readability */
-  outline: none; /* Remove default outline */
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth focus animation */
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .inputField:focus {
-  border-color: #388e3c; /* Highlight on focus */
-  box-shadow: 0 0 8px rgba(56, 142, 60, 0.2); /* Subtle glow effect */
+  border-color: #1743C8; /* Darker blue for focus state */
+  box-shadow: 0 0 8px rgba(17, 58, 184, 0.2); /* Soft glow effect */
 }
 
 .submitButton {
   width: 100%;
   padding: 0.9rem;
-  background-color: #4caf50; /* Primary button color */
-  color: #ffffff; /* White text for contrast */
+  background-color: #113AB0; /* Primary blue for button */
+  color: #FFFDFE; /* White text for contrast */
   font-family: 'Sofia Sans', sans-serif;
   font-size: 1rem;
-  font-weight: bold; /* Button text emphasis */
+  font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover and press effects */
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .submitButton:hover {
-  background-color: #388e3c; /* Darker green on hover */
-  transform: scale(1.03); /* Slight zoom on hover */
+  background-color: #0B2C93; /* Slightly darker blue on hover */
+  transform: scale(1.03);
 }
 
 .submitButton:active {
@@ -79,23 +79,23 @@ label {
   font-family: 'Inter', sans-serif;
   margin-bottom: 1.5rem;
   text-align: center;
-  font-size: 0.95rem; /* Slightly smaller for subtle emphasis */
+  font-size: 0.95rem;
 }
 
 @media (max-width: 768px) {
   .resetForm {
-    padding: 2rem; /* Adjust padding for smaller screens */
+    padding: 2rem;
   }
 
   h2 {
-    font-size: 1.5rem; /* Adjust title size for smaller screens */
+    font-size: 1.5rem;
   }
 
   .submitButton {
-    padding: 0.8rem; /* Smaller buttons for smaller screens */
+    padding: 0.8rem;
   }
 
   .inputField {
-    padding: 0.8rem; /* Adjust input field size */
+    padding: 0.8rem;
   }
 }

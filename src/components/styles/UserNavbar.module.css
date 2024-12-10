@@ -1,8 +1,9 @@
+/* Navbar container styles */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4caf50; /* Primary color */
+  background-color: #072176; /* Deep blue background */
   color: white;
   padding: 1rem 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -18,7 +19,7 @@
 .welcome {
   font-size: 1rem;
   font-weight: bold;
-  color: #004d40; /* Text color */
+  color: #FFFDFE; /* Light color for welcome text */
 }
 
 .navLinks {
@@ -27,7 +28,7 @@
 }
 
 .navLinks a {
-  color: white;
+  color: #FFFDFE; /* Light text color for links */
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
@@ -37,8 +38,8 @@
 
 .navLinks a:hover,
 .navLinks a:focus {
-  color: #388e3c; /* Hover color */
-  border-bottom: 2px solid #388e3c; /* Hover effect with consistency */
+  color: #0B2C93; /* Lighter blue for hover effect */
+  border-bottom: 2px solid #0B2C93; /* Hover effect with consistency */
 }
 
 .burgerIcon {
@@ -53,7 +54,7 @@
 .burgerLine {
   width: 30px;
   height: 3px;
-  background-color: white;
+  background-color: #FFFDFE; /* Light color for burger lines */
   margin: 4px 0;
   transition: 0.4s;
 }
@@ -64,7 +65,7 @@
     top: 70px;
     left: 0;
     right: 0;
-    background-color: rgba(0, 77, 64, 0.9); /* Semi-transparent background */
+    background-color: rgba(11, 35, 62, 0.9); /* Darker blue semi-transparent background */
     flex-direction: column;
     align-items: center;
     gap: 1rem;
@@ -91,7 +92,7 @@
 
 /* Buttons and Highlights */
 .navbarButton {
-  background-color: #4caf50; /* Consistent button color */
+  background-color: #072176; /* Consistent deep blue button color */
   color: white;
   padding: 0.5rem 1rem;
   border: none;
@@ -102,7 +103,7 @@
 }
 
 .navbarButton:hover {
-  background-color: #388e3c; /* Darker green hover effect */
+  background-color: #0B2C93; /* Lighter blue hover effect */
   transform: scale(1.05);
 }
 
@@ -115,6 +116,6 @@
 /* Accessibility Focus States */
 .navLinks a:focus,
 .burgerIcon:focus {
-  outline: 2px dashed #388e3c; /* High-visibility focus state */
+  outline: 2px dashed #0B2C93; /* High-visibility focus state */
   outline-offset: 4px;
 }

@@ -1,10 +1,10 @@
 .footerContainer {
-  background-color: #4caf50;
-  color: white;
+  background-color: #072176; /* Updated background color */
+  color: #FFFDFE; /* Text color matching the palette */
   padding: 1.5rem 0;
   box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  margin-top: auto; /* This ensures the footer stays at the bottom if content is short */
+  margin-top: auto; /* Ensures footer stays at the bottom if content is short */
 }
 
 .footerContent {
@@ -19,6 +19,7 @@
 
 .copyright {
   font-size: 0.875rem;
+  color: #FFFDFE; /* Ensures contrast with the dark background */
 }
 
 .footerNav {
@@ -27,10 +28,11 @@
 }
 
 .footerNav a {
-  color: white;
+  color: #FFFDFE; /* Link color matching the palette */
   text-decoration: none;
 }
 
 .footerNav a:hover {
+  color: #1743C8; /* Hover color matching the palette */
   text-decoration: underline;
 }
