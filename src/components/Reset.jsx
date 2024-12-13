@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth'; // Import Firebase Auth methods
 import styles from '../components/styles/Reset.module.css';
 
-//simple reset password no database though
 const Reset = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(''); // State to show success message
+
+  const auth = getAuth(); // Initialize Firebase Auth
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
+    setError('');
+    setSuccess('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.includes('@')) {
       setError('Please enter a valid email address.');
-    } else {
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setSuccess('Password reset link sent to your email!');
       setError('');
-      alert('Password reset link sent to your email!');
+      setEmail(''); // Clear the email field after successful submission
+    } catch (err) {
+      setError('Failed to send reset email. Please try again.');
+      console.error(err);
     }
   };
 
@@ -34,7 +47,10 @@ const Reset = () => {
           placeholder="Enter your email"
         />
         {error && <p className={styles.errorMsg}>{error}</p>}
-        <button type="submit" className={styles.submitButton}>Send Reset Link</button>
+        {success && <p className={styles.successMsg}>{success}</p>} {/* Success message */}
+        <button type="submit" className={styles.submitButton}>
+          Send Reset Link
+        </button>
       </form>
     </div>
   );

@@ -355,6 +355,7 @@ const Registration = () => {
                       <option value="adhd">ADHD</option>
                       <option value="cerebral">Cerebral Palsy</option>
                       <option value="down">Down Syndrome</option>
+                      <option value="birth">Birth Defect</option>
                     </optgroup>
                     <optgroup label="Acquired" value="acquired">
                       <option value="chronic">Chronic Illness</option>

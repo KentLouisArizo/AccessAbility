@@ -25,7 +25,7 @@ const AdminDashboard = () => {
   const [unverifiedUsersCount, setUnverifiedUsersCount] = useState(0);
   const [redirectUser, setRedirectUser] = useState(null); // To store user info for redirection
 
-  // Firestore listener for new documents in registrations
+  // Fetch notifications from 'registrations' collection
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'registrations'), (snapshot) => {
       const newNotifications = [];
@@ -74,41 +74,64 @@ const AdminDashboard = () => {
     fetchUserCounts();
   }, []);
 
-// Handle clicking a notification to redirect and mark as read
-const handleNotificationClick = async (notification) => {
-  try {
-    // Mark notification as read in Firestore
-    const notificationRef = doc(db, 'registrations', notification.id);
-    await updateDoc(notificationRef, { isRead: true });
+ // Fetch notifications from 'requestreset' collection
+useEffect(() => {
+  const unsubRequestReset = onSnapshot(collection(db, 'requestreset'), (snapshot) => {
+    const resetNotifications = [];
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if (!data.isRead) {
+        // Only include unread reset password requests
+        resetNotifications.push({
+          id: doc.id,
+          email: data.email, // Get the email
+          message: data.message, // Get the message
+          type: 'reset', // Add a type field to differentiate from other notifications
+        });
+      }
+    });
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      ...resetNotifications,
+    ]);
+  });
 
-    // Remove from unread notifications and redirect
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter((notif) => notif.id !== notification.id)
-    );
-    setRedirectUser(notification); // Store user information for redirection
-    setActiveSection('user'); // Switch to "User" section
-    setShowNotificationBox(false); // Close the notification box
-  } catch (error) {
-    console.error('Error handling notification click:', error);
-  }
-};
+  return () => unsubRequestReset();
+}, []);
 
-const markAsRead = async (notificationId) => {
-  try {
-    const notificationRef = doc(db, 'registrations', notificationId);
-    await updateDoc(notificationRef, { isRead: true }); // Update Firestore
+  // Handle clicking a notification to redirect and mark as read
+  const handleNotificationClick = async (notification) => {
+    try {
+      const notificationRef = doc(db, notification.type === 'reset' ? 'requestreset' : 'registrations', notification.id);
+      await updateDoc(notificationRef, { isRead: true });
 
-    // Update the local notifications array to reflect the read status
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notif) =>
-        notif.id === notificationId ? { ...notif, isRead: true } : notif
-      )
-    );
-  } catch (error) {
-    console.error('Error marking notification as read:', error);
-  }
-};
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter((notif) => notif.id !== notification.id)
+      );
+      setRedirectUser(notification); // Store user information for redirection
+      setActiveSection('user'); // Switch to "User" section
+      setShowNotificationBox(false); // Close the notification box
+    } catch (error) {
+      console.error('Error handling notification click:', error);
+    }
+  };
 
+  // Mark notification as read
+  const markAsRead = async (notificationId, notificationType) => {
+    try {
+      const notificationRef = doc(db, notificationType === 'reset' ? 'requestreset' : 'registrations', notificationId);
+      await updateDoc(notificationRef, { isRead: true });
+
+      setNotifications((prevNotifications) =>
+        prevNotifications.map((notif) =>
+          notif.id === notificationId ? { ...notif, isRead: true } : notif
+        )
+      );
+    } catch (error) {
+      console.error('Error marking notification as read:', error);
+    }
+  };
+  
   return (
     <div className={styles.dashboardContainer}>
       <aside className={styles.sidebar}>
@@ -182,12 +205,19 @@ const markAsRead = async (notificationId) => {
                     className={styles.notificationItem}
                     onClick={() => handleNotificationClick(notification)} // Click to redirect and mark as read
                   >
-                    <p>
-                      <strong>Name:</strong> {notification.firstName} {notification.lastName}
-                    </p>
-                    <p>
-                      <strong>Email:</strong> {notification.email}
-                    </p>
+                    {notification.type === 'reset' ? (
+                      <>
+                        <p><strong>Email:</strong> {notification.email}</p>
+                        <p><strong>Message:</strong> {notification.message}</p>
+                        <p><strong>Type: Request Password</strong></p>
+                      </>
+                    ) : (
+                      <>
+                        <p><strong>User:</strong> {notification.firstName} {notification.lastName}</p>
+                        <p><strong>Disability:</strong> {notification.disabilityType}</p>
+                        <p><strong>Type: New Account</strong></p>
+                      </>
+                    )}
                     <button
                       className={styles.markAsReadButton}
                       onClick={(e) => {

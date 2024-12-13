@@ -60,7 +60,7 @@ const Filter = () => {
           type="text"
           placeholder="Search by ID or Name"
           className={styles.searchInput}
-          value={searchTerm}
+          value={searchTerm} // This ensures the input reflects state changes
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button className={styles.searchButton} onClick={handleSearch}>

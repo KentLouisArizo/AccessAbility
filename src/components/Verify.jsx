@@ -73,6 +73,7 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
             <tr>
               <th>ID</th>
               <th>Name</th>
+              <th>Disability</th>
               <th>Barangay</th>
               <th>Status</th>
               {showVerified ? null : <th>Actions</th>} {/* Show actions only for unverified */ }
@@ -88,6 +89,7 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
               >
                 <td>{user.uniqueID}</td>
                 <td>{user.firstName} {user.lastName}</td>
+                <td>{user.disabilityType}</td>
                 <td>{user.barangay}</td>
                 <td>{user.isVerified ? 'Verified' : 'Unverified'}</td>
                 {showVerified ? null : (
@@ -105,7 +107,21 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
             <h3>User Details</h3>
             <p><strong>ID:</strong> {selectedUser.uniqueID}</p>
             <p><strong>Name:</strong> {selectedUser.firstName} {selectedUser.lastName}</p>
+            <p><strong>Disability:</strong> {selectedUser.disabilityType}</p>
             <p><strong>Barangay:</strong> {selectedUser.barangay}</p>
+            <p><strong>Date of Birth:</strong> {selectedUser.dob}</p>
+            <p><strong>Age:</strong> {selectedUser.age}</p>
+            <p><strong>Sex:</strong> {selectedUser.sex}</p>
+            <p><strong>Civil Status:</strong> {selectedUser.civilStatus}</p>
+            <p><strong>Blood Type:</strong> {selectedUser.bloodType}</p>
+            <p><strong>Email:</strong> {selectedUser.email}</p>
+            <p><strong>Mobile No:</strong> {selectedUser.mobileNo}</p>
+            <p><strong>1 x 1 Profile Image:</strong></p>
+            <img src={selectedUser.profileImageUrl} alt="1x1 Profile" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
+            <p><strong>Whole Body Image:</strong></p>
+            <img src={selectedUser.wholeBodyImageUrl} alt="Whole Body" style={{ width: '200px', height: 'auto' }} />
+            <p><strong>Medical Record:</strong></p>
+            <img src={selectedUser.medicalRecordUrl} alt="Medical Record" style={{ width: '200px', height: 'auto' }} />
             <div className={styles.actionButtons}>
               <button className={styles.verifyButton} onClick={handleVerify}>Verify</button>
             </div>

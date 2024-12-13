@@ -88,6 +88,65 @@
   box-shadow: 0 0 3px #1743C8; /* Subtle glow on focus */
 }
 
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .announcementContainer {
+    padding: 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo {
+    margin-bottom: 10px;
+  }
+
+  .formGroup {
+    margin-bottom: 15px;
+  }
+
+  .datePicker {
+    font-size: 14px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .submitButton, .closeButton {
+    width: 100%;
+    padding: 14px;
+  }
+}
+
+/* Styles for react-datepicker */
+.react-datepicker-wrapper {
+  width: 100%; /* Ensure full width */
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  background-color: #FFFDFE; /* White background for input */
+}
+
+.react-datepicker__header {
+  background-color: #072176;
+  color: white;
+}
+
+.react-datepicker__current-month {
+  font-size: 16px;
+}
+
+/* Button styles */
 .buttonGroup {
   display: flex;
   justify-content: space-between;

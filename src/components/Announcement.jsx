@@ -3,14 +3,12 @@ import styles from './styles/Announcement.module.css';
 import { Link } from 'react-router-dom';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css'; // Import the date picker styles
 
 const Announcement = ({ userName }) => {
   const [notificationName, setNotificationName] = useState('');
   const [message, setMessage] = useState('');
-  const [dateRange, setDateRange] = useState([null, null]); // State for the start and end date
-  const [startDate, endDate] = dateRange;
+  const [startDate, setStartDate] = useState(null); // State for start date
+  const [endDate, setEndDate] = useState(null); // State for end date
   const [startTime, setStartTime] = useState(null); // State for start time
   const [endTime, setEndTime] = useState(null); // State for end time
 
@@ -34,7 +32,8 @@ const Announcement = ({ userName }) => {
       // Optionally, reset the form fields after submission
       setNotificationName('');
       setMessage('');
-      setDateRange([null, null]);
+      setStartDate(null);
+      setEndDate(null);
       setStartTime(null);
       setEndTime(null);
 
@@ -70,48 +69,47 @@ const Announcement = ({ userName }) => {
 
         {/* Date Range Picker */}
         <div className={styles.formGroup}>
-  <label htmlFor="dateRange">Date Range:</label>
-  <DatePicker
-    selectsRange
-    startDate={startDate}
-    endDate={endDate}
-    onChange={(update) => setDateRange(update)}
-    isClearable={true}
-    placeholderText="Select a date range"
-    className={styles.datePicker}
-  />
-</div>
-
+          <label htmlFor="dateRange">Date Range:</label>
+          <div className={styles.dateRangeWrapper}>
+            <input
+              type="date"
+              id="startDate"
+              value={startDate ? startDate.toISOString().split('T')[0] : ''}
+              onChange={(e) => setStartDate(new Date(e.target.value))}
+              className={styles.datePicker}
+              placeholder="Start Date"
+            />
+            <span className={styles.dateSeparator}>to</span>
+            <input
+              type="date"
+              id="endDate"
+              value={endDate ? endDate.toISOString().split('T')[0] : ''}
+              onChange={(e) => setEndDate(new Date(e.target.value))}
+              className={styles.datePicker}
+              placeholder="End Date"
+            />
+          </div>
+        </div>
 
         {/* Start Time Picker */}
         <div className={styles.formGroup}>
           <label htmlFor="startTime">Start Time:</label>
-          <DatePicker
-            selected={startTime}
-            onChange={(time) => setStartTime(time)}
-            showTimeSelect
-            showTimeSelectOnly
-            timeIntervals={15}
-            timeCaption="Start Time"
-            dateFormat="h:mm aa"
-            placeholderText="Select start time"
-            className={styles.datePicker}
+          <input
+            type="time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            required
           />
         </div>
 
         {/* End Time Picker */}
         <div className={styles.formGroup}>
           <label htmlFor="endTime">End Time:</label>
-          <DatePicker
-            selected={endTime}
-            onChange={(time) => setEndTime(time)}
-            showTimeSelect
-            showTimeSelectOnly
-            timeIntervals={15}
-            timeCaption="End Time"
-            dateFormat="h:mm aa"
-            placeholderText="Select end time"
-            className={styles.datePicker}
+          <input
+            type="time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            required
           />
         </div>
 
