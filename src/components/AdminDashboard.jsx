@@ -16,6 +16,7 @@ import PrintRecord from './PrintRecord';
 import Announcement from './Announcement';
 import GenerateReport from './GenerateReport';
 import User from './User';
+import RequestBooket from './RequestBooklet';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -87,6 +88,31 @@ useEffect(() => {
           email: data.email, // Get the email
           message: data.message, // Get the message
           type: 'reset', // Add a type field to differentiate from other notifications
+        });
+      }
+    });
+    setNotifications((prevNotifications) => [
+      ...prevNotifications,
+      ...resetNotifications,
+    ]);
+  });
+
+  return () => unsubRequestReset();
+}, []);
+
+ // Fetch notifications from 'requestbookletupdate' collection
+ useEffect(() => {
+  const unsubRequestReset = onSnapshot(collection(db, 'requestbookletupdate'), (snapshot) => {
+    const resetNotifications = [];
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      if (!data.isRead) {
+        // Only include unread reset password requests
+        resetNotifications.push({
+          id: doc.id,
+          email: data.email, // Get the email
+          time: data.timestamp, // Get the message
+          type: 'update', // Add a type field to differentiate from other notifications
         });
       }
     });
@@ -184,6 +210,12 @@ useEffect(() => {
             <span className={styles.navText}>Generate Report</span>
           </div>
           <div
+            className={`${styles.navItem} ${activeSection === 'requestbooklet' ? styles.active : ''}`}
+            onClick={() => setActiveSection('requestbooklet')}
+          >
+            <span className={styles.navText}>Update Booklet</span>
+          </div>
+          <div
             className={`${styles.navItem}`}
           >
             <Link to="/" className={styles.text}>Logout</Link>
@@ -209,6 +241,12 @@ useEffect(() => {
                       <>
                         <p><strong>Email:</strong> {notification.email}</p>
                         <p><strong>Message:</strong> {notification.message}</p>
+                        <p><strong>Type: Request Password</strong></p>
+                      </>
+                    ) : notification.type === 'requestbooklet' ? (
+                      <>
+                        <p><strong>Email:</strong> {notification.email}</p>
+                        <p><strong>Time:</strong> {notification.timestamp}</p>
                         <p><strong>Type: Request Password</strong></p>
                       </>
                     ) : (
@@ -257,6 +295,7 @@ useEffect(() => {
         {activeSection === 'print' && <PrintRecord />}
         {activeSection === 'announcement' && <Announcement />}
         {activeSection === 'report' && <GenerateReport />}
+        {activeSection === 'requestbooklet' && <RequestBooket />}
       </main>
     </div>
   );
