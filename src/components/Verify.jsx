@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase/firebaseConfig';
 import styles from './styles/Verify.module.css';
 
@@ -46,26 +46,43 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
     fetchUsers();
   }, [showVerified, redirectUser]);
 
-  const handleVerify = async () => {
+  const handleApprove = async () => {
     if (selectedUser) {
       const userRef = doc(db, 'registrations', selectedUser.id);
       try {
         await updateDoc(userRef, { isVerified: true });
-        alert(`User ${selectedUser.uniqueID} verified successfully`);
+        alert(`User ${selectedUser.uniqueID} approved successfully`);
 
-        // Remove verified user from the list and clear selected user
+        // Remove approved user from the list and clear selected user
         setUsers(users.filter((user) => user.id !== selectedUser.id));
         setSelectedUser(null);
       } catch (error) {
-        console.error('Error verifying user: ', error);
-        alert('There was an issue verifying the user.');
+        console.error('Error approving user: ', error);
+        alert('There was an issue approving the user.');
       }
     }
   };
 
+  const handleReject = async () => {
+    if (selectedUser) {
+      const userRef = doc(db, 'registrations', selectedUser.id);
+      try {
+        // Delete user from Firestore
+        await deleteDoc(userRef);
+        alert(`User ${selectedUser.uniqueID} rejected and removed successfully`);
+  
+        // Remove rejected user from the UI
+        setUsers(users.filter((user) => user.id !== selectedUser.id));
+        setSelectedUser(null);
+      } catch (error) {
+        console.error('Error rejecting and removing user: ', error);
+        alert('There was an issue rejecting and removing the user.');
+      }
+    }
+  };  
+
   return (
     <div className={styles.verifyContainer}>
-
       <main className={styles.mainContent}>
         <h2 className={styles.title}>{showVerified ? 'Verified Users' : 'Unverified Users'}</h2>
         <table className={styles.userTable}>
@@ -76,7 +93,7 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
               <th>Disability</th>
               <th>Barangay</th>
               <th>Status</th>
-              {showVerified ? null : <th>Actions</th>} {/* Show actions only for unverified */ }
+              {showVerified ? null : <th>Actions</th>} {/* Show actions only for unverified */}
             </tr>
           </thead>
           <tbody>
@@ -94,7 +111,7 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
                 <td>{user.isVerified ? 'Verified' : 'Unverified'}</td>
                 {showVerified ? null : (
                   <td>
-                    <button onClick={handleVerify}>Verify</button>
+                    <button onClick={() => setSelectedUser(user)}>...</button>
                   </td>
                 )}
               </tr>
@@ -123,7 +140,8 @@ const Verify = ({ showVerified, setShowVerified, redirectUser }) => {
             <p><strong>Medical Record:</strong></p>
             <img src={selectedUser.medicalRecordUrl} alt="Medical Record" style={{ width: '200px', height: 'auto' }} />
             <div className={styles.actionButtons}>
-              <button className={styles.verifyButton} onClick={handleVerify}>Verify</button>
+              <button className={styles.approveButton} onClick={handleApprove}>Approve</button>
+              <button className={styles.rejectButton} onClick={handleReject}>Reject</button>
             </div>
           </div>
         )}

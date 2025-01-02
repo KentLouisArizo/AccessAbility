@@ -8,10 +8,11 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels'; // Import plugin
 import { Pie } from 'react-chartjs-2';
 import styles from '../components/styles/GenerateReport.module.css';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels); // Register plugin
 
 const GenerateReport = () => {
   const [reportData, setReportData] = useState([]);
@@ -151,23 +152,28 @@ const GenerateReport = () => {
     };
   };
 
-  // Chart tooltip customization
+  // Chart options to display percentages on the pie chart
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      tooltip: {
-        callbacks: {
-          label: function (tooltipItem) {
-            const rawValue = tooltipItem.raw;
-            const percentage = getChartData().percentages[tooltipItem.dataIndex];
-            const label = tooltipItem.label;
-            return `${label}: ${rawValue} (${percentage}%)`;
-          },
+      datalabels: {
+        color: '#fff',
+        font: {
+          size: 14,
+        },
+        formatter: (value, context) => {
+          const chartData = getChartData();
+          const label = chartData.labels[context.dataIndex];
+          const percentage = chartData.percentages[context.dataIndex];
+          return `${label}\n(${percentage}%)`; // Combine label and percentage
         },
       },
+      legend: {
+        display: false, // Hide the default legend
+      },
     },
-  };
+  };  
 
   return (
     <div className={styles.reportContainer}>
@@ -189,15 +195,6 @@ const GenerateReport = () => {
 
         <div className={styles.chartContainer}>
           <Pie data={getChartData()} options={chartOptions} />
-        </div>
-
-        {/* Display percentages and count below the chart */}
-        <div className={styles.chartDetails}>
-          {Object.keys(aggregatedData).map((label, index) => (
-            <div key={index} className={styles.chartDetail}>
-              <span>{label}</span>: {aggregatedData[label]} ({getChartData().percentages[index]}%)
-            </div>
-          ))}
         </div>
       </div>
     </div>
