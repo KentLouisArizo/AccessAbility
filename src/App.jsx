@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import UserNavbar from './components/UserNavbar';
 import Homepage from './components/Homepage';
 import Login from './components/Login';
@@ -17,7 +17,7 @@ import './App.css';
 
 const App = () => {
   return (
-    <Router>
+    <HashRouter>
       <div className="App">
         <NavbarSwitcher />
         <Routes>
@@ -35,7 +35,7 @@ const App = () => {
         </Routes>
         <FooterSwitcher />
       </div>
-    </Router>
+    </HashRouter>
   );
 };
 
