@@ -16,7 +16,7 @@ import PrintRecord from './PrintRecord';
 import Announcement from './Announcement';
 import GenerateReport from './GenerateReport';
 import User from './User';
-import RequestBooket from './RequestBooklet';
+import UpdateBooklet from './UpdateBooklet';
 
 const AdminDashboard = () => {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -210,8 +210,8 @@ useEffect(() => {
             <span className={styles.navText}>Generate Report</span>
           </div>
           <div
-            className={`${styles.navItem} ${activeSection === 'requestbooklet' ? styles.active : ''}`}
-            onClick={() => setActiveSection('requestbooklet')}
+            className={`${styles.navItem} ${activeSection === 'updatebooklet' ? styles.active : ''}`}
+            onClick={() => setActiveSection('updatebooklet')}
           >
             <span className={styles.navText}>Update Booklet</span>
           </div>
@@ -295,7 +295,7 @@ useEffect(() => {
         {activeSection === 'print' && <PrintRecord />}
         {activeSection === 'announcement' && <Announcement />}
         {activeSection === 'report' && <GenerateReport />}
-        {activeSection === 'requestbooklet' && <RequestBooket />}
+        {activeSection === 'updatebooklet' && <UpdateBooklet />}
       </main>
     </div>
   );

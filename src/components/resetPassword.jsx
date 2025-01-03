@@ -24,6 +24,7 @@ const ResetPassword = () => {
         email: email,
         message: message || '', // Optional message
         timestamp: new Date(), // Add a timestamp for tracking
+        isRead: false,
       });
 
       // Clear the form and show success message

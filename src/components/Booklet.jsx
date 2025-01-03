@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './styles/Booklet.module.css';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc, getDocs, query } from 'firebase/firestore';  // Add query import
+import { getFirestore, collection, addDoc, getDocs, query } from 'firebase/firestore';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const Booklet = () => {
   const [isRequestUpdateModalOpen, setRequestUpdateModalOpen] = useState(false);
@@ -14,6 +15,7 @@ const Booklet = () => {
   const postApiUrl = 'https://api.mindee.net/v1/products/KentLouisArizo/booklet/v1/predict_async';
   const auth = getAuth();
   const db = getFirestore();
+  const storage = getStorage();
   const currentUser = auth.currentUser;
 
   useEffect(() => {
@@ -35,10 +37,18 @@ const Booklet = () => {
     }
   }, [currentUser, currentTable, db]);
 
-  const upload = (event) => {
+  const upload = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      setImageFile(file);
+      try {
+        const storageRef = ref(storage, `requestBookletUpdates/${currentUser.uid}/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        console.log('File uploaded successfully. URL:', downloadURL);
+        setImageFile(downloadURL); // Store the URL for later use
+      } catch (error) {
+        console.error('Error uploading file:', error);
+      }
     }
   };
 
@@ -47,32 +57,28 @@ const Booklet = () => {
       alert('Please upload an image to request an update.');
       return;
     }
-  
-    const formData = new FormData();
-    formData.append('document', imageFile);
-  
+
     try {
-      const response = await axios.post(postApiUrl, formData, {
+      const response = await axios.post(postApiUrl, { document: imageFile }, {
         headers: {
           'Authorization': `Token ${apiKey}`,
           'Content-Type': 'multipart/form-data',
         },
       });
-  
+
       const jobId = response.data.job.id;
       console.log("Job ID:", jobId);
-  
-      // Save request to Firestore's 'requestbookletupdate' collection
+
       const requestRef = await addDoc(collection(db, 'requestbookletupdate'), {
         userId: currentUser.uid,
         jobId: jobId,
-        imageFile: imageFile.name,
-        status: 'pending', // Initial status of the request
+        imageURL: imageFile, // Use the image URL instead of the file name
+        isRead: false,
         timestamp: new Date(),
       });
-  
+
       console.log("Request update saved to Firestore:", requestRef.id);
-  
+
       const checkJobStatus = async () => {
         const statusUrl = `https://api.mindee.net/v1/products/KentLouisArizo/booklet/v1/documents/queue/${jobId}`;
         try {
@@ -81,16 +87,12 @@ const Booklet = () => {
               'Authorization': `Token ${apiKey}`,
             },
           });
-  
+
           const status = jobStatus.data.job.status;
           console.log(`Current Job Status: ${status}`);
-  
+
           if (status === 'completed') {
-            console.log("Job completed, full response data:", jobStatus.data);
-  
-            // Handle job completion here, update Firestore or notify the admin
             alert('Your update request has been processed successfully.');
-  
             setRequestUpdateModalOpen(false);
           } else if (status === 'queued') {
             setTimeout(checkJobStatus, 3000);
@@ -105,7 +107,7 @@ const Booklet = () => {
           console.error("Error checking job status:", error);
         }
       };
-  
+
       checkJobStatus();
     } catch (error) {
       console.error("Error with image upload:", error);
@@ -129,7 +131,7 @@ const Booklet = () => {
   return (
     <div className={styles.container}>
       <h2 className={styles.header}>Virtual Booklet</h2>
-  
+
       <div className={styles.buttonsContainer}>
         <button className={styles.button} onClick={handlePrint}>Print</button>
         <button className={styles.button} onClick={() => setRequestUpdateModalOpen(true)}>Request Update</button>
@@ -140,7 +142,7 @@ const Booklet = () => {
           Switch to {currentTable === 'medicine' ? 'Grocery' : 'Medicine'} Table
         </button>
       </div>
-  
+
       <div id="printable-area" className={styles.tableContainer}>
         <h3>{currentTable === 'medicine' ? 'Medicine' : 'Grocery'} Table</h3>
         <table className={styles.table}>
@@ -173,7 +175,7 @@ const Booklet = () => {
           </tbody>
         </table>
       </div>
-  
+
       {isRequestUpdateModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
@@ -182,7 +184,7 @@ const Booklet = () => {
             {imageFile && (
               <div className={styles.pictureContainer}>
                 <strong>Uploaded Picture:</strong>
-                <img src={URL.createObjectURL(imageFile)} alt="Uploaded" className={styles.uploadedImage} />
+                <img src={imageFile} alt="Uploaded" className={styles.uploadedImage} />
               </div>
             )}
             <div className={styles.modalButtons}>
